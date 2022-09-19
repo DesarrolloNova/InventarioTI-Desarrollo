@@ -1,13 +1,16 @@
 ﻿@model InventarioTI.Models.InvTabEquipo
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>InvTabEquipo</h4>
+    <h4>Equipo: @Model.NombreEquipo</h4>
+    <hr />
+    <div>
+        <a asp-action="Index">Regresar a la tabla</a>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a> |
+    </div>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -131,8 +134,4 @@
             @Html.DisplayFor(model => model.IdUsuarioRegistro)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>

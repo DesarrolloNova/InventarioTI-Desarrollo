@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cOVaOFw+ae2cpYobB6uSZYGsJQyyyjycbQiaeYVc0slybMx/xd9v4XyXMLAugYT9yhXx/ukq2EZUcmZdfWY8/g==",
+  "dgSpecHash": "tfHMBN7t8PBnxrmeQyazisLSxTGPj98kUWBcidbD/xzHKgtIGo0LcdW/vfjO0/rqeELErxqhjKd4kK1z2PdwUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Novaprint\\PROYECTOS_DESARROLLO\\InventarioTI-MVC\\InventarioTI\\InventarioTI.csproj",
+  "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Novaprint\\PROYECTOS_DESARROLLO\\InventarioTI-Desarrollo\\InventarioTI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\desarrollo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

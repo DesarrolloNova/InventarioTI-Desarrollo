@@ -15,28 +15,53 @@ namespace InventarioTI.Models
             InvHisSoportes = new HashSet<InvHisSoporte>();
         }
 
+        [Key]
         public int Id { get; set; }
         [Display(Name ="Nombre Equipo")]
+        [Required(ErrorMessage = "Debes ingresar un nombre para el equipo")]
         public string NombreEquipo { get; set; }
         [Display(Name ="Tipo")]
+        [Required(ErrorMessage = "Debes seleccionar un tipo")]
         public string TipoEquipo { get; set; }
+        [Required(ErrorMessage = "Debes ingresar la marca del equipo")]
         public string Marca { get; set; }
         [Display(Name = "Ubicación")]
         public string UbicacionEquipo { get; set; }
+        [Required(ErrorMessage = "Debes ingresar el modelo del equipo")]
         public string Modelo { get; set; }
         [Display(Name = "No.Serie")]
+        [Required(ErrorMessage = "Debes ingresar el número de serie del equipo")]
         public string NoSerie { get; set; }
+        [Display(Name ="Dirección MAC")]
+        [Required(ErrorMessage = "Debes ingresar la dirección MAC del equipo")]
         public string DireccionMac { get; set; }
+        [Display(Name ="Sistema Operativo")]
+        [Required(ErrorMessage = "Debes seleccionar un sistema operativo")]
         public string So { get; set; }
+        [Display(Name = "Datos Adicionales")]
         public string DatosAdicionales { get; set; }
+        [Required(ErrorMessage ="Debes ingresar la información del procesador")]
         public string Procesador { get; set; }
+        [Display(Name = "Capacidad Disco Duro")]
+        [Required(ErrorMessage = "Debes ingresar la capacidad del disco duro")]
         public double Hdd { get; set; }
+        [Display(Name = "Capacidad Memoría RAM")]
+        [Required(ErrorMessage = "Debes ingresar la capacidad de la memoria RAM")]
         public double Ram { get; set; }
+        [Required(ErrorMessage = "Debes seleccionar un estatus para el equipo")]
         public string Estatus { get; set; }
+        [Display(Name ="Fecha Compra")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? FechaCompra { get; set; }
+        [Display(Name = "Fecha Inicio Garantía")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? FechaInicioGarantia { get; set; }
+        [Display(Name = "Fecha Fín Garantía")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? FechaFinGarantia { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaCreacion { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? UltimaActualizacion { get; set; }
         public bool Activo { get; set; }
         public int? IdUsuarioRegistro { get; set; }

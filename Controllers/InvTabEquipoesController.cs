@@ -58,6 +58,9 @@ namespace InventarioTI.Controllers
         {
             if (ModelState.IsValid)
             {
+                invTabEquipo.UltimaActualizacion = DateTime.UtcNow;
+                invTabEquipo.FechaCreacion = DateTime.UtcNow;
+                //Se queda pendiente el campo para agregar el id de usuario que registró el equipo
                 _context.Add(invTabEquipo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +100,7 @@ namespace InventarioTI.Controllers
             {
                 try
                 {
+                    invTabEquipo.UltimaActualizacion = DateTime.UtcNow;
                     _context.Update(invTabEquipo);
                     await _context.SaveChangesAsync();
                 }

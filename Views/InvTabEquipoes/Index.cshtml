@@ -76,9 +76,9 @@
                     @Html.DisplayFor(modelItem => item.Estatus)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Ver</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Archivar</a>
+                    <a class="alert-link" style="color:royalblue" asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                    <a class="alert-link" style="color:brown" asp-route-id="@item.Id">Soporte</a>
+                    <a class="alert-link" style="color:orangered" asp-route-id="@item.Id">Archivar</a>
                 </td>
             </tr>
         }
