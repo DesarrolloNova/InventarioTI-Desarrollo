@@ -1,0 +1,110 @@
+﻿@model IEnumerable<InventarioTI.Models.InvTabEquipo>
+@section Styles
+{
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
+}
+@{
+    ViewData["Title"] = "Equipos";
+}
+
+<h1>Equipos</h1>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Crear Nuevo</a>
+</p>
+<table id="tbl_equipos">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreEquipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UbicacionEquipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoEquipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoSerie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estatus)
+            </th>
+            <th>
+                <a>Acciones</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreEquipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UbicacionEquipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoEquipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Marca)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modelo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoSerie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estatus)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Archivar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+    @section Scripts
+    {
+    <script src="~/lib/datatables.net/jquery.datatables.js"></script>
+    <script src="~/lib/datatables.net/jquery.datatables.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.js"></script>
+
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script>
+        $('#tbl_equipos').DataTable(
+            {
+                responsive: true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                }
+            }
+        );
+    </script>
+}
