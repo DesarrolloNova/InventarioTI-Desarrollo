@@ -6,6 +6,8 @@
     InventarioContext context = new InventarioContext();
 }
 
+<script src="~/lib/suffixes/javascript.js"></script>
+
 <h1>Crear Nuevo Equipo</h1>
 
 <div>
@@ -17,11 +19,6 @@
         <h3>Equipo</h3>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NombreEquipo" class="control-label"></label>
-                <input asp-for="NombreEquipo" class="form-control" />
-                <span asp-validation-for="NombreEquipo" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="TipoEquipo" class="control-label"></label>
                 @{
@@ -68,15 +65,15 @@
             <div class="form-group">
                 <label asp-for="UbicacionEquipo" class="control-label"></label>
                 @{
-                    List<CatPlantum> catPlants = new List<CatPlantum>();
+                    List<CatPlanta> catPlants = new List<CatPlanta>();
                     catPlants = context.CatPlanta.ToList();
 
                     List<SelectListItem> plantasItems = catPlants.ConvertAll(a =>
                     {
                         return new SelectListItem()
                 {
-                    Text = a.AbreviacionCompania + "-" + a.AbreviacionPlanta,
-                    Value = a.AbreviacionCompania + "-" + a.AbreviacionPlanta,
+                    Text = a.Nombre,
+                    Value = a.Nombre,
                     Selected = false
                 };
                     });
@@ -127,7 +124,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FechaCompra" class="control-label"></label>
-                <input asp-for="FechaCompra" class="form-control" type="date" />
+                <input asp-for="FechaCompra" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"/>
                 <span asp-validation-for="FechaCompra" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -154,12 +151,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="Hdd" class="control-label"></label>
-                <input asp-for="Hdd" class="form-control" />
+                <input asp-for="Hdd" type="number" class="form-control" />
+                @*<div id="my-input-container" class="form-group">
+                    <input asp-for="Hdd" type="number" id="my-input" class="form-group">
+                    <span id="my-suffix">GB.</span>
+                </div>*@
                 <span asp-validation-for="Hdd" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ram" class="control-label"></label>
-                <input asp-for="Ram" class="form-control" />
+                <input asp-for="Ram" type="number" class="form-control"/>
+                @*<div id="my-input-container">
+                    <input asp-for="Ram" type="number" id="my-input" class="form-group">
+                    <span id="my-suffix">GB.</span>
+                </div>*@
                 <span asp-validation-for="Ram" class="text-danger"></span>
             </div>
 

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventarioTI.Context;
 using InventarioTI.Models;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioTI.Controllers
 {
@@ -19,13 +21,22 @@ namespace InventarioTI.Controllers
             _context = context;
         }
 
-        // GET: InvTabEquipoes
+        [Authorize]
+        public async Task<IActionResult> Asignacion(int Id)
+        { 
+            InvHisAsignacionEquipo asignacionEquipo = new InvHisAsignacionEquipo();
+            asignacionEquipo.IdEquipo = Id;
+            return View(asignacionEquipo);
+        }
+
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.InvTabEquipos.ToListAsync());
         }
 
-        // GET: InvTabEquipoes/Details/5
+
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,32 +54,44 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        // GET: InvTabEquipoes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: InvTabEquipoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NombreEquipo,TipoEquipo,Marca,UbicacionEquipo,Modelo,NoSerie,DireccionMac,So,DatosAdicionales,Procesador,Hdd,Ram,Estatus,FechaCompra,FechaInicioGarantia,FechaFinGarantia,FechaCreacion,UltimaActualizacion,Activo,IdUsuarioRegistro")] InvTabEquipo invTabEquipo)
         {
             if (ModelState.IsValid)
             {
-                invTabEquipo.UltimaActualizacion = DateTime.UtcNow;
-                invTabEquipo.FechaCreacion = DateTime.UtcNow;
+                string autoName;
+                autoName = invTabEquipo.UbicacionEquipo;
+                invTabEquipo.NombreEquipo = autoName;
+                invTabEquipo.UltimaActualizacion = DateTime.Now;
+                invTabEquipo.FechaCreacion = DateTime.Now;
                 //Se queda pendiente el campo para agregar el id de usuario que registró el equipo
                 _context.Add(invTabEquipo);
                 await _context.SaveChangesAsync();
+                int lastId = invTabEquipo.Id;
+                
+                if (lastId > 0) 
+                {
+                    autoName = autoName + "-" + lastId.ToString();
+                    invTabEquipo.NombreEquipo = Regex.Replace(autoName, @"\s", "");
+                    _context.Update(invTabEquipo);
+                    _context.SaveChanges();
+                    _context.Database.CloseConnection();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(invTabEquipo);
         }
 
-        // GET: InvTabEquipoes/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,9 +107,7 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        // POST: InvTabEquipoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NombreEquipo,TipoEquipo,Marca,UbicacionEquipo,Modelo,NoSerie,DireccionMac,So,DatosAdicionales,Procesador,Hdd,Ram,Estatus,FechaCompra,FechaInicioGarantia,FechaFinGarantia,FechaCreacion,UltimaActualizacion,Activo,IdUsuarioRegistro")] InvTabEquipo invTabEquipo)
@@ -100,7 +121,7 @@ namespace InventarioTI.Controllers
             {
                 try
                 {
-                    invTabEquipo.UltimaActualizacion = DateTime.UtcNow;
+                    invTabEquipo.UltimaActualizacion = DateTime.Now;
                     _context.Update(invTabEquipo);
                     await _context.SaveChangesAsync();
                 }
@@ -120,7 +141,7 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        // GET: InvTabEquipoes/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,7 +159,7 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        // POST: InvTabEquipoes/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -149,6 +170,7 @@ namespace InventarioTI.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         private bool InvTabEquipoExists(int id)
         {
             return _context.InvTabEquipos.Any(e => e.Id == id);

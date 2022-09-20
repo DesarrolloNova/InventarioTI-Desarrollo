@@ -19,7 +19,7 @@ namespace InventarioTI.Context
         }
 
         public virtual DbSet<CatDepartamento> CatDepartamentos { get; set; }
-        public virtual DbSet<CatPlantum> CatPlanta { get; set; }
+        public virtual DbSet<CatPlanta> CatPlanta { get; set; }
         public virtual DbSet<CatPuesto> CatPuestos { get; set; }
         public virtual DbSet<CatRelojChecador> CatRelojChecadors { get; set; }
         public virtual DbSet<FailedJob> FailedJobs { get; set; }
@@ -70,25 +70,9 @@ namespace InventarioTI.Context
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<CatPlantum>(entity =>
+            modelBuilder.Entity<CatPlanta>(entity =>
             {
-                entity.Property(e => e.AbreviacionCompania)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.AbreviacionPlanta)
-                    .IsRequired()
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Compania)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Direccion).HasMaxLength(150);
-
-                entity.Property(e => e.Planta)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                
             });
 
             modelBuilder.Entity<CatPuesto>(entity =>
@@ -517,7 +501,7 @@ namespace InventarioTI.Context
 
                 entity.HasOne(d => d.IdPlantaNavigation)
                     .WithMany(p => p.TabUsuarios)
-                    .HasForeignKey(d => d.IdPlanta)
+                    .HasForeignKey(d => d.IDSitio)
                     .HasConstraintName("FK__TabUsuari__IdPla__182C9B23");
 
                 entity.HasOne(d => d.IdPuestoNavigation)

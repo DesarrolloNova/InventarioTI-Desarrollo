@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #nullable disable
@@ -18,7 +19,6 @@ namespace InventarioTI.Models
         [Key]
         public int Id { get; set; }
         [Display(Name ="Nombre Equipo")]
-        [Required(ErrorMessage = "Debes ingresar un nombre para el equipo")]
         public string NombreEquipo { get; set; }
         [Display(Name ="Tipo")]
         [Required(ErrorMessage = "Debes seleccionar un tipo")]
@@ -51,17 +51,20 @@ namespace InventarioTI.Models
         [Required(ErrorMessage = "Debes seleccionar un estatus para el equipo")]
         public string Estatus { get; set; }
         [Display(Name ="Fecha Compra")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        //[Required(ErrorMessage ="Ingresa la fecha de compra del dispositivo")]
         public DateTime? FechaCompra { get; set; }
         [Display(Name = "Fecha Inicio Garantía")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? FechaInicioGarantia { get; set; }
         [Display(Name = "Fecha Fín Garantía")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? FechaFinGarantia { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+        [Display(Name ="Creación")]
         public DateTime FechaCreacion { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+        [Display(Name ="Ultima Actualización")]
         public DateTime? UltimaActualizacion { get; set; }
         public bool Activo { get; set; }
         public int? IdUsuarioRegistro { get; set; }

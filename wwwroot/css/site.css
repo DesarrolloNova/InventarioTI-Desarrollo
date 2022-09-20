@@ -69,3 +69,23 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/*Se integran estilos para los suffix*/
+#my-input-container {
+    display: inline-block;
+    position: relative;
+    font: 12px arial;
+}
+
+#my-input {
+    font: inherit;
+}
+
+#my-suffix {
+    position: absolute;
+    left: 0;
+    top: 3px;
+    color: #555;
+    padding-left: 5px;
+    font: inherit;
+}

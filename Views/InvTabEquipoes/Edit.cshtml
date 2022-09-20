@@ -1,10 +1,16 @@
-﻿@model InventarioTI.Models.InvTabEquipo
+﻿@using InventarioTI.Context
+@using System.Globalization
+@model InventarioTI.Models.InvTabEquipo
 
 @{
     ViewData["Title"] = "Edit";
+    InventarioContext context = new InventarioContext();
 }
+<div>
+    <a asp-action="Index">Regresa a la lista</a>
+</div>
 
-<h1>Editar Equipo</h1>
+<h1>Editando equipo @Model.NombreEquipo</h1>
 
 <hr />
 <div class="row">
@@ -12,14 +18,30 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="NombreEquipo" class="control-label"></label>
-                <input asp-for="NombreEquipo" class="form-control" />
-                <span asp-validation-for="NombreEquipo" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="NombreEquipo" />
+            <input type="hidden" asp-for="FechaCreacion" />
+            <input type="hidden" asp-for="UbicacionEquipo" />
+            <input type="hidden" asp-for="FechaCompra" />
+            <input type="hidden" asp-for="FechaInicioGarantia" />
+            <input type="hidden" asp-for="FechaFinGarantia" />
+            <input type="hidden" asp-for="IdUsuarioRegistro" />
             <div class="form-group">
                 <label asp-for="TipoEquipo" class="control-label"></label>
-                <input asp-for="TipoEquipo" class="form-control" />
+                @{
+                    List<InvCatTipoEquipo> tipos = new List<InvCatTipoEquipo>();
+                    tipos = context.InvCatTipoEquipos.ToList();
+                    List<SelectListItem> tiposItems = tipos.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Tipo,
+                    Value = a.Tipo,
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="TipoEquipo" asp-items="tiposItems" class="custom-select">
+                </select>
                 <span asp-validation-for="TipoEquipo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,11 +49,27 @@
                 <input asp-for="Marca" class="form-control" />
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="UbicacionEquipo" class="control-label"></label>
-                <input asp-for="UbicacionEquipo" class="form-control" />
+                @{
+                    List<CatPlanta> catPlants = new List<CatPlanta>();
+                    catPlants = context.CatPlanta.ToList();
+
+                    List<SelectListItem> plantasItems = catPlants.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Nombre,
+                    Value = a.Nombre,
+                    Selected = false
+                };
+                    });
+
+                }
+                <select asp-for="UbicacionEquipo" class="custom-select" asp-items="plantasItems">
+                </select>
                 <span asp-validation-for="UbicacionEquipo" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Modelo" class="control-label"></label>
                 <input asp-for="Modelo" class="form-control" />
@@ -49,7 +87,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="So" class="control-label"></label>
-                <input asp-for="So" class="form-control" />
+                @{
+                    List<InvCatSo> sos = new List<InvCatSo>();
+                    sos = context.InvCatSos.ToList();
+
+                    List<SelectListItem> SoItems = sos.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.SistemaOperativo,
+                    Value = a.SistemaOperativo,
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="So" class="custom-select" asp-items="SoItems">
+                </select>
                 <span asp-validation-for="So" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,69 +111,60 @@
                 <span asp-validation-for="DatosAdicionales" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Estatus" class="control-label"></label>
+                <input asp-for="Estatus" class="form-control" />
+                <span asp-validation-for="Estatus" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="FechaCompra" class="control-label"></label>
+                <input asp-for="FechaCompra" class="form-control" value="@Model.FechaCompra" type="date" />
+                <span asp-validation-for="FechaCompra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicioGarantia" class="control-label"></label>
+                <input asp-for="FechaInicioGarantia" value="@Model.FechaInicioGarantia" class="form-control" type="date"/>
+                <span asp-validation-for="FechaInicioGarantia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaFinGarantia" class="control-label"></label>
+                <input asp-for="FechaFinGarantia" value="@Model.FechaFinGarantia" class="form-control" type="date"/>
+                <span asp-validation-for="FechaFinGarantia" class="text-danger"></span>
+            </div>*@
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+                </label>
+            </div>
+            <h3>Caracteristicas del equipo</h3>
+            <div class="form-group">
                 <label asp-for="Procesador" class="control-label"></label>
                 <input asp-for="Procesador" class="form-control" />
                 <span asp-validation-for="Procesador" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Hdd" class="control-label"></label>
-                <input asp-for="Hdd" class="form-control" />
+                <input asp-for="Hdd" type="number" class="form-control" />
+                @*<div id="my-input-container">
+                    <input asp-for="Hdd" type="number" id="my-input" class="form-group">
+                    <span id="my-suffix">GB.</span>
+                </div>*@
                 <span asp-validation-for="Hdd" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ram" class="control-label"></label>
-                <input asp-for="Ram" class="form-control" />
+                <input asp-for="Ram" type="number" class="form-control"/>
+                @*<div id="my-input-container">
+                    <input asp-for="Ram" type="number" id="my-input" class="form-group">
+                    <span id="my-suffix">GB.</span>
+                </div>*@
                 <span asp-validation-for="Ram" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Estatus" class="control-label"></label>
-                <input asp-for="Estatus" class="form-control" />
-                <span asp-validation-for="Estatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCompra" class="control-label"></label>
-                <input asp-for="FechaCompra" class="form-control" />
-                <span asp-validation-for="FechaCompra" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaInicioGarantia" class="control-label"></label>
-                <input asp-for="FechaInicioGarantia" class="form-control" />
-                <span asp-validation-for="FechaInicioGarantia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaFinGarantia" class="control-label"></label>
-                <input asp-for="FechaFinGarantia" class="form-control" />
-                <span asp-validation-for="FechaFinGarantia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCreacion" class="control-label"></label>
-                <input asp-for="FechaCreacion" class="form-control" />
-                <span asp-validation-for="FechaCreacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UltimaActualizacion" class="control-label"></label>
-                <input asp-for="UltimaActualizacion" class="form-control" />
-                <span asp-validation-for="UltimaActualizacion" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdUsuarioRegistro" class="control-label"></label>
-                <input asp-for="IdUsuarioRegistro" class="form-control" />
-                <span asp-validation-for="IdUsuarioRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

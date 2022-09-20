@@ -4,12 +4,14 @@
     ViewData["Title"] = "Detalles";
 }
 
+
+@Html.ActionLink("Asignaciones","Asignacion","InvTabEquipoes",new { Id = Model.Id},null)
 <div>
     <h4>Equipo: @Model.NombreEquipo</h4>
     <hr />
     <div>
         <a asp-action="Index">Regresar a la tabla</a>
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a> |
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a> 
     </div>
     <hr />
     <dl class="row">
@@ -77,13 +79,13 @@
             @Html.DisplayNameFor(model => model.Hdd)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Hdd)
+            @Html.DisplayFor(model => model.Hdd) GB
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Ram)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ram)
+            @Html.DisplayFor(model => model.Ram) GB
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Estatus)
@@ -127,11 +129,11 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Activo)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdUsuarioRegistro)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IdUsuarioRegistro)
-        </dd>
+        </dd>*@
     </dl>
 </div>

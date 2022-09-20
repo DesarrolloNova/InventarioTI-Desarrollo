@@ -32,12 +32,12 @@ namespace InventarioTI.Models
         public string Password { get; set; }
         public int? IdPuesto { get; set; }
         public int? IdDepartamento { get; set; }
-        public int? IdPlanta { get; set; }
+        public int? IDSitio { get; set; }
         public bool Activo { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
         public virtual CatDepartamento IdDepartamentoNavigation { get; set; }
-        public virtual CatPlantum IdPlantaNavigation { get; set; }
+        public virtual CatPlanta IdPlantaNavigation { get; set; }
         public virtual CatPuesto IdPuestoNavigation { get; set; }
         public virtual ICollection<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }
         public virtual ICollection<InvHisGrupoUsuario> InvHisGrupoUsuarios { get; set; }
