@@ -21,22 +21,58 @@ namespace InventarioTI.Controllers
             _context = context;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Asignacion(int Id)
-        { 
+        public IActionResult Asignacion(int Id)
+        {
+            var asignacion = _context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Id && a.Activo == true).FirstOrDefault();
+
+            if (asignacion != null)
+            { 
+                
+            }
             InvHisAsignacionEquipo asignacionEquipo = new InvHisAsignacionEquipo();
             asignacionEquipo.IdEquipo = Id;
             return View(asignacionEquipo);
         }
 
-        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Asignacion([Bind("Id,FechaInicio,FechaFin,EnDominio,TipoConexion,Ip,IdEquipo,IdDepartamento,Activo,SelectedIds")] InvHisAsignacionEquipo asignacionEquipo)
+        {
+            if (ModelState.IsValid && asignacionEquipo.SelectedIds != null)
+            {
+                try
+                {
+                    InventarioContext contexto = new InventarioContext();
+                    asignacionEquipo.Id = 0;
+                    asignacionEquipo.FechaInicio = DateTime.Now;
+                    contexto.InvHisAsignacionEquipos.Add(asignacionEquipo);
+                    await contexto.SaveChangesAsync();
+                    contexto.Database.CloseConnection();
+                    foreach (var usuario in asignacionEquipo.SelectedIds)
+                    {
+                        UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+                        usuarioAsignacion.IdUsuario = usuario;
+                        usuarioAsignacion.IdAsignacion = asignacionEquipo.Id;
+                        usuarioAsignacion.FechaInicioAsignacion = DateTime.Now;
+                        usuarioAsignacion.Asignado = true;
+                        contexto.UsuarioAsignacion.Add(usuarioAsignacion);
+                        await contexto.SaveChangesAsync();
+                        contexto.Database.CloseConnection();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            return View(asignacionEquipo);
+        }
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.InvTabEquipos.ToListAsync());
         }
 
-
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -60,7 +96,6 @@ namespace InventarioTI.Controllers
         }
 
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NombreEquipo,TipoEquipo,Marca,UbicacionEquipo,Modelo,NoSerie,DireccionMac,So,DatosAdicionales,Procesador,Hdd,Ram,Estatus,FechaCompra,FechaInicioGarantia,FechaFinGarantia,FechaCreacion,UltimaActualizacion,Activo,IdUsuarioRegistro")] InvTabEquipo invTabEquipo)
@@ -91,7 +126,6 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -107,7 +141,6 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NombreEquipo,TipoEquipo,Marca,UbicacionEquipo,Modelo,NoSerie,DireccionMac,So,DatosAdicionales,Procesador,Hdd,Ram,Estatus,FechaCompra,FechaInicioGarantia,FechaFinGarantia,FechaCreacion,UltimaActualizacion,Activo,IdUsuarioRegistro")] InvTabEquipo invTabEquipo)
@@ -141,7 +174,6 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,7 +191,6 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
-        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -170,7 +201,6 @@ namespace InventarioTI.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
         private bool InvTabEquipoExists(int id)
         {
             return _context.InvTabEquipos.Any(e => e.Id == id);

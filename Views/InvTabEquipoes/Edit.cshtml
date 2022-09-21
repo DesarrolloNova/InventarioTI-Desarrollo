@@ -7,7 +7,7 @@
     InventarioContext context = new InventarioContext();
 }
 <div>
-    <a asp-action="Index">Regresa a la lista</a>
+    <a asp-action="Details" asp-route-Id="@Model.Id">Ir al Equipo</a>
 </div>
 
 <h1>Editando equipo @Model.NombreEquipo</h1>

@@ -50,4 +50,29 @@ ALTER TABLE InvHisAsignacionEquipo
 DROP COLUMN IdPlanta
 GO
 
+CREATE TABLE UsuarioAsignacion
+(
+	idUsuario INT NOT NULL,
+	idAsignacion INT NOT NULL,
+	fechaInicioAsignacion DATE NOT NULL,
+	fechaFinAsignacion DATE NULL,
+	asignado BIT NOT NULL
+)
+GO
 
+ALTER TABLE UsuarioAsignacion
+ADD CONSTRAINT FK_UsuarioAsignacion_Usuario FOREIGN KEY (IdUsuario)
+REFERENCES TabUsuario(Id)
+GO
+
+ALTER TABLE UsuarioAsignacion
+ADD CONSTRAINT FK_UsuarioAsignacion_Asignacion FOREIGN KEY (IdAsignacion)
+REFERENCES InvHisAsignacionEquipo(Id)
+GO
+
+CREATE TABLE InvCatTipoConexion
+(
+	Id INT IDENTITY(1,1) NOT NULL,
+	TipoConexion VARCHAR (100) NOT NULL
+)
+GO

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<InventarioTI.Models.TabUsuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApellidoPaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApellidoMaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroTelefonico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroExtension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PstCorreo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioWindows)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EsUsuarioSap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EsCorporativo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdDepartamentoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPlantaNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPuestoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroTelefonico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroExtension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PstCorreo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioWindows)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EsUsuarioSap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EsCorporativo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDepartamentoNavigation.Abreviacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPlantaNavigation.IDSitio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPuestoNavigation.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

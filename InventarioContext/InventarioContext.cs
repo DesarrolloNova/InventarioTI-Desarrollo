@@ -43,6 +43,8 @@ namespace InventarioTI.Context
         public virtual DbSet<TabCorreo> TabCorreos { get; set; }
         public virtual DbSet<TabUsuario> TabUsuarios { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<InvCatTipoConexion> InvCatTiposConexion { get; set; }
+        public virtual DbSet<UsuarioAsignacion> UsuarioAsignacion { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

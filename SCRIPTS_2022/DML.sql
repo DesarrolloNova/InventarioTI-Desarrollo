@@ -18,3 +18,6 @@ INSERT INTO CatPlanta (Nombre,Empresa,Planta,Direccion,Pais,Moneda,Idioma,BaseDa
 ('Pharmapack TOL','PHARMA','TOL',NULL,'México','MXP','es-mx','PHARMA_PROD')
 INSERT INTO CatPlanta (Nombre,Empresa,Planta,Direccion,Pais,Moneda,Idioma,BaseDatos) VALUES
 ('Pharmapack GDL','PHARMA','GDL',NULL,'México','MXP','es-mx','PHARMA_PROD')
+
+INSERT INTO InvCatTipoConexion (TipoConexion) VALUES ('Wifi')
+INSERT INTO InvCatTipoConexion (TipoConexion) VALUES ('Ethernet')

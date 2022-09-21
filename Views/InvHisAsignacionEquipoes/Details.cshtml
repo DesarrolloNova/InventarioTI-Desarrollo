@@ -1,0 +1,123 @@
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.InvHisAsignacionEquipo
+
+@{
+    ViewData["Title"] = "Details";
+    InventarioContext context = new InventarioContext();
+    InvTabEquipo equipo = new InvTabEquipo();
+    equipo = context.InvTabEquipos.Where(e => e.Id == Model.IdEquipo).FirstOrDefault();
+}
+<h1>Asignación de @equipo.NombreEquipo</h1>
+<div>
+    <a asp-controller="InvTabEquipoes" asp-action="Details" asp-route-Id="@equipo.Id">Ir al Equipo</a>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaInicio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaFin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EnDominio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EnDominio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoConexion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoConexion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ip)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ip)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdDepartamento)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                CatDepartamento departamento = new CatDepartamento();
+                departamento = context.CatDepartamentos.Where(d => d.Id == Model.IdDepartamento).FirstOrDefault();
+                <a>@departamento.Departamento (@departamento.Abreviacion)</a>
+            }
+        </dd>
+        <dt class="col-m-2">
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+    </dl>
+</div>
+@{
+    List<int> idUsuarios = new List<int>();
+    List<TabUsuario> usuarios = new List<TabUsuario>();
+
+    idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdUsuario).ToList();
+    foreach (var idusuario in idUsuarios)
+    {
+        TabUsuario usuario = new TabUsuario();
+        usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
+        usuarios.Add(usuario);
+    }
+
+}
+<div>
+    <h4>Usuarios Asignados</h4>
+    <br />
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a>Id</a>
+                </th>
+                <th>
+                    <a>Nombre</a>
+                </th>
+                <th>
+                    <a>Correo</a>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in usuarios)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correo)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="TabUsuarios" asp-action="Details" asp-route-id="@item.Id">Ver Usuario</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Finalizar Asignación</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

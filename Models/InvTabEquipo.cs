@@ -52,7 +52,7 @@ namespace InventarioTI.Models
         public string Estatus { get; set; }
         [Display(Name ="Fecha Compra")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        //[Required(ErrorMessage ="Ingresa la fecha de compra del dispositivo")]
+        //[Required(ErrorMessage = "Ingresa la fecha de compra del dispositivo")]
         public DateTime? FechaCompra { get; set; }
         [Display(Name = "Fecha Inicio Garantía")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]

@@ -1,17 +1,36 @@
-﻿@model InventarioTI.Models.InvTabEquipo
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.InvTabEquipo
 
 @{
     ViewData["Title"] = "Detalles";
+    InventarioContext context = new InventarioContext();
 }
 
-
-@Html.ActionLink("Asignaciones","Asignacion","InvTabEquipoes",new { Id = Model.Id},null)
 <div>
     <h4>Equipo: @Model.NombreEquipo</h4>
     <hr />
     <div>
-        <a asp-action="Index">Regresar a la tabla</a>
         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a> 
+        @{
+            InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
+            asignacion = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == true).FirstOrDefault();
+            if (asignacion == null)
+            {
+                <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
+            }
+            else
+            {
+                <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
+            }
+            List<InvHisAsignacionEquipo> asignacionesHistorial = new List<InvHisAsignacionEquipo>();
+            asignacionesHistorial = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).ToList();
+            if(asignacionesHistorial != null && asignacionesHistorial.Count > 0)
+            {
+                <a class="btn btn-primary">Historial de asignaciones</a>
+            }
+        }
+        <br />
+        <a asp-action="Index">Regresar a la tabla</a>
     </div>
     <hr />
     <dl class="row">

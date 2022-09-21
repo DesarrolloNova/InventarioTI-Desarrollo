@@ -1,26 +1,48 @@
-﻿@model InventarioTI.Models.InvHisAsignacionEquipo
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.InvHisAsignacionEquipo
 
 @{
     ViewData["Title"] = "Asignacion";
+    InventarioContext context = new InventarioContext();
+    InvTabEquipo equipo = new InvTabEquipo();
+    equipo = context.InvTabEquipos.Where(e => e.Id == Model.IdEquipo).FirstOrDefault();
 }
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+}
+<h1>Asignacion de equipo @equipo.NombreEquipo </h1>
+<div>
+    <a asp-action="Details" asp-route-Id="@Model.IdEquipo">Ir al Equipo</a>
+</div>
 
-<h1>Asignacion  </h1>
-
-<h4>InvHisAsignacionEquipo</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Asignacion">
+            <h4>Datos Básicos de Asignación</h4>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden asp-for="IdEquipo" value="@Model.IdEquipo"/>
             <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaFin" class="control-label"></label>
-                <input asp-for="FechaFin" class="form-control" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
+                <label asp-for="TipoConexion" class="control-label"></label>
+                @*<input asp-for="TipoConexion" class="form-control" />*@
+                @{
+                    List<InvCatTipoConexion> tiposConexion = new List<InvCatTipoConexion>();
+                    tiposConexion = context.InvCatTiposConexion.ToList();
+                    List<SelectListItem> tiposItems = tiposConexion.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                        {
+                            Text = a.TipoConexion,
+                            Value = a.TipoConexion,
+                            Selected = false
+                        };
+                    });
+                }
+                <select asp-for="TipoConexion" class="custom-select" asp-items="tiposItems">
+                    
+                </select>
+                <span asp-validation-for="TipoConexion" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -28,27 +50,27 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="TipoConexion" class="control-label"></label>
-                <input asp-for="TipoConexion" class="form-control" />
-                <span asp-validation-for="TipoConexion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Ip" class="control-label"></label>
                 <input asp-for="Ip" class="form-control" />
                 <span asp-validation-for="Ip" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdEquipo" class="control-label"></label>
-                <select asp-for="IdEquipo" class ="form-control" asp-items="ViewBag.IdEquipo"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdPlanta" class="control-label"></label>
-                <input asp-for="IdPlanta" class="form-control" />
-                <span asp-validation-for="IdPlanta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="IdDepartamento" class="control-label"></label>
-                <input asp-for="IdDepartamento" class="form-control" />
+                @*<input asp-for="IdDepartamento" class="form-control" />*@
+                @{
+                    List<CatDepartamento> catDepartamentos = new List<CatDepartamento>();
+                    catDepartamentos = context.CatDepartamentos.ToList();
+                    List<SelectListItem> departamentosItems = catDepartamentos.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Departamento+" ("+a.Abreviacion+")",
+                    Value = a.Id.ToString(),
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="IdDepartamento" class="form-control" asp-items="departamentosItems"></select>
                 <span asp-validation-for="IdDepartamento" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -56,17 +78,39 @@
                     <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
                 </label>
             </div>
+            <h4>Grupo de Usuarios Para el Equipo @equipo.NombreEquipo</h4>
+            @{
+                List<TabUsuario> usuarios = new List<TabUsuario>();
+                usuarios = context.TabUsuarios.ToList();
+                List<SelectListItem> usuariosItems = usuarios.ConvertAll(a =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = a.Nombre + " " + a.ApellidoPaterno + " " + a.ApellidoMaterno+"/("+a.Correo+")",
+                        Value = a.Id.ToString(),
+                        Selected = false
+                    };
+                });
+            }
+            <select placeholder="Seleccione los usuarios" asp-for="SelectedIds" name="SelectedIds" id="ddlCustomers" class="form-control" multiple="multiple" asp-items="usuariosItems"></select>
+            <span asp-validation-for="SelectedIds" class="text-danger"></span>
+            <br />
+            <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Asignar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(function ()
+        {
+           $("#ddlCustomers").select2(); 
+        });
+    </script>
 }
