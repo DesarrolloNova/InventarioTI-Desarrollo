@@ -1,0 +1,49 @@
+﻿@model InventarioTI.Models.UsuarioAsignacion
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>UsuarioAsignacion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdUsuario" />
+            <div class="form-group">
+                <label asp-for="IdAsignacion" class="control-label"></label>
+                <input asp-for="IdAsignacion" class="form-control" />
+                <span asp-validation-for="IdAsignacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicioAsignacion" class="control-label"></label>
+                <input asp-for="FechaInicioAsignacion" class="form-control" />
+                <span asp-validation-for="FechaInicioAsignacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaFinAsignacion" class="control-label"></label>
+                <input asp-for="FechaFinAsignacion" class="form-control" />
+                <span asp-validation-for="FechaFinAsignacion" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Asignado" /> @Html.DisplayNameFor(model => model.Asignado)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

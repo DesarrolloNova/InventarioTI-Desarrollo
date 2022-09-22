@@ -44,6 +44,7 @@ namespace InventarioTI.Controllers
                     InventarioContext contexto = new InventarioContext();
                     asignacionEquipo.Id = 0;
                     asignacionEquipo.FechaInicio = DateTime.Now;
+                    asignacionEquipo.Activo = true;
                     contexto.InvHisAsignacionEquipos.Add(asignacionEquipo);
                     await contexto.SaveChangesAsync();
                     contexto.Database.CloseConnection();
@@ -58,6 +59,12 @@ namespace InventarioTI.Controllers
                         await contexto.SaveChangesAsync();
                         contexto.Database.CloseConnection();
                     }
+                    InvTabEquipo equipo = new InvTabEquipo();
+                    equipo = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).FirstOrDefault();
+                    equipo.Estatus = "ASIGNADO";
+                    contexto.InvTabEquipos.Update(equipo);
+                    await contexto.SaveChangesAsync();
+                    contexto.Database.CloseConnection();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -107,6 +114,7 @@ namespace InventarioTI.Controllers
                 invTabEquipo.NombreEquipo = autoName;
                 invTabEquipo.UltimaActualizacion = DateTime.Now;
                 invTabEquipo.FechaCreacion = DateTime.Now;
+                invTabEquipo.Activo = true;
                 //Se queda pendiente el campo para agregar el id de usuario que registró el equipo
                 _context.Add(invTabEquipo);
                 await _context.SaveChangesAsync();

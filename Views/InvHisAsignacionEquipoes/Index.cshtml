@@ -1,7 +1,9 @@
-﻿@model IEnumerable<InventarioTI.Models.InvHisAsignacionEquipo>
+﻿@using InventarioTI.Context
+@model IEnumerable<InventarioTI.Models.InvHisAsignacionEquipo>
 
 @{
     ViewData["Title"] = "Index";
+    InventarioContext context = new InventarioContext(); 
 }
 
 <h1>Index</h1>
@@ -30,12 +32,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdDepartamento)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEquipoNavigation)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -58,18 +54,14 @@
                 @Html.DisplayFor(modelItem => item.Ip)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdDepartamento)
+                    @{
+                        CatDepartamento departamento = new CatDepartamento();
+                        departamento = context.CatDepartamentos.Where(d => d.Id == item.IdDepartamento).FirstOrDefault();
+                    }
+                    <a>@departamento.Departamento (@departamento.Abreviacion)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Activo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEquipoNavigation.DireccionMac)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
             </td>
         </tr>
 }

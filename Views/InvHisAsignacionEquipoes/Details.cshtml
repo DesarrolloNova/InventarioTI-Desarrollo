@@ -7,11 +7,24 @@
     InvTabEquipo equipo = new InvTabEquipo();
     equipo = context.InvTabEquipos.Where(e => e.Id == Model.IdEquipo).FirstOrDefault();
 }
-<h1>Asignación de @equipo.NombreEquipo</h1>
+<h1>Asignación de equipo "@equipo.NombreEquipo"</h1>
 <div>
     <a asp-controller="InvTabEquipoes" asp-action="Details" asp-route-Id="@equipo.Id">Ir al Equipo</a>
+    ||
+    <a asp-controller="InvTabEquipoes" asp-action="Index">Regresar a la tabla</a>
 </div>
+<br />
 
+@if (Model.Activo == true)
+{
+    <form method="post" asp-action="FinalizarAsignacion">
+        <input type="hidden" name="idAsignacion" value="@Model.Id" />
+        <input type="hidden" name="idEquipo" value="@Model.IdEquipo" />
+        <button class="btn btn-danger" type="submit">Liberar Equipo</button>
+    </form>
+}
+
+<h4>Datos de la Asignación</h4>
 <div>
     <hr />
     <dl class="row">
@@ -65,59 +78,173 @@
 </div>
 @{
     List<int> idUsuarios = new List<int>();
+    List<int> idUsuariosInactivos = new List<int>();
     List<TabUsuario> usuarios = new List<TabUsuario>();
+    List<TabUsuario> usuariosInactivos = new List<TabUsuario>();
 
-    idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdUsuario).ToList();
-    foreach (var idusuario in idUsuarios)
+    if (Model.Activo == true)
     {
-        TabUsuario usuario = new TabUsuario();
-        usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
-        usuarios.Add(usuario);
-    }
+        idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdUsuario).ToList();
+        foreach (var idusuario in idUsuarios)
+        {
+            TabUsuario usuario = new TabUsuario();
+            usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
+            usuarios.Add(usuario);
+        }
 
+        idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdUsuario).ToList();
+        foreach (var idusuario in idUsuariosInactivos)
+        {
+            TabUsuario usuario = new TabUsuario();
+            usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
+            usuariosInactivos.Add(usuario);
+        }
+
+
+        <div>
+            <h4>Usuarios Asignados Activos</h4>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a>Id</a>
+                        </th>
+                        <th>
+                            <a>Nombre</a>
+                        </th>
+                        <th>
+                            <a>Correo</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in usuarios)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Correo)
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                                @if (Model.Activo == true)
+                                {
+                                    if (usuarios.Count > 1)
+                                    {
+                                        <form method="post" asp-action="FinalizarAsignacionIndividual">
+                                            <input name="idAsignacion" id="idAsignacion" hidden value="@Model.Id" />
+                                            <input name="idUsuario" id="idUsuario" hidden value="@item.Id" />
+                                            <button class="btn btn-danger" type="submit">Descartar Usuario</button>
+                                        </form>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (usuariosInactivos != null && usuariosInactivos.Count > 0)
+        {
+            <div>
+                <h4>Usuarios Asignados Inactivos</h4>
+                <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a>Id</a>
+                            </th>
+                            <th>
+                                <a>Nombre</a>
+                            </th>
+                            <th>
+                                <a>Correo</a>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in usuariosInactivos)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Correo)
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        { 
+            
+        }
+    }
+    else
+    {
+        idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id).Select(u => u.IdUsuario).ToList();
+        foreach (var idusuario in idUsuarios)
+        {
+            TabUsuario usuario = new TabUsuario();
+            usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
+            usuarios.Add(usuario);
+        }
+        <div>
+            <h4>Usuarios Asignados</h4>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a>Id</a>
+                        </th>
+                        <th>
+                            <a>Nombre</a>
+                        </th>
+                        <th>
+                            <a>Correo</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in usuarios)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Correo)
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 }
-<div>
-    <h4>Usuarios Asignados</h4>
-    <br />
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <a>Id</a>
-                </th>
-                <th>
-                    <a>Nombre</a>
-                </th>
-                <th>
-                    <a>Correo</a>
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in usuarios)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Correo)
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" asp-controller="TabUsuarios" asp-action="Details" asp-route-id="@item.Id">Ver Usuario</a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Finalizar Asignación</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>

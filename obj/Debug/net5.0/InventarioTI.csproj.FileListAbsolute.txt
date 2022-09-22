@@ -313,3 +313,8 @@ C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrol
 C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\TabUsuarios\Details.cshtml.g.cs
 C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\TabUsuarios\Edit.cshtml.g.cs
 C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\TabUsuarios\Index.cshtml.g.cs
+C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioAsignacions\Create.cshtml.g.cs
+C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioAsignacions\Delete.cshtml.g.cs
+C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioAsignacions\Details.cshtml.g.cs
+C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioAsignacions\Edit.cshtml.g.cs
+C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioAsignacions\Index.cshtml.g.cs

@@ -22,11 +22,11 @@
             {
                 <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
             }
-            List<InvHisAsignacionEquipo> asignacionesHistorial = new List<InvHisAsignacionEquipo>();
-            asignacionesHistorial = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).ToList();
-            if(asignacionesHistorial != null && asignacionesHistorial.Count > 0)
+            List<int> asignacionesHistorialIds = new List<int>();
+            asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
+            if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
             {
-                <a class="btn btn-primary">Historial de asignaciones</a>
+                <a class="btn btn-primary" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
             }
         }
         <br />

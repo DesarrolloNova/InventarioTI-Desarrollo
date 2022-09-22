@@ -52,12 +52,17 @@ GO
 
 CREATE TABLE UsuarioAsignacion
 (
+	idUsuarioAsignacion INT IDENTITY(1,1) NOT NULL,
 	idUsuario INT NOT NULL,
 	idAsignacion INT NOT NULL,
 	fechaInicioAsignacion DATE NOT NULL,
 	fechaFinAsignacion DATE NULL,
 	asignado BIT NOT NULL
 )
+GO
+
+ALTER TABLE UsuarioAsignacion
+ADD CONSTRAINT PK_UsuarioAsignacion PRIMARY KEY (idUsuarioAsignacion)
 GO
 
 ALTER TABLE UsuarioAsignacion

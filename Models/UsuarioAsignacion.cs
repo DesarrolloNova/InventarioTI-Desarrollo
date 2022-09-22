@@ -8,6 +8,8 @@ namespace InventarioTI.Models
     public class UsuarioAsignacion
     {
         [Key]
+        public int IdUsuarioAsignacion { get; set; }
+        [ForeignKey("IdUsuario")]
         public int IdUsuario { get; set; }
         [ForeignKey("IdAsignacion")]
         public int IdAsignacion { get; set; }

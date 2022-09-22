@@ -18,11 +18,73 @@ namespace InventarioTI.Controllers
         {
             _context = context;
         }
+        [HttpPost]
+        public async Task<IActionResult> FinalizarAsignacion(int idAsignacion, int idEquipo)
+        {
+            InvTabEquipo equipo = new InvTabEquipo();
+            InventarioContext context = new InventarioContext();
+            InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
+            //
+            List<int> idUsuarios = new List<int>();
+            List<TabUsuario> usuarios = new List<TabUsuario>();
+
+            idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == idAsignacion && u.Asignado == true).Select(u => u.IdUsuario).ToList();
+            foreach (var idusuario in idUsuarios)
+            {
+                UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+                usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdUsuario == idusuario && ua.IdAsignacion == idAsignacion).FirstOrDefault();
+                usuarioAsignacion.Asignado = false;
+                usuarioAsignacion.FechaFinAsignacion = DateTime.Now;
+                #region ActualizarAsignacionIndividual
+                    context.UsuarioAsignacion.Update(usuarioAsignacion);
+                    await context.SaveChangesAsync();
+                    context.Database.CloseConnection();
+                #endregion
+            }
+            //
+            #region ExtractInfo
+            asignacion = context.InvHisAsignacionEquipos.Where(a => a.Id == idAsignacion).FirstOrDefault();
+                equipo = context.InvTabEquipos.Where(e => e.Id == idEquipo).FirstOrDefault();
+            #endregion
+            //ACTUALIZACION DE ESTATUS
+            asignacion.Activo = false;
+            asignacion.FechaFin = DateTime.Now;
+            equipo.Estatus = "DISPONIBLE";
+            //ACTUALIZACION DE ESTATUS
+            /*ACTUALIZACIÓN*/
+            #region ActualizarEquipo
+            context.InvTabEquipos.Update(equipo);
+                await context.SaveChangesAsync();
+                context.Database.CloseConnection();
+            #endregion
+            /*ACTUALIZACIÓN*/
+            #region ActualizarAsignacion
+                context.InvHisAsignacionEquipos.Update(asignacion);
+                await context.SaveChangesAsync();
+                context.Database.CloseConnection();
+            #endregion
+            /*ACTUALIZACIÓN*/
+            return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FinalizarAsignacionIndividual(int idUsuario, int idAsignacion)
+        {
+            InventarioContext context = new InventarioContext();
+            UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+            usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdUsuario == idUsuario && ua.IdAsignacion == idAsignacion).FirstOrDefault();
+            usuarioAsignacion.Asignado = false;
+            usuarioAsignacion.FechaFinAsignacion = DateTime.Now;
+            context.UsuarioAsignacion.Update(usuarioAsignacion);
+            await context.SaveChangesAsync();
+            context.Database.CloseConnection();
+            return RedirectToAction("Details", new { id = idAsignacion });
+        }
 
         // GET: InvHisAsignacionEquipoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int idEquipo)
         {
-            var inventarioContext = _context.InvHisAsignacionEquipos.Include(i => i.IdEquipoNavigation);
+            var inventarioContext = _context.InvHisAsignacionEquipos.Where(i=>i.IdEquipo == idEquipo && i.Activo == false);
             return View(await inventarioContext.ToListAsync());
         }
 

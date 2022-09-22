@@ -11,9 +11,11 @@
 {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
 }
-<h1>Asignacion de equipo @equipo.NombreEquipo </h1>
+<h1>Asignacion de equipo "@equipo.NombreEquipo"</h1>
 <div>
     <a asp-action="Details" asp-route-Id="@Model.IdEquipo">Ir al Equipo</a>
+    ||
+    <a asp-action="Index">Regresar a la tabla</a>
 </div>
 
 <hr />
@@ -23,6 +25,7 @@
             <h4>Datos Básicos de Asignación</h4>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input hidden asp-for="IdEquipo" value="@Model.IdEquipo"/>
+            <input hidden value="true" class="form-check-input" asp-for="Activo"/>
             <div class="form-group">
                 <label asp-for="TipoConexion" class="control-label"></label>
                 @*<input asp-for="TipoConexion" class="form-control" />*@
@@ -73,11 +76,11 @@
                 <select asp-for="IdDepartamento" class="form-control" asp-items="departamentosItems"></select>
                 <span asp-validation-for="IdDepartamento" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            @*<div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
                 </label>
-            </div>
+            </div>*@
             <h4>Grupo de Usuarios Para el Equipo @equipo.NombreEquipo</h4>
             @{
                 List<TabUsuario> usuarios = new List<TabUsuario>();

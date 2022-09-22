@@ -1,14 +1,16 @@
-﻿@model IEnumerable<InventarioTI.Models.InvTabEquipo>
+﻿@using InventarioTI.Context
+@model IEnumerable<InventarioTI.Models.InvTabEquipo>
 @section Styles
-{
+    {
     <link href="~/lib/datatables.net-bs/datatables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/datatables.net-bs/datatables.bootstrap.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
 }
-@{
+    @{
     ViewData["Title"] = "Equipos";
+    InventarioContext context = new InventarioContext();
 }
 
 <h1>Equipos</h1>
@@ -74,9 +76,23 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Estatus)
+                    @*@if (item.Estatus == "DISPONIBLE")
+                    {
+                        <div>
+                            <a asp-controller="InvTabEquipoes" asp-action="Asignacion" asp-route-id="@item.Id">Asignar</a>
+                        </div>
+                    }
+                    @if (item.Estatus == "ASIGNADO")
+                    {
+                        InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
+                        asignacion = context.InvHisAsignacionEquipos.Where(ae => ae.IdEquipo == item.Id && ae.Activo == true).FirstOrDefault();
+                        <div>
+                            <a asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver</a>
+                        </div>
+                    }*@
                 </td>
                 <td>
-                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
                     <a class="btn btn-primary" asp-route-id="@item.Id">Soporte</a>
                     <a class="btn btn-danger" asp-route-id="@item.Id">Archivar</a>
                 </td>
@@ -85,7 +101,7 @@
     </tbody>
 </table>
 
-    @section Scripts
+@section Scripts
     {
     <script src="~/lib/datatables.net/jquery.datatables.js"></script>
     <script src="~/lib/datatables.net/jquery.datatables.min.js"></script>
