@@ -1,28 +1,26 @@
-﻿@model InventarioTI.Models.InvHisAsignacionEquipo
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.InvHisAsignacionEquipo
 
 @{
     ViewData["Title"] = "Edit";
+    InventarioContext context = new InventarioContext();
 }
 
-<h1>Edit</h1>
-
-<h4>InvHisAsignacionEquipo</h4>
+<h4>Editar Asignación</h4>
+<div>
+    <a asp-action="Details" asp-route-Id="@Model.Id">Regresar a la asignación</a>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaFin" class="control-label"></label>
-                <input asp-for="FechaFin" class="form-control" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="FechaInicio" />
+            <input type="hidden" asp-for="IdEquipo" />
+            <input type="hidden" asp-for="IdDepartamento" />
+            <input type="hidden" asp-for="Activo" />
+            <input type="hidden" asp-for="FechaInicio" />
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="EnDominio" /> @Html.DisplayNameFor(model => model.EnDominio)
@@ -39,31 +37,135 @@
                 <span asp-validation-for="Ip" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdEquipo" class="control-label"></label>
-                <select asp-for="IdEquipo" class="form-control" asp-items="ViewBag.IdEquipo"></select>
-                <span asp-validation-for="IdEquipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdDepartamento" class="control-label"></label>
-                <input asp-for="IdDepartamento" class="form-control" />
-                <span asp-validation-for="IdDepartamento" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+@{
+    List<int> idUsuarios = new List<int>();
+    List<int> idUsuariosInactivos = new List<int>();
+    List<TabUsuario> usuarios = new List<TabUsuario>();
+    List<TabUsuario> usuariosInactivos = new List<TabUsuario>();
+    idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdUsuario).ToList();
+    foreach (var idusuario in idUsuarios)
+    {
+        TabUsuario usuario = new TabUsuario();
+        usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
+        usuarios.Add(usuario);
+    }
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdUsuario).ToList();
+    foreach (var idusuario in idUsuariosInactivos)
+    {
+        TabUsuario usuario = new TabUsuario();
+        usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
+        usuariosInactivos.Add(usuario);
+    }
+
+
+    <div>
+        <h4>Usuarios Asignados Activos</h4>
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <a>Id</a>
+                    </th>
+                    <th>
+                        <a>Nombre</a>
+                    </th>
+                    <th>
+                        <a>Correo</a>
+                    </th>
+                    <th>
+                        <a>Acciones</a>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in usuarios)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Correo)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                            @if (Model.Activo == true)
+                            {
+                                if (usuarios.Count > 1)
+                                {
+                                    <form method="post" asp-action="FinalizarAsignacionIndividual">
+                                        <input name="idAsignacion" id="idAsignacion" hidden value="@Model.Id" />
+                                        <input name="idUsuario" id="idUsuario" hidden value="@item.Id" />
+                                        <button class="btn btn-danger" type="submit">Descartar Usuario</button>
+                                    </form>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (usuariosInactivos != null && usuariosInactivos.Count > 0)
+    {
+        <div>
+            <h4>Usuarios Asignados Inactivos</h4>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a>Id</a>
+                        </th>
+                        <th>
+                            <a>Nombre</a>
+                        </th>
+                        <th>
+                            <a>Correo</a>
+                        </th>
+                        <th>
+                            <a>Acciones</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in usuariosInactivos)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Correo)
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

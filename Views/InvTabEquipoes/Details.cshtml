@@ -16,17 +16,17 @@
             asignacion = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == true).FirstOrDefault();
             if (asignacion == null)
             {
-                <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
+                        <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
             }
             else
             {
-                <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
+                        <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
             }
             List<int> asignacionesHistorialIds = new List<int>();
             asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
             if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
             {
-                <a class="btn btn-primary" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
+                        <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
             }
         }
         <br />
@@ -53,10 +53,14 @@
             @Html.DisplayFor(model => model.Marca)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UbicacionEquipo)
+            @Html.DisplayNameFor(model => model.IDSitio)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UbicacionEquipo)
+            @{
+                string ubicacion="";
+                ubicacion = context.CatPlanta.Where(p => p.IDSitio == Model.IDSitio).Select(p => p.Nombre).FirstOrDefault();
+                <a>@ubicacion</a>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Modelo)
@@ -107,10 +111,14 @@
             @Html.DisplayFor(model => model.Ram) GB
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estatus)
+            <a>Estatus</a>
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estatus)
+            @{
+                InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
+                estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == Model.IdEstatus).FirstOrDefault();
+                    <a>@estatusEquipo.Estatus</a>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FechaCompra)

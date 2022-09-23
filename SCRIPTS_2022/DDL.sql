@@ -46,10 +46,6 @@ ADD CONSTRAINT FK_TabUsuario_CatPlanta FOREIGN KEY (IDSitio)
 REFERENCES CatPlanta (IDSitio)
 GO
 
-ALTER TABLE InvHisAsignacionEquipo
-DROP COLUMN IdPlanta
-GO
-
 CREATE TABLE UsuarioAsignacion
 (
 	idUsuarioAsignacion INT IDENTITY(1,1) NOT NULL,
@@ -81,3 +77,40 @@ CREATE TABLE InvCatTipoConexion
 	TipoConexion VARCHAR (100) NOT NULL
 )
 GO
+
+ALTER TABLE InvHisAsignacionEquipo
+DROP COLUMN IdPlanta
+GO
+
+ALTER TABLE InvHisAsignacionEquipo
+ADD IDSitio INT NOT NULL
+GO
+
+ALTER TABLE InvHisAsignacionEquipo
+ADD CONSTRAINT FK_InvHisAsignacionEquipo_CatPlanta FOREIGN KEY (IDSitio)
+REFERENCES CatPlanta(IDSitio)
+GO
+
+ALTER TABLE InvTabEquipo
+DROP COLUMN Estatus
+GO
+
+ALTER TABLE InvTabEquipo
+ADD idEstatus INT NOT NULL
+GO
+
+ALTER TABLE InvTabEquipo
+ADD CONSTRAINT FK_InvTabEquipo_InvCatEstatusEquipo FOREIGN KEY (idEstatus) 
+REFERENCES InvCatEstatusEquipo (Id)
+GO
+
+ALTER TABLE InvTabEquipo
+DROP COLUMN UbicacionEquipo
+GO
+
+ALTER TABLE InvTabEquipo
+ADD IDSitio INT NOT NULL 
+
+ALTER TABLE InvTabEquipo
+ADD CONSTRAINT FK_InvTabEquipo_CatPlanta FOREIGN KEY (IDSitio)
+REFERENCES CatPlanta (IDSitio)

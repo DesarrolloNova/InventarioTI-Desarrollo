@@ -38,6 +38,8 @@ namespace InventarioTI.Models
         [Required(ErrorMessage ="Debes seleccionar un departamento")]
         public int IdDepartamento { get; set; }
         public bool Activo { get; set; }
+        [Display(Name ="Ubicación")]
+        public int IDSitio { get; set; }
         [NotMapped]
         [Required(ErrorMessage ="Debes seleccionar por lo menos 1 usuario")]
         public int[] SelectedIds { get; set; }

@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.NombreEquipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UbicacionEquipo)
+                @Html.DisplayNameFor(model => model.IDSitio)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TipoEquipo)
@@ -42,7 +42,7 @@
                 @Html.DisplayNameFor(model => model.NoSerie)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estatus)
+                @Html.DisplayNameFor(model => model.IdEstatus)
             </th>
             <th>
                 <a>Acciones</a>
@@ -60,7 +60,11 @@
                     @Html.DisplayFor(modelItem => item.NombreEquipo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UbicacionEquipo)
+                    @{
+                        string ubicacion = "";
+                        ubicacion = context.CatPlanta.Where(p => p.IDSitio == item.IDSitio).Select(p => p.Nombre).FirstOrDefault();
+                        <a>@ubicacion</a>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TipoEquipo)
@@ -75,14 +79,18 @@
                     @Html.DisplayFor(modelItem => item.NoSerie)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Estatus)
-                    @*@if (item.Estatus == "DISPONIBLE")
+                    @{
+                        InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
+                        estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == item.IdEstatus).FirstOrDefault();
+                            <a>@estatusEquipo.Estatus</a>
+                    }
+                    @*@if (item.Estatus == 2)
                     {
                         <div>
                             <a asp-controller="InvTabEquipoes" asp-action="Asignacion" asp-route-id="@item.Id">Asignar</a>
                         </div>
                     }
-                    @if (item.Estatus == "ASIGNADO")
+                    @if (item.Estatus == 4)
                     {
                         InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
                         asignacion = context.InvHisAsignacionEquipos.Where(ae => ae.IdEquipo == item.Id && ae.Activo == true).FirstOrDefault();

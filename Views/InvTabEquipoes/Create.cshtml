@@ -19,7 +19,7 @@
         <h3>Equipo</h3>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input hidden value="DISPONIBLE" asp-for="Estatus"/>
+            <input hidden value="2" asp-for="IdEstatus"/>
             <input hidden value="true" asp-for="Activo"/>
             <div class="form-group">
                 <label asp-for="TipoEquipo" class="control-label"></label>
@@ -65,7 +65,7 @@
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UbicacionEquipo" class="control-label"></label>
+                <label asp-for="IDSitio" class="control-label"></label>
                 @{
                     List<CatPlanta> catPlants = new List<CatPlanta>();
                     catPlants = context.CatPlanta.ToList();
@@ -75,15 +75,15 @@
                         return new SelectListItem()
                 {
                     Text = a.Nombre,
-                    Value = a.Nombre,
+                    Value = a.IDSitio.ToString(),
                     Selected = false
                 };
                     });
 
                 }
-                <select asp-for="UbicacionEquipo" class="custom-select" asp-items="plantasItems">
+                <select asp-for="IDSitio" class="custom-select" asp-items="plantasItems">
                 </select>
-                <span asp-validation-for="UbicacionEquipo" class="text-danger"></span>
+                <span asp-validation-for="IDSitio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Modelo" class="control-label"></label>

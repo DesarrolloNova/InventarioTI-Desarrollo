@@ -7,6 +7,10 @@
     InvTabEquipo equipo = new InvTabEquipo();
     equipo = context.InvTabEquipos.Where(e => e.Id == Model.IdEquipo).FirstOrDefault();
 }
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+}
 <h1>Asignación de equipo "@equipo.NombreEquipo"</h1>
 <div>
     <a asp-controller="InvTabEquipoes" asp-action="Details" asp-route-Id="@equipo.Id">Ir al Equipo</a>
@@ -68,6 +72,16 @@
                 <a>@departamento.Departamento (@departamento.Abreviacion)</a>
             }
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IDSitio)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                string ubicacion = "";
+                ubicacion = context.CatPlanta.Where(p => p.IDSitio == Model.IDSitio).Select(p => p.Nombre).FirstOrDefault();
+                <a>@ubicacion</a>
+            }
+        </dd>
         <dt class="col-m-2">
             @Html.DisplayNameFor(model => model.Activo)
         </dt>
@@ -99,7 +113,32 @@
             usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
             usuariosInactivos.Add(usuario);
         }
+        <button class="btn btn-info" onclick="showhide()">Agregar Usuarios</button>
 
+        <div id="addUsers" style="display:none">
+            <div class="col-sm-6">
+                <b><i class="emphasized">Selecciona el/los usuario(s) para agregar</i></b>
+                <form method="post">
+                    @{
+                        //Depurar la lista de NuevosUsuarios para que no se agreguen usuarios previamente asignados
+                        List<TabUsuario> Nuevosusuarios = new List<TabUsuario>();
+                        Nuevosusuarios = context.TabUsuarios.ToList();
+                        List<SelectListItem> usuariosItems = Nuevosusuarios.ConvertAll(a =>
+                        {
+                            return new SelectListItem()
+                    {
+                        Text = a.Nombre + " " + a.ApellidoPaterno + " " + a.ApellidoMaterno + "/(" + a.Correo + ")",
+                        Value = a.Id.ToString(),
+                        Selected = false
+                    };
+                        });
+                    }
+                    <select style="width: 500px" placeholder="Seleccione los usuarios" asp-for="SelectedIds" name="SelectedIds" id="ddlCustomers" class="form-control" multiple="multiple" asp-items="usuariosItems"></select>
+                    <span asp-validation-for="SelectedIds" class="text-danger"></span>
+                    <button class="btn btn-success" type="submit">Agregar</button>
+                </form>
+            </div>
+        </div>
 
         <div>
             <h4>Usuarios Asignados Activos</h4>
@@ -115,6 +154,9 @@
                         </th>
                         <th>
                             <a>Correo</a>
+                        </th>
+                        <th>
+                            <a>Acciones</a>
                         </th>
                         <th></th>
                     </tr>
@@ -168,6 +210,9 @@
                             <th>
                                 <a>Correo</a>
                             </th>
+                            <th>
+                                <a>Acciones</a>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -192,10 +237,6 @@
                     </tbody>
                 </table>
             </div>
-        }
-        else
-        { 
-            
         }
     }
     else
@@ -222,6 +263,9 @@
                         <th>
                             <a>Correo</a>
                         </th>
+                        <th>
+                            <a>Acciones</a>
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -247,4 +291,29 @@
             </table>
         </div>
     }
+}
+
+<script>
+    function showhide() {
+        var div = document.getElementById("addUsers");
+        if (div.style.display !== "none") {
+            div.style.display = "none";
+        }
+        else {
+            div.style.display = "block";
+        }
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#ddlCustomers").select2();
+        });
+    </script>
 }

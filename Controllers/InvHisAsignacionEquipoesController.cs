@@ -49,7 +49,7 @@ namespace InventarioTI.Controllers
             //ACTUALIZACION DE ESTATUS
             asignacion.Activo = false;
             asignacion.FechaFin = DateTime.Now;
-            equipo.Estatus = "DISPONIBLE";
+            equipo.IdEstatus = 2; //ESTATUS DISPONIBLE
             //ACTUALIZACION DE ESTATUS
             /*ACTUALIZACIÓN*/
             #region ActualizarEquipo

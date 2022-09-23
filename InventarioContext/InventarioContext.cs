@@ -351,10 +351,6 @@ namespace InventarioTI.Context
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Estatus)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.FechaCompra).HasColumnType("datetime");
 
                 entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
@@ -391,8 +387,6 @@ namespace InventarioTI.Context
                 entity.Property(e => e.TipoEquipo)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.Property(e => e.UbicacionEquipo).HasMaxLength(100);
 
                 entity.Property(e => e.UltimaActualizacion).HasColumnType("datetime");
             });

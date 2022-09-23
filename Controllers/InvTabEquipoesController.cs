@@ -41,10 +41,16 @@ namespace InventarioTI.Controllers
             {
                 try
                 {
+
                     InventarioContext contexto = new InventarioContext();
+                    int IDSitio = 0;
+                    IDSitio = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).Select(e => e.IDSitio).FirstOrDefault();
+
                     asignacionEquipo.Id = 0;
                     asignacionEquipo.FechaInicio = DateTime.Now;
                     asignacionEquipo.Activo = true;
+                    asignacionEquipo.IDSitio = IDSitio;
+                    
                     contexto.InvHisAsignacionEquipos.Add(asignacionEquipo);
                     await contexto.SaveChangesAsync();
                     contexto.Database.CloseConnection();
@@ -61,11 +67,11 @@ namespace InventarioTI.Controllers
                     }
                     InvTabEquipo equipo = new InvTabEquipo();
                     equipo = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).FirstOrDefault();
-                    equipo.Estatus = "ASIGNADO";
+                    equipo.IdEstatus = 4;// "ASIGNADO";
                     contexto.InvTabEquipos.Update(equipo);
                     await contexto.SaveChangesAsync();
                     contexto.Database.CloseConnection();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "InvHisAsignacionEquipoes", new { id = asignacionEquipo.Id });
                 }
                 catch (Exception ex)
                 {
@@ -105,16 +111,18 @@ namespace InventarioTI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NombreEquipo,TipoEquipo,Marca,UbicacionEquipo,Modelo,NoSerie,DireccionMac,So,DatosAdicionales,Procesador,Hdd,Ram,Estatus,FechaCompra,FechaInicioGarantia,FechaFinGarantia,FechaCreacion,UltimaActualizacion,Activo,IdUsuarioRegistro")] InvTabEquipo invTabEquipo)
+        public async Task<IActionResult> Create([Bind("Id,NombreEquipo,TipoEquipo,Marca,Modelo,NoSerie,DireccionMac,So,DatosAdicionales,Procesador,Hdd,Ram,Estatus,FechaCompra,FechaInicioGarantia,FechaFinGarantia,FechaCreacion,UltimaActualizacion,Activo,IdUsuarioRegistro,IDSitio")] InvTabEquipo invTabEquipo)
         {
             if (ModelState.IsValid)
             {
+                InventarioContext context = new InventarioContext();
                 string autoName;
-                autoName = invTabEquipo.UbicacionEquipo;
+                autoName = context.CatPlanta.Where(p => p.IDSitio == invTabEquipo.IDSitio).Select(p => p.Nombre).FirstOrDefault();
                 invTabEquipo.NombreEquipo = autoName;
                 invTabEquipo.UltimaActualizacion = DateTime.Now;
                 invTabEquipo.FechaCreacion = DateTime.Now;
                 invTabEquipo.Activo = true;
+                invTabEquipo.IdEstatus = 2; //Estatus Disponible
                 //Se queda pendiente el campo para agregar el id de usuario que registró el equipo
                 _context.Add(invTabEquipo);
                 await _context.SaveChangesAsync();
