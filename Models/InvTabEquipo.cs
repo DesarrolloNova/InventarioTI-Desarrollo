@@ -63,7 +63,7 @@ namespace InventarioTI.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         [Display(Name ="Ultima Actualización")]
         public DateTime? UltimaActualizacion { get; set; }
-        public bool Activo { get; set; }
+        //public bool Activo { get; set; } // Se controla el activo con el idEstatus
         public int? IdUsuarioRegistro { get; set; }
         [Display(Name ="Estatus")]
         [ForeignKey("Id")]

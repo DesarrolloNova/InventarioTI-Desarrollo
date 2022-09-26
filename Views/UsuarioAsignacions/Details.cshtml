@@ -19,7 +19,7 @@
         if (isActive == true)
         {
             List<int> ususariosIds = new List<int>();
-            ususariosIds = context.UsuarioAsignacion.Where(ua => ua.IdAsignacion == Model.IdAsignacion).Select(ua => ua.IdUsuario).ToList();
+            ususariosIds = context.UsuarioAsignacion.Where(ua => ua.IdAsignacion == Model.IdAsignacion && ua.Asignado == true).Select(ua => ua.IdUsuario).ToList();
             if (ususariosIds != null && ususariosIds.Count > 1)
             {
                 <form method="post" asp-controller="InvHisAsignacionEquipoes" asp-action="FinalizarAsignacionIndividual">
@@ -45,7 +45,7 @@
             @Html.DisplayNameFor(model => model.FechaInicioAsignacion)
         </dt>
         <dd class="col-sm-10">
-            <a>@Model.FechaInicioAsignacion.ToString("dddd dd - MMMM - yyyy")</a>
+            <a>@Model.FechaInicioAsignacion.ToString("dddd dd / MMMM / yyyy")</a>
         </dd>
         <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.FechaFinAsignacion)
@@ -57,7 +57,7 @@
             }
             else
             {
-                <a>@Model.FechaFinAsignacion.ToString("dddd dd - MMMM - yyyy")</a>
+                <a>@Model.FechaFinAsignacion.ToString("dddd dd / MMMM / yyyy")</a>
             }
         </dd>
         <dt class="col-sm-4">
@@ -74,7 +74,7 @@
             <a>Correo</a>
         </dt>
         <dd class="col-sm-10">
-            <a>@usuario.Correo</a>
+            <a href="mailto:@usuario.Correo?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@usuario.Correo</a>
         </dd>
         <dt class="col-sm-4">
             <a>Número Telefónico</a>

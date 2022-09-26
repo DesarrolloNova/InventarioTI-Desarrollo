@@ -18,6 +18,36 @@ namespace InventarioTI.Controllers
         {
             _context = context;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AgregarUsuarios(List<int> SelectedIds, int idAsignacion)
+        {
+            try
+            {
+                InventarioContext context = new InventarioContext();
+                foreach (var userId in SelectedIds)
+                {
+                    #region LlenadoDeObjeto
+                    UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+                    usuarioAsignacion.IdUsuario = userId;
+                    usuarioAsignacion.IdAsignacion = idAsignacion;
+                    usuarioAsignacion.FechaInicioAsignacion = DateTime.Now;
+                    usuarioAsignacion.Asignado = true;
+                    #endregion
+                    #region MetodoAddUsuarioAsignacion
+                    context.UsuarioAsignacion.Add(usuarioAsignacion);
+                    await context.SaveChangesAsync();
+                    context.Database.CloseConnection();
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return RedirectToAction("Details", "InvHisAsignacionEquipoes", new { id = idAsignacion });
+        }
+
         [HttpPost]
         public async Task<IActionResult> FinalizarAsignacion(int idAsignacion, int idEquipo)
         {

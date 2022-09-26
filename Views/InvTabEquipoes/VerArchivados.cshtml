@@ -8,19 +8,17 @@
     <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
 }
-    @{
-    ViewData["Title"] = "Equipos";
+@{
+    ViewData["Title"] = "VerArchivados";
     InventarioContext context = new InventarioContext();
 }
 
-<h1>Equipos</h1>
+<h1>Equipos Archivados</h1>
+<hr />
 <p>
-    <a class="btn btn-primary" asp-action="Create">Crear Nuevo</a>
+    <a asp-action="Index">Ver Equipos</a>
 </p>
 
-<p>
-    <a asp-action="VerArchivados">Ver Equipos Archivados</a>
-</p>
 <table id="tbl_equipos">
     <thead>
         <tr>
@@ -67,7 +65,7 @@
                     @{
                         string ubicacion = "";
                         ubicacion = context.CatPlanta.Where(p => p.IDSitio == item.IDSitio).Select(p => p.Nombre).FirstOrDefault();
-                                                        <a>@ubicacion</a>
+                        <a>@ubicacion</a>
                     }
                 </td>
                 <td>
@@ -86,7 +84,7 @@
                     @{
                         InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
                         estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == item.IdEstatus).FirstOrDefault();
-                                                        <a>@estatusEquipo.Estatus</a>
+                        <a>@estatusEquipo.Estatus</a>
                     }
                     @*@if (item.Estatus == 2)
                 {
@@ -105,11 +103,9 @@
                 </td>
                 <td>
                     <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
-                    @*<a class="btn btn-primary" asp-route-id="@item.Id">Soporte</a>*@
-                    <form method="post" asp-controller="InvTabEquipoes" asp-action="ArchivarEquipo">
-                        <input type="hidden" runat="server" name="del" id="@item.Id" value="" />
-                        <input type="hidden" name="idEquipo" id="idEquipo" value="@item.Id"/>
-                        <button onclick="confirmar(@item.Id)" class="btn btn-danger">Archivar</button>
+                    <form method="post" asp-controller="InvTabEquipoes" asp-action="DesarchivarEquipo">
+                        <input type="hidden" name="idEquipo" id="idEquipo" value="@item.Id" />
+                        <button class="btn btn-info">Desarchivar</button>
                     </form>
                 </td>
             </tr>
@@ -141,13 +137,11 @@
     </script>
 
     <script>
-        function confirmar(id){
-            if(confirm("¿Deseas cambiar el estatus del equipo? Se perderá la asignación si es que el equipo tiene una."))
-            {
+        function confirmar(id) {
+            if (confirm("¿Deseas cambiar el estatus del equipo? Se perderá la asignación si es que el equipo tiene una.")) {
                 document.getElementById(id).value = "Si";
             }
-            else
-            {
+            else {
                 document.getElementById(id).value = "No";
             }
         }

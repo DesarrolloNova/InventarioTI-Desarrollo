@@ -8,14 +8,32 @@
     equipo = context.InvTabEquipos.Where(e => e.Id == Model.IdEquipo).FirstOrDefault();
 }
 @section Styles
-{
+    {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
 }
-<h1>Asignación de equipo "@equipo.NombreEquipo"</h1>
-<div>
+    <h1>Asignación de equipo "@equipo.NombreEquipo"</h1>
+    <div>
+        @{
+        List<int> asignacionesIds = new List<int>();
+        asignacionesIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == equipo.Id && a.Activo == false).Select(a => a.Id).ToList();
+        if (asignacionesIds != null && asignacionesIds.Count > 0)
+        {
+            <a asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.IdEquipo">Regresar a las asignaciones</a>
+        }
+    }
+    <hr />
     <a asp-controller="InvTabEquipoes" asp-action="Details" asp-route-Id="@equipo.Id">Ir al Equipo</a>
     ||
-    <a asp-controller="InvTabEquipoes" asp-action="Index">Regresar a la tabla</a>
+    @{
+        if (equipo.IdEstatus != 6)
+        {
+            <a asp-controller="InvTabEquipoes" asp-action="Index">Regresar a los equipos</a>
+        }
+        else
+        {
+            <a asp-controller="InvTabEquipoes" asp-action="VerArchivados">Regresar a los equipos</a>
+        }
+    }
 </div>
 <br />
 
@@ -118,11 +136,15 @@
         <div id="addUsers" style="display:none">
             <div class="col-sm-6">
                 <b><i class="emphasized">Selecciona el/los usuario(s) para agregar</i></b>
-                <form method="post">
+                <form method="post" asp-action="AgregarUsuarios">
+                    <input hidden name="idAsignacion" value="@Model.Id" />
                     @{
-                        //Depurar la lista de NuevosUsuarios para que no se agreguen usuarios previamente asignados
                         List<TabUsuario> Nuevosusuarios = new List<TabUsuario>();
                         Nuevosusuarios = context.TabUsuarios.ToList();
+                        foreach (var user in usuarios)
+                        {
+                            Nuevosusuarios.Remove(user);
+                        }
                         List<SelectListItem> usuariosItems = Nuevosusuarios.ConvertAll(a =>
                         {
                             return new SelectListItem()

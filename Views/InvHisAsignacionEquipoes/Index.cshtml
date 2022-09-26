@@ -7,6 +7,8 @@
 }
 
 <h1>Historial de asignaciones</h1>
+<hr />
+<a asp-controller="InvTabEquipoes" asp-action="Details" asp-route-id="@Model.Select(e=>e.IdEquipo).FirstOrDefault()">Regresar al Equipo</a>
 
 <table class="table">
     <thead>

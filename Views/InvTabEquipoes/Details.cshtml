@@ -10,157 +10,169 @@
     <h4>Equipo: @Model.NombreEquipo</h4>
     <hr />
     <div>
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a> 
         @{
-            InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
-            asignacion = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == true).FirstOrDefault();
-            if (asignacion == null)
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a>
+            if (Model.IdEstatus != 6)
             {
-                        <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
+                InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
+                asignacion = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == true).FirstOrDefault();
+                if (asignacion == null)
+                {
+                    <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
+                }
+                else
+                {
+                    <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
+                }
+                List<int> asignacionesHistorialIds = new List<int>();
+                asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
+                if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
+                {
+                    <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
+                }
+                <hr />
+                <a asp-action="Index">Regresar a la tabla</a>
+
+                //Modal
+                <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addMantenimiento" asp-action="Mantenimiento">Mantenimiento</button>
+                //Modal
             }
             else
             {
-                        <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
-            }
-            List<int> asignacionesHistorialIds = new List<int>();
-            asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
-            if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
-            {
-                        <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
+                List<int> asignacionesHistorialIds = new List<int>();
+                asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
+                if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
+                {
+                    <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
+                }
+                <hr />
+                <a asp-action="VerArchivados">Regresar a la tabla</a>
             }
         }
-        <br />
-        <a asp-action="Index">Regresar a la tabla</a>
     </div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NombreEquipo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NombreEquipo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TipoEquipo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TipoEquipo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Marca)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Marca)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IDSitio)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @{
-                string ubicacion="";
+                string ubicacion = "";
                 ubicacion = context.CatPlanta.Where(p => p.IDSitio == Model.IDSitio).Select(p => p.Nombre).FirstOrDefault();
                 <a>@ubicacion</a>
             }
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Modelo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Modelo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NoSerie)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NoSerie)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DireccionMac)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DireccionMac)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.So)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.So)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DatosAdicionales)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DatosAdicionales)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Procesador)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Procesador)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Hdd)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Hdd) GB
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Ram)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Ram) GB
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             <a>Estatus</a>
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @{
                 InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
                 estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == Model.IdEstatus).FirstOrDefault();
-                    <a>@estatusEquipo.Estatus</a>
+                <a>@estatusEquipo.Estatus</a>
             }
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaCompra)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaCompra)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaInicioGarantia)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaInicioGarantia)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaFinGarantia)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaFinGarantia)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaCreacion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaCreacion)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UltimaActualizacion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UltimaActualizacion)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
         @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdUsuarioRegistro)
+        @Html.DisplayNameFor(model => model.IdUsuarioRegistro)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdUsuarioRegistro)
+        @Html.DisplayFor(model => model.IdUsuarioRegistro)
         </dd>*@
     </dl>
 </div>

@@ -96,6 +96,10 @@ DROP COLUMN Estatus
 GO
 
 ALTER TABLE InvTabEquipo
+DROP COLUMN Activo
+GO
+
+ALTER TABLE InvTabEquipo
 ADD idEstatus INT NOT NULL
 GO
 
