@@ -10,6 +10,7 @@ using InventarioTI.Models;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
+using System.Diagnostics;
 
 namespace InventarioTI.Controllers
 {
@@ -21,6 +22,37 @@ namespace InventarioTI.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
+        public IActionResult Instalacion()
+        {
+            InvHisPlantillaInstalacion instalacion = new InvHisPlantillaInstalacion();
+            return PartialView("_InstalacionModelPartial", instalacion);
+        }
+
+        [HttpPost]
+        public IActionResult Instalacion(InvHisPlantillaInstalacion instalacion, DateTime initialDate, DateTime finalDate,int idEquipo)
+        {
+            //Se crea primero la accion
+            return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
+        }
+
+
+        [HttpGet]
+        public IActionResult Mantenimiento()
+        {
+            InvHisPlantillaMantenimiento mantenimiento = new InvHisPlantillaMantenimiento();
+            return PartialView("_MantenimientoModelPartial",mantenimiento);
+        }
+
+
+        [HttpPost]
+        public IActionResult Mantenimiento(InvHisPlantillaMantenimiento mantenimiento,DateTime initialDate, DateTime finalDate,int idEquipo)
+        {
+            // Se crea primero la acción
+            return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
+        }
+
         [HttpPost]
         public async Task<IActionResult> DesarchivarEquipo(int idEquipo)
         {
@@ -44,7 +76,6 @@ namespace InventarioTI.Controllers
             }
             return RedirectToAction(nameof(VerArchivados));
         }
-
 
         [HttpPost]
         public async Task<IActionResult> ArchivarEquipo(string del,int idEquipo)
@@ -83,6 +114,7 @@ namespace InventarioTI.Controllers
             }
             return RedirectToAction("Index", "InvTabEquipoes");
         }
+
 
         public IActionResult Asignacion(int Id)
         {
@@ -149,10 +181,12 @@ namespace InventarioTI.Controllers
             return View(await _context.InvTabEquipos.Where(e=>e.IdEstatus!=6).ToListAsync());
         }
 
+
         public async Task<IActionResult> VerArchivados()
         {
             return View(await _context.InvTabEquipos.Where(e => e.IdEstatus == 6).ToListAsync());
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -170,6 +204,7 @@ namespace InventarioTI.Controllers
 
             return View(invTabEquipo);
         }
+
 
         public IActionResult Create()
         {
@@ -257,6 +292,7 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -274,6 +310,7 @@ namespace InventarioTI.Controllers
             return View(invTabEquipo);
         }
 
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -283,6 +320,7 @@ namespace InventarioTI.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool InvTabEquipoExists(int id)
         {

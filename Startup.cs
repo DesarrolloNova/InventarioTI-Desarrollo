@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace InventarioTI
 {
@@ -33,12 +35,19 @@ namespace InventarioTI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context.InventarioContext>(options => { options.UseSqlServer("Server=nova1razure.cloudapp.net;Database=NovDBTest;User=sa2;Password=4aznov-54");});
+            services.AddDbContext<Context.InventarioContext>(options => { options.UseSqlServer("Server=nova1razure.cloudapp.net;Database=NovDBTest;User=sa2;Password=4aznov-54"); });
             services.AddControllersWithViews();
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<InventarioContext>()
             .AddDefaultTokenProviders();
             services.AddMvc();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ADMINISTRADORES", policy => policy.RequireClaim("ADMIN"));//CONFIGURAR DEPENDIENDO DEL PUESTO
+            });
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +69,7 @@ namespace InventarioTI
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

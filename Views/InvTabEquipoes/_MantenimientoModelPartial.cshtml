@@ -4,8 +4,77 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addMantenimientoLabel">Mantenimiento</h4>
-                <button></button>
+                <h4 class="modal-title" id="addMantenimientoLabel">Registra Mantenimiento</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>x</span>
+
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="InvTabEquipoes" asp-action="Mantenimiento">
+                    <b><i class="emphasized">Periodo de Acción</i></b>
+                    <br />
+                    <label>Fecha de Inicio</label>
+                    <input name="initialDate" class="form-control" type="date" />
+                    <label>Fecha de Fin</label>
+                    <input name="finalDate" class="form-control" type="date" />
+                    <hr />
+                    <b><i class="emphasized">Acciones</i></b>
+                    <div class="form-group">
+                        <label asp-for="DepuracionProgramas" class="control-label"></label>
+                        <input asp-for="DepuracionProgramas"/>
+                        <span asp-validation-for="DepuracionProgramas" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Funciona" class="control-label"></label>
+                        <input asp-for="Funciona"/>
+                        <span asp-validation-for="Funciona" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LimpiezaTemporales" class="control-label"></label>
+                        <input asp-for="LimpiezaTemporales"/>
+                        <span asp-validation-for="LimpiezaTemporales" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DesfragmentacionHdd" class="control-label"></label>
+                        <input asp-for="DesfragmentacionHdd"/>
+                        <span asp-validation-for="DesfragmentacionHdd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EscaneoAntivirus" class="control-label"></label>
+                        <input asp-for="EscaneoAntivirus"/>
+                        <span asp-validation-for="EscaneoAntivirus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RevisionArchivos" class="control-label"></label>
+                        <input asp-for="RevisionArchivos"/>
+                        <span asp-validation-for="RevisionArchivos" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SoftwareSinLicencia" class="control-label"></label>
+                        <input asp-for="SoftwareSinLicencia"/>
+                        <span asp-validation-for="SoftwareSinLicencia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LicenciasActivas" class="control-label"></label>
+                        <input asp-for="LicenciasActivas"/>
+                        <span asp-validation-for="LicenciasActivas" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Perifericos" class="control-label"></label>
+                        <input asp-for="Perifericos"/>
+                        <span asp-validation-for="Perifericos" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observaciones" class="control-label"></label>
+                        <input asp-for="Observaciones" class="form-control"/>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-save="modal">Guardar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

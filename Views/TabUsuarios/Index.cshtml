@@ -1,19 +1,28 @@
 ﻿@model IEnumerable<InventarioTI.Models.TabUsuario>
 
+@section Styles
+    {
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
+}
+
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Usuarios</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Crear Nuevo</a>
 </p>
-<table class="table">
+<table id="tbl_usuarios">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NombreUsuario)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -28,104 +37,77 @@
                 @Html.DisplayNameFor(model => model.Correo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroTelefonico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeroExtension)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PstCorreo)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.UsuarioWindows)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EsUsuarioSap)
+                @Html.DisplayNameFor(model => model.IDSitio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EsCorporativo)
+                @Html.DisplayNameFor(model => model.IdDepartamento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
+                <a>Acciones</a>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaCreacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDepartamentoNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPlantaNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPuestoNavigation)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApellidoPaterno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApellidoMaterno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeroTelefonico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeroExtension)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PstCorreo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioWindows)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EsUsuarioSap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EsCorporativo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Activo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDepartamentoNavigation.Abreviacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPlantaNavigation.IDSitio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPuestoNavigation.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Correo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioWindows)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IDSitio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdDepartamento)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a> 
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script src="~/lib/datatables.net/jquery.datatables.js"></script>
+    <script src="~/lib/datatables.net/jquery.datatables.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.js"></script>
+
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script>
+        $('#tbl_usuarios').DataTable(
+            {
+                responsive: true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                }
+            }
+        );
+    </script>
+}
