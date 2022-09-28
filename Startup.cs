@@ -1,5 +1,4 @@
 using InventarioTI.Context;
-using InventarioTI.Models.Identity.NewMvcProject.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,12 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 
@@ -37,16 +30,7 @@ namespace InventarioTI
         {
             services.AddDbContext<Context.InventarioContext>(options => { options.UseSqlServer("Server=nova1razure.cloudapp.net;Database=NovDBTest;User=sa2;Password=4aznov-54"); });
             services.AddControllersWithViews();
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<InventarioContext>()
-            .AddDefaultTokenProviders();
-            services.AddMvc();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ADMINISTRADORES", policy => policy.RequireClaim("ADMIN"));//CONFIGURAR DEPENDIENDO DEL PUESTO
-            });
-            
+            services.AddMvc();       
 
         }
 
