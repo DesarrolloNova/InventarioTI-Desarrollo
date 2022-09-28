@@ -322,3 +322,4 @@ C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrol
 C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvTabEquipoes\_MantenimientoModelPartial.cshtml.g.cs
 C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvTabEquipoes\_InstalacionModelPartial.cshtml.g.cs
 C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\bin\Debug\net5.0\InventarioTI.StaticWebAssets.xml
+C:\Users\desarrollo\Desktop\Novaprint\PROYECTOS_DESARROLLO\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Acceso\Index.cshtml.g.cs

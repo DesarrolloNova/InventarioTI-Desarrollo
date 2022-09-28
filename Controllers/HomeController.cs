@@ -33,5 +33,10 @@ namespace InventarioTI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public ActionResult CerrarSesion()
+        {
+            return RedirectToAction("Index","Acceso");
+        }
     }
 }
