@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using System.Web;
@@ -27,7 +28,7 @@ namespace InventarioTI.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {   
+        {
             return View();
         }
 

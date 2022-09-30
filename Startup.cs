@@ -30,8 +30,7 @@ namespace InventarioTI
         {
             services.AddDbContext<Context.InventarioContext>(options => { options.UseSqlServer("Server=nova1razure.cloudapp.net;Database=NovDBTest;User=sa2;Password=4aznov-54"); });
             services.AddControllersWithViews();
-            services.AddMvc();       
-
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

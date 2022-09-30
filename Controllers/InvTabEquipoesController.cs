@@ -236,7 +236,7 @@ namespace InventarioTI.Controllers
                 invTabEquipo.UltimaActualizacion = DateTime.Now;
                 invTabEquipo.FechaCreacion = DateTime.Now;
                 invTabEquipo.IdEstatus = 2; //Estatus Disponible
-                //Se queda pendiente el campo para agregar el id de usuario que registró el equipo
+                
                 //
                 string coockie;
 
