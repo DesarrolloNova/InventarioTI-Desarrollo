@@ -34,7 +34,7 @@ namespace InventarioTI.Controllers
             }
 
             var usuarioAsignacion = await _context.UsuarioAsignacion
-                .FirstOrDefaultAsync(m => m.IdUsuario == id && m.IdAsignacion == idAsignacion);
+                .FirstOrDefaultAsync(m => m.IdEmpleado == id && m.IdAsignacion == idAsignacion);
             if (usuarioAsignacion == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace InventarioTI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,IdAsignacion,FechaInicioAsignacion,FechaFinAsignacion,Asignado")] UsuarioAsignacion usuarioAsignacion)
         {
-            if (id != usuarioAsignacion.IdUsuario)
+            if (id != usuarioAsignacion.IdEmpleado)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace InventarioTI.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioAsignacionExists(usuarioAsignacion.IdUsuario))
+                    if (!UsuarioAsignacionExists(usuarioAsignacion.IdEmpleado))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace InventarioTI.Controllers
             }
 
             var usuarioAsignacion = await _context.UsuarioAsignacion
-                .FirstOrDefaultAsync(m => m.IdUsuario == id);
+                .FirstOrDefaultAsync(m => m.IdEmpleado == id);
             if (usuarioAsignacion == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace InventarioTI.Controllers
 
         private bool UsuarioAsignacionExists(int id)
         {
-            return _context.UsuarioAsignacion.Any(e => e.IdUsuario == id);
+            return _context.UsuarioAsignacion.Any(e => e.IdEmpleado == id);
         }
     }
 }

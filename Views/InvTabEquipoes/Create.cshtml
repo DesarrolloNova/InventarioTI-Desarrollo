@@ -1,9 +1,13 @@
 ﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
 @model InventarioTI.Models.InvTabEquipo
 
 @{
     ViewData["Title"] = "Crear Nuevo Equipo";
     InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 }
 
 <script src="~/lib/suffixes/javascript.js"></script>
@@ -66,8 +70,18 @@
             <div class="form-group">
                 <label asp-for="IDSitio" class="control-label"></label>
                 @{
-                    List<CatPlanta> catPlants = new List<CatPlanta>();
-                    catPlants = context.CatPlanta.ToList();
+                    List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
+
+                    string json = await conn.GetQueryResult("SELECT * FROM RHCF10");
+
+                    try
+                    {
+                        catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
 
                     List<SelectListItem> plantasItems = catPlants.ConvertAll(a =>
                     {

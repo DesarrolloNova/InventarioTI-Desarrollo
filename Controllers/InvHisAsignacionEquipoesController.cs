@@ -30,7 +30,7 @@ namespace InventarioTI.Controllers
                 {
                     #region LlenadoDeObjeto
                     UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
-                    usuarioAsignacion.IdUsuario = userId;
+                    usuarioAsignacion.IdEmpleado = userId;
                     usuarioAsignacion.IdAsignacion = idAsignacion;
                     usuarioAsignacion.FechaInicioAsignacion = DateTime.Now;
                     usuarioAsignacion.Asignado = true;
@@ -59,11 +59,11 @@ namespace InventarioTI.Controllers
             List<int> idUsuarios = new List<int>();
             List<TabUsuario> usuarios = new List<TabUsuario>();
 
-            idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == idAsignacion && u.Asignado == true).Select(u => u.IdUsuario).ToList();
+            idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == idAsignacion && u.Asignado == true).Select(u => u.IdEmpleado).ToList();
             foreach (var idusuario in idUsuarios)
             {
                 UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
-                usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdUsuario == idusuario && ua.IdAsignacion == idAsignacion).FirstOrDefault();
+                usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == idusuario && ua.IdAsignacion == idAsignacion).FirstOrDefault();
                 usuarioAsignacion.Asignado = false;
                 usuarioAsignacion.FechaFinAsignacion = DateTime.Now;
                 #region ActualizarAsignacionIndividual
@@ -103,7 +103,7 @@ namespace InventarioTI.Controllers
         {
             InventarioContext context = new InventarioContext();
             UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
-            usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdUsuario == idUsuario && ua.IdAsignacion == idAsignacion).FirstOrDefault();
+            usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == idUsuario && ua.IdAsignacion == idAsignacion).FirstOrDefault();
             usuarioAsignacion.Asignado = false;
             usuarioAsignacion.FechaFinAsignacion = DateTime.Now;
             context.UsuarioAsignacion.Update(usuarioAsignacion);

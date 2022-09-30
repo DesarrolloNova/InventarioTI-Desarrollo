@@ -1,9 +1,13 @@
 ﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
 @model IEnumerable<InventarioTI.Models.InvHisAsignacionEquipo>
 
 @{
     ViewData["Title"] = "Index";
-    InventarioContext context = new InventarioContext(); 
+    InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 }
 
 <h1>Historial de asignaciones</h1>
@@ -26,43 +30,70 @@
                 @Html.DisplayNameFor(model => model.TipoConexion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ip)
+                @Html.DisplayNameFor(model => model.IDSitio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdDepartamento)
+                @Html.DisplayNameFor(model => model.ID_Area)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnDominio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoConexion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ip)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.FechaInicio)*@
+                    <a>@item.FechaInicio.ToString("dd/MMMM/yyyy")</a>
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.FechaFin)*@
+                    <a>@item.FechaFin.Value.ToString("dd/MMMM/yyyy")</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnDominio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoConexion)
+                </td>
+                <td>
                     @{
-                        CatDepartamento departamento = new CatDepartamento();
-                        departamento = context.CatDepartamentos.Where(d => d.Id == item.IdDepartamento).FirstOrDefault();
+                        RHCF10_Plantas planta = new RHCF10_Plantas();
+                        string jsonPlanta = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio = " + item.IDSitio.ToString());
+
+                        try
+                        {
+                            planta = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(jsonPlanta).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+
                     }
-                    <a>@departamento.Departamento (@departamento.Abreviacion)</a>
-            </td>
-            <td>
-                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-            </td>
-        </tr>
-}
+                    <a>@planta.Nombre</a>
+                </td>
+                <td>
+                    @{
+                        RHCF03_Areas departamento = new RHCF03_Areas();
+                        string jsonArea = await conn.GetQueryResult("SELECT * FROM RHCF03 WHERE ID_Area = " + item.ID_Area.ToString());
+
+                        try
+                        {
+                            departamento = JsonConvert.DeserializeObject<List<RHCF03_Areas>>(jsonArea).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+
+                    }
+                    <a>@departamento.Area</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

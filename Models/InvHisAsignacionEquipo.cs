@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata.Ecma335;
 
 #nullable disable
@@ -34,14 +35,15 @@ namespace InventarioTI.Models
         [Required(ErrorMessage ="Debes ingresar la dirección IP")]
         public string Ip { get; set; }
         public int IdEquipo { get; set; }
-        [Display(Name ="Departamento")]
-        [Required(ErrorMessage ="Debes seleccionar un departamento")]
-        public int IdDepartamento { get; set; }
         public bool Activo { get; set; }
         [Display(Name ="Ubicación")]
+        [Required(ErrorMessage ="Debes seleccionar una planta")]
         public int IDSitio { get; set; }
+        [Display(Name = "Departamento")]
+        [Required(ErrorMessage = "Debes seleccionar un departamento")]
+        public int ID_Area { get; set; }
         [NotMapped]
-        [Required(ErrorMessage ="Debes seleccionar por lo menos 1 usuario")]
+        [AllowNull]
         public int[] SelectedIds { get; set; }
         public virtual InvTabEquipo IdEquipoNavigation { get; set; }
         public virtual ICollection<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }

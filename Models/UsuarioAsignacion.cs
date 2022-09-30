@@ -9,8 +9,7 @@ namespace InventarioTI.Models
     {
         [Key]
         public int IdUsuarioAsignacion { get; set; }
-        [ForeignKey("IdUsuario")]
-        public int IdUsuario { get; set; }
+        public int IdEmpleado { get; set; }
         [ForeignKey("IdAsignacion")]
         public int IdAsignacion { get; set; }
         [Display(Name ="Fecha de Inicio de Asignación")]

@@ -1,14 +1,28 @@
 ﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
 @model InventarioTI.Models.UsuarioAsignacion
 
 @{
     ViewData["Title"] = "Details";
     InventarioContext context = new InventarioContext();
-    TabUsuario usuario = new TabUsuario();
-    usuario = context.TabUsuarios.Where(u => u.Id == Model.IdUsuario).FirstOrDefault();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+
+    RH00_Usuarios usuario = new RH00_Usuarios();
+    string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = "+Model.IdEmpleado);
+
+    try
+    {
+        usuario = JsonConvert.DeserializeObject<List<RH00_Usuarios>>(json).FirstOrDefault();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
 }
 
-<h1>Usuario: @usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno</h1>
+<h1>Usuario: @usuario.Nombres @usuario.Apellidos</h1>
 <hr />
 <div>
     <a asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@Model.IdAsignacion">Regresar a la asignación</a>
@@ -19,14 +33,14 @@
         if (isActive == true)
         {
             List<int> ususariosIds = new List<int>();
-            ususariosIds = context.UsuarioAsignacion.Where(ua => ua.IdAsignacion == Model.IdAsignacion && ua.Asignado == true).Select(ua => ua.IdUsuario).ToList();
+            ususariosIds = context.UsuarioAsignacion.Where(ua => ua.IdAsignacion == Model.IdAsignacion && ua.Asignado == true).Select(ua => ua.IdEmpleado).ToList();
             if (ususariosIds != null && ususariosIds.Count > 1)
             {
-                <form method="post" asp-controller="InvHisAsignacionEquipoes" asp-action="FinalizarAsignacionIndividual">
-                    <input hidden name="idUsuario" value="@usuario.Id" />
-                    <input hidden name="idAsignacion" value="@Model.IdAsignacion" />
-                    <button class="btn btn-danger" type="submit">Descartar Usuario</button>
-                </form>
+                    <form method="post" asp-controller="InvHisAsignacionEquipoes" asp-action="FinalizarAsignacionIndividual">
+                        <input hidden name="idUsuario" value="@usuario.IdEmpleado" />
+                        <input hidden name="idAsignacion" value="@Model.IdAsignacion" />
+                        <button class="btn btn-danger" type="submit">Descartar Usuario</button>
+                    </form>
             }
         }
     }
@@ -71,22 +85,31 @@
     <h4>Datos de Contacto</h4>
     <dl class="row">
         <dt class="col-sm-4">
-            <a>Correo</a>
+            <a>Correo empresa</a>
         </dt>
         <dd class="col-sm-10">
-            <a href="mailto:@usuario.Correo?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@usuario.Correo</a>
+            @{
+                if (usuario.CorreoEmpresa == null || usuario.CorreoEmpresa == "")
+                {
+                    <a>Sin correo empresarial registrado</a>
+                }
+                else
+                {
+                    <a href="mailto:@usuario.CorreoEmpresa?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@usuario.CorreoEmpresa</a>
+                }
+            }
         </dd>
         <dt class="col-sm-4">
             <a>Número Telefónico</a>
         </dt>
         <dd class="col-sm-10">
-            @if (usuario.NumeroTelefonico != null)
+            @if (usuario.TelefonoPersonal != null)
             {
-                <a>@usuario.NumeroTelefonico</a>
+                <a>@usuario.TelefonoPersonal</a>
             }
             else
             {
-                <a>Sin Número Telefónico</a>
+                <a>Sin número telefonico registrado</a>
             }
         </dd>
     </dl>

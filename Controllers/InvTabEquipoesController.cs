@@ -11,12 +11,16 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
 using System.Diagnostics;
+using InventarioTI.Models.EXT_WEB;
+using Newtonsoft.Json;
+using InventarioTI.Tools;
 
 namespace InventarioTI.Controllers
 {
     public class InvTabEquipoesController : Controller
     {
         private readonly InventarioContext _context;
+        private readonly CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 
         public InvTabEquipoesController(InventarioContext context)
         {
@@ -130,36 +134,32 @@ namespace InventarioTI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Asignacion([Bind("Id,FechaInicio,FechaFin,EnDominio,TipoConexion,Ip,IdEquipo,IdDepartamento,Activo,SelectedIds")] InvHisAsignacionEquipo asignacionEquipo)
+        public async Task<IActionResult> Asignacion([Bind("Id,FechaInicio,FechaFin,EnDominio,TipoConexion,Ip,IdEquipo,IdDepartamento,Activo,IDSitio,ID_Area")] InvHisAsignacionEquipo asignacionEquipo)
         {
-            if (ModelState.IsValid && asignacionEquipo.SelectedIds != null)
+            if (ModelState.IsValid)
             {
                 try
                 {
 
                     InventarioContext contexto = new InventarioContext();
-                    int IDSitio = 0;
-                    IDSitio = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).Select(e => e.IDSitio).FirstOrDefault();
-
                     asignacionEquipo.Id = 0;
                     asignacionEquipo.FechaInicio = DateTime.Now;
                     asignacionEquipo.Activo = true;
-                    asignacionEquipo.IDSitio = IDSitio;
 
                     contexto.InvHisAsignacionEquipos.Add(asignacionEquipo);
                     await contexto.SaveChangesAsync();
                     contexto.Database.CloseConnection();
-                    foreach (var usuario in asignacionEquipo.SelectedIds)
-                    {
-                        UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
-                        usuarioAsignacion.IdUsuario = usuario;
-                        usuarioAsignacion.IdAsignacion = asignacionEquipo.Id;
-                        usuarioAsignacion.FechaInicioAsignacion = DateTime.Now;
-                        usuarioAsignacion.Asignado = true;
-                        contexto.UsuarioAsignacion.Add(usuarioAsignacion);
-                        await contexto.SaveChangesAsync();
-                        contexto.Database.CloseConnection();
-                    }
+                    //foreach (var usuario in asignacionEquipo.SelectedIds)
+                    //{
+                    //    UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+                    //    usuarioAsignacion.IdUsuario = usuario;
+                    //    usuarioAsignacion.IdAsignacion = asignacionEquipo.Id;
+                    //    usuarioAsignacion.FechaInicioAsignacion = DateTime.Now;
+                    //    usuarioAsignacion.Asignado = true;
+                    //    contexto.UsuarioAsignacion.Add(usuarioAsignacion);
+                    //    await contexto.SaveChangesAsync();
+                    //    contexto.Database.CloseConnection();
+                    //}
                     InvTabEquipo equipo = new InvTabEquipo();
                     equipo = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).FirstOrDefault();
                     equipo.IdEstatus = 4;// "ASIGNADO";
@@ -220,12 +220,34 @@ namespace InventarioTI.Controllers
             {
                 InventarioContext context = new InventarioContext();
                 string autoName;
-                autoName = context.CatPlanta.Where(p => p.IDSitio == invTabEquipo.IDSitio).Select(p => p.Nombre).FirstOrDefault();
+                List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
+                string json = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio=" + invTabEquipo.IDSitio);
+                try
+                {
+                    catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
+                    autoName = catPlants.FirstOrDefault().Nombre;
+                }
+                catch (Exception ex)
+                {
+                    autoName = "";
+                    Console.WriteLine(ex.Message);
+                }
                 invTabEquipo.NombreEquipo = autoName;
                 invTabEquipo.UltimaActualizacion = DateTime.Now;
                 invTabEquipo.FechaCreacion = DateTime.Now;
                 invTabEquipo.IdEstatus = 2; //Estatus Disponible
                 //Se queda pendiente el campo para agregar el id de usuario que registró el equipo
+                //
+                string coockie;
+
+                //Request.Cookies.TryGetValue("us3r4ct1v3",out coockie); // Descomentar para produccion
+                coockie = "vyfCYlDsOzEPAN0kf2vtAQ=="; //Comentar para producción
+
+                Encrypt encrypt = new Encrypt();
+                string key = "N0v4Pr1Nt3nCR1pT";
+                string id = encrypt.Decrypt(coockie, key);
+                //
+                invTabEquipo.IdUsuarioRegistro = Convert.ToInt32(id);
                 _context.Add(invTabEquipo);
                 await _context.SaveChangesAsync();
                 int lastId = invTabEquipo.Id;

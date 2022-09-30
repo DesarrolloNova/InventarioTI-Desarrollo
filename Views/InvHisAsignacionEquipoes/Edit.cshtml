@@ -18,7 +18,7 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="FechaInicio" />
             <input type="hidden" asp-for="IdEquipo" />
-            <input type="hidden" asp-for="IdDepartamento" />
+            <input type="hidden" asp-for="ID_Area" />
             <input type="hidden" asp-for="Activo" />
             <input type="hidden" asp-for="FechaInicio" />
             <div class="form-group form-check">
@@ -47,7 +47,7 @@
     List<int> idUsuariosInactivos = new List<int>();
     List<TabUsuario> usuarios = new List<TabUsuario>();
     List<TabUsuario> usuariosInactivos = new List<TabUsuario>();
-    idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdUsuario).ToList();
+    idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdEmpleado).ToList();
     foreach (var idusuario in idUsuarios)
     {
         TabUsuario usuario = new TabUsuario();
@@ -55,7 +55,7 @@
         usuarios.Add(usuario);
     }
 
-    idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdUsuario).ToList();
+    idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdEmpleado).ToList();
     foreach (var idusuario in idUsuariosInactivos)
     {
         TabUsuario usuario = new TabUsuario();

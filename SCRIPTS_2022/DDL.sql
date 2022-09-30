@@ -49,7 +49,7 @@ GO
 CREATE TABLE UsuarioAsignacion
 (
 	idUsuarioAsignacion INT IDENTITY(1,1) NOT NULL,
-	idUsuario INT NOT NULL,
+	idEmpleado INT NOT NULL,
 	idAsignacion INT NOT NULL,
 	fechaInicioAsignacion DATE NOT NULL,
 	fechaFinAsignacion DATE NULL,
@@ -59,11 +59,6 @@ GO
 
 ALTER TABLE UsuarioAsignacion
 ADD CONSTRAINT PK_UsuarioAsignacion PRIMARY KEY (idUsuarioAsignacion)
-GO
-
-ALTER TABLE UsuarioAsignacion
-ADD CONSTRAINT FK_UsuarioAsignacion_Usuario FOREIGN KEY (IdUsuario)
-REFERENCES TabUsuario(Id)
 GO
 
 ALTER TABLE UsuarioAsignacion
@@ -83,13 +78,13 @@ DROP COLUMN IdPlanta
 GO
 
 ALTER TABLE InvHisAsignacionEquipo
-ADD IDSitio INT NOT NULL
+ADD ID_Area INT NOT NULL
 GO
 
-ALTER TABLE InvHisAsignacionEquipo
-ADD CONSTRAINT FK_InvHisAsignacionEquipo_CatPlanta FOREIGN KEY (IDSitio)
-REFERENCES CatPlanta(IDSitio)
-GO
+-- ALTER TABLE InvHisAsignacionEquipo
+-- ADD CONSTRAINT FK_InvHisAsignacionEquipo_CatPlanta FOREIGN KEY (IDSitio)
+-- REFERENCES CatPlanta(IDSitio)
+-- GO
 
 ALTER TABLE InvTabEquipo
 DROP COLUMN Estatus
@@ -113,8 +108,9 @@ DROP COLUMN UbicacionEquipo
 GO
 
 ALTER TABLE InvTabEquipo
-ADD IDSitio INT NOT NULL 
+ADD IDSitio INT NOT NULL
 
-ALTER TABLE InvTabEquipo
-ADD CONSTRAINT FK_InvTabEquipo_CatPlanta FOREIGN KEY (IDSitio)
-REFERENCES CatPlanta (IDSitio)
+-- ALTER TABLE InvTabEquipo
+-- ADD CONSTRAINT FK_InvTabEquipo_CatPlanta FOREIGN KEY (IDSitio)
+-- REFERENCES CatPlanta (IDSitio)
+

@@ -1,12 +1,19 @@
 ﻿using InventarioTI.Models;
+using InventarioTI.Models.EXT_WEB;
+using InventarioTI.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace InventarioTI.Controllers
 {
@@ -19,8 +26,8 @@ namespace InventarioTI.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
+        public async Task<IActionResult> Index()
+        {   
             return View();
         }
 

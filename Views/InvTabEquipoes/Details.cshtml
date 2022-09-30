@@ -1,9 +1,13 @@
 ﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
 @model InventarioTI.Models.InvTabEquipo
 
 @{
     ViewData["Title"] = "Detalles";
     InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 }
 
 <div id="PlaceHolderHere"></div>
@@ -84,7 +88,17 @@
         <dd class="col-sm-10">
             @{
                 string ubicacion = "";
-                ubicacion = context.CatPlanta.Where(p => p.IDSitio == Model.IDSitio).Select(p => p.Nombre).FirstOrDefault();
+                List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
+                string json = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio=" + Model.IDSitio.ToString());
+                try
+                {
+                    catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
+                    ubicacion = catPlants.FirstOrDefault().Nombre;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 <a>@ubicacion</a>
             }
         </dd>

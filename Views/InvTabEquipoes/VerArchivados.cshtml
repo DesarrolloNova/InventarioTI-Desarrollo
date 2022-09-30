@@ -1,4 +1,7 @@
 ﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
 @model IEnumerable<InventarioTI.Models.InvTabEquipo>
 @section Styles
     {
@@ -8,9 +11,10 @@
     <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
 }
-@{
+    @{
     ViewData["Title"] = "VerArchivados";
     InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 }
 
 <h1>Equipos Archivados</h1>
@@ -64,7 +68,17 @@
                 <td>
                     @{
                         string ubicacion = "";
-                        ubicacion = context.CatPlanta.Where(p => p.IDSitio == item.IDSitio).Select(p => p.Nombre).FirstOrDefault();
+                        List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
+                        string json = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio=" + item.IDSitio.ToString());
+                        try
+                        {
+                            catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
+                            ubicacion = catPlants.FirstOrDefault().Nombre;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         <a>@ubicacion</a>
                     }
                 </td>
