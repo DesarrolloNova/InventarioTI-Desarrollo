@@ -19,7 +19,5 @@ namespace InventarioTI.Models
         public string Observaciones { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int IdAccionEquipo { get; set; }
-
-        public virtual InvHisAccionEquipo IdAccionEquipoNavigation { get; set; }
     }
 }

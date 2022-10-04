@@ -15,7 +15,6 @@ namespace InventarioTI.Models
     {
         public InvHisAsignacionEquipo()
         {
-            InvHisAccionEquipos = new HashSet<InvHisAccionEquipo>();
             InvHisDesarrolloInstalados = new HashSet<InvHisDesarrolloInstalado>();
             InvHisGrupoUsuarios = new HashSet<InvHisGrupoUsuario>();
         }
@@ -46,7 +45,6 @@ namespace InventarioTI.Models
         [AllowNull]
         public int[] SelectedIds { get; set; }
         public virtual InvTabEquipo IdEquipoNavigation { get; set; }
-        public virtual ICollection<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }
         public virtual ICollection<InvHisDesarrolloInstalado> InvHisDesarrolloInstalados { get; set; }
         public virtual ICollection<InvHisGrupoUsuario> InvHisGrupoUsuarios { get; set; }
     }

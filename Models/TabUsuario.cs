@@ -10,7 +10,6 @@ namespace InventarioTI.Models
     {
         public TabUsuario()
         {
-            InvHisAccionEquipos = new HashSet<InvHisAccionEquipo>();
             InvHisGrupoUsuarios = new HashSet<InvHisGrupoUsuario>();
             InvHisSoporteIdUsuarioEmisorNavigations = new HashSet<InvHisSoporte>();
             InvHisSoporteIdUsuarioResuelveNavigations = new HashSet<InvHisSoporte>();
@@ -46,7 +45,6 @@ namespace InventarioTI.Models
         public virtual CatDepartamento IdDepartamentoNavigation { get; set; }
         public virtual CatPlanta IdPlantaNavigation { get; set; }
         public virtual CatPuesto IdPuestoNavigation { get; set; }
-        public virtual ICollection<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }
         public virtual ICollection<InvHisGrupoUsuario> InvHisGrupoUsuarios { get; set; }
         public virtual ICollection<InvHisSoporte> InvHisSoporteIdUsuarioEmisorNavigations { get; set; }
         public virtual ICollection<InvHisSoporte> InvHisSoporteIdUsuarioResuelveNavigations { get; set; }

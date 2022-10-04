@@ -42,7 +42,5 @@ namespace InventarioTI.Models
         [NotMapped]
         [Required(ErrorMessage = "Debes ingresar la fecha de fin")]
         public DateTime finalDate { get; set; }
-
-        public virtual InvHisAccionEquipo IdAccionEquipoNavigation { get; set; }
     }
 }

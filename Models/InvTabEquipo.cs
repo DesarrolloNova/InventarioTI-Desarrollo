@@ -12,7 +12,6 @@ namespace InventarioTI.Models
     {
         public InvTabEquipo()
         {
-            InvHisAccionEquipos = new HashSet<InvHisAccionEquipo>();
             InvHisAsignacionEquipos = new HashSet<InvHisAsignacionEquipo>();
             InvHisSoportes = new HashSet<InvHisSoporte>();
         }
@@ -72,7 +71,6 @@ namespace InventarioTI.Models
         [Required(ErrorMessage = "Debes seleccionar una planta para el equipo")]
         public int IDSitio { get; set; }
 
-        public virtual ICollection<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }
         public virtual ICollection<InvHisAsignacionEquipo> InvHisAsignacionEquipos { get; set; }
         public virtual ICollection<InvHisSoporte> InvHisSoportes { get; set; }
     }

@@ -1,7 +1,9 @@
 ﻿@using InventarioTI.Context
 @using InventarioTI.Models.EXT_WEB
 @using InventarioTI.Tools
+@using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http.Extensions;
 @model InventarioTI.Models.InvTabEquipo
 
 @{
@@ -72,8 +74,18 @@
                     <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
                 }
                 <a asp-action="VerArchivados">Regresar a los equipos</a>
+                <hr />
             }
         }
+        @{
+            
+        }
+        <form method="post" asp-action="Index" asp-controller="QR">
+            <input hidden value="@Model.Id" name="IdEquipo" />
+            <input hidden value="@Model.Id" name="UrlEquipo" /> 
+            @*Queda pendiente enviar el url al metodo para guardarlo en el qr*@
+            <button class="btn btn-outline-info">VER QR</button>
+        </form>
     </div>
     <hr />
     <dl class="row">

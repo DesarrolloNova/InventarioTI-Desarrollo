@@ -27,7 +27,7 @@ namespace InventarioTI.Context
         public virtual DbSet<InvCatRol> InvCatRols { get; set; }
         public virtual DbSet<InvCatSo> InvCatSos { get; set; }
         public virtual DbSet<InvCatTipoEquipo> InvCatTipoEquipos { get; set; }
-        public virtual DbSet<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }
+        public DbSet<InvHisAccionEquipo> InvHisAccionEquipos { get; set; }
         public virtual DbSet<InvHisAsignacionEquipo> InvHisAsignacionEquipos { get; set; }
         public virtual DbSet<InvHisDesarrolloInstalado> InvHisDesarrolloInstalados { get; set; }
         public virtual DbSet<InvHisGrupoUsuario> InvHisGrupoUsuarios { get; set; }
@@ -161,33 +161,6 @@ namespace InventarioTI.Context
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<InvHisAccionEquipo>(entity =>
-            {
-                entity.ToTable("InvHisAccionEquipo");
-
-                entity.Property(e => e.FechaFin).HasColumnType("datetime");
-
-                entity.Property(e => e.FechaInicio).HasColumnType("datetime");
-
-                entity.Property(e => e.TipoProceso)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.IdAsignacionNavigation)
-                    .WithMany(p => p.InvHisAccionEquipos)
-                    .HasForeignKey(d => d.IdAsignacion)
-                    .HasConstraintName("FK_InvHisAccionEquipo_InvHisPosesionEquipo");
-
-                entity.HasOne(d => d.IdEquipoNavigation)
-                    .WithMany(p => p.InvHisAccionEquipos)
-                    .HasForeignKey(d => d.IdEquipo)
-                    .HasConstraintName("FK_InvHisAccionEquipo_InvTabEquipo");
-
-                entity.HasOne(d => d.IdUsuarioRegistroNavigation)
-                    .WithMany(p => p.InvHisAccionEquipos)
-                    .HasForeignKey(d => d.IdUsuarioRegistro)
-                    .HasConstraintName("FK_InvHisAccionEquipo_TabUsuario");
-            });
 
             modelBuilder.Entity<InvHisAsignacionEquipo>(entity =>
             {
@@ -254,11 +227,11 @@ namespace InventarioTI.Context
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.HasOne(d => d.IdAccionEquipoNavigation)
-                    .WithMany(p => p.InvHisPlantillaInstalacions)
-                    .HasForeignKey(d => d.IdAccionEquipo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_InvHisPlantillaInstalacion_InvHisAccionEquipo");
+                //entity.HasOne(d => d.IdAccionEquipoNavigation)
+                //    .WithMany(p => p.InvHisPlantillaInstalacions)
+                //    .HasForeignKey(d => d.IdAccionEquipo)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_InvHisPlantillaInstalacion_InvHisAccionEquipo");
             });
 
             modelBuilder.Entity<InvHisPlantillaMantenimiento>(entity =>
@@ -269,11 +242,11 @@ namespace InventarioTI.Context
 
                 entity.Property(e => e.Observaciones).HasMaxLength(250);
 
-                entity.HasOne(d => d.IdAccionEquipoNavigation)
-                    .WithMany(p => p.InvHisPlantillaMantenimientos)
-                    .HasForeignKey(d => d.IdAccionEquipo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_InvHisPlantillaMantenimiento_InvHisAccionEquipo");
+                //entity.HasOne(d => d.IdAccionEquipoNavigation)
+                //    .WithMany(p => p.InvHisPlantillaMantenimientos)
+                //    .HasForeignKey(d => d.IdAccionEquipo)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_InvHisPlantillaMantenimiento_InvHisAccionEquipo");
             });
 
             modelBuilder.Entity<InvHisSoporte>(entity =>

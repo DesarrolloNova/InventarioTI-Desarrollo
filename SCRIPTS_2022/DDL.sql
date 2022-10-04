@@ -109,8 +109,67 @@ GO
 
 ALTER TABLE InvTabEquipo
 ADD IDSitio INT NOT NULL
+GO
 
 -- ALTER TABLE InvTabEquipo
 -- ADD CONSTRAINT FK_InvTabEquipo_CatPlanta FOREIGN KEY (IDSitio)
 -- REFERENCES CatPlanta (IDSitio)
 
+ALTER TABLE InvHisAccionEquipo
+DROP CONSTRAINT FK_InvHisAccionEquipo_InvHisPosesionEquipo
+GO
+
+ALTER TABLE InvHisAccionEquipo
+DROP CONSTRAINT FK_InvHisAccionEquipo_TabUsuario
+GO
+
+ALTER TABLE InvHisAccionEquipo
+ADD CONSTRAINT FK_InvHisAccionEquipo_InvHisAsignacionEquipo FOREIGN KEY (IdAsignacion)
+REFERENCES InvHisAsignacionEquipo (Id)
+GO
+
+ALTER TABLE InvHisAccionEquipo
+DROP CONSTRAINT FK_InvHisAccionEquipo_InvHisAsignacionEquipo
+GO
+
+ALTER TABLE InvHisAccionEquipo
+DROP CONSTRAINT FK_InvHisAccionEquipo_InvTabEquipo
+GO
+
+ALTER TABLE InvHisPlantillaMantenimiento
+DROP CONSTRAINT FK_InvHisPlantillaMantenimiento_InvHisAccionEquipo
+GO
+
+ALTER TABLE InvHisPlantillaInstalacion
+DROP CONSTRAINT FK_InvHisPlantillaInstalacion_InvHisAccionEquipo
+GO
+
+
+DROP TABLE InvHisAccionEquipo
+GO
+
+CREATE TABLE InvHisAccionEquipo
+(
+	Id INT IDENTITY(1,1) NOT NULL,
+	FechaInicio DATE NOT NULL,
+	FechaFin DATE NOT NULL,
+	TipoProceso VARCHAR(20) NOT NULL,
+	IdAsignacion INT NULL,
+	IdEquipo INT NULL,
+	IdUsuarioRegistro INT NULL,
+CONSTRAINT [PK_InvHisAccionEquipo] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE InvHisAccionEquipo
+ADD CONSTRAINT FK_InvHisAccionEquipo_InvHisAsignacionEquipo FOREIGN KEY (IdAsignacion)
+REFERENCES InvHisAsignacionEquipo (Id)
+GO
+
+ALTER TABLE InvHisAccionEquipo
+ADD CONSTRAINT FK_InvHisAccionEquipo_InvTabEquipo FOREIGN KEY (IdEquipo)
+REFERENCES InvTabEquipo (Id)
+GO
