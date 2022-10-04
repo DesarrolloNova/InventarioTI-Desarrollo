@@ -1,0 +1,69 @@
+﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
+@model IEnumerable<InventarioTI.Models.InvHisAccionEquipo>
+
+@{
+    ViewData["Title"] = "Index";
+    InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+}
+
+<h1>Acciones del equipo: @context.InvTabEquipos.Where(e=>e.Id == Model.FirstOrDefault().IdEquipo).Select(e=>e.NombreEquipo).FirstOrDefault()</h1>
+<a asp-controller="InvTabEquipoes" asp-action="Details" asp-route-id="@Model.FirstOrDefault().IdEquipo">Regresar al equipo</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoProceso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuarioRegistro)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a>@item.FechaInicio.ToString("dd/MM/yyyy")</a>
+                </td>
+                <td>
+                    <a>@item.FechaFin.ToString("dd/MM/yyyy")</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoProceso)
+                </td>
+                <td>
+                    @{
+                        string usuario = "";
+                        List<RHLMA_SuperUsers> SuperUser = new List<RHLMA_SuperUsers>();
+                        string json = await conn.GetQueryResult("SELECT * FROM RHLMA WHERE id=" + item.IdUsuarioRegistro.ToString());
+                        try
+                        {
+                            SuperUser = JsonConvert.DeserializeObject<List<RHLMA_SuperUsers>>(json);
+                            usuario = SuperUser.FirstOrDefault().Usuario +" ("+ SuperUser.FirstOrDefault().TipoSop+")";
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                    <a>@usuario</a>
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

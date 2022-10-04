@@ -14,6 +14,7 @@ using System.Diagnostics;
 using InventarioTI.Models.EXT_WEB;
 using Newtonsoft.Json;
 using InventarioTI.Tools;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace InventarioTI.Controllers
 {
@@ -35,7 +36,7 @@ namespace InventarioTI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Instalacion(InvHisPlantillaInstalacion instalacion, DateTime initialDate, DateTime finalDate,int idEquipo)
+        public IActionResult Instalacion(InvHisPlantillaInstalacion instalacion, DateTime initialDate, DateTime finalDate, int idEquipo)
         {
             //Se crea primero la accion
             return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
@@ -43,18 +44,58 @@ namespace InventarioTI.Controllers
 
 
         [HttpGet]
-        public IActionResult Mantenimiento()
+        public IActionResult Mantenimiento(int idEquipo)
         {
             InvHisPlantillaMantenimiento mantenimiento = new InvHisPlantillaMantenimiento();
-            return PartialView("_MantenimientoModelPartial",mantenimiento);
+            mantenimiento.IdEquipo = idEquipo;
+            return PartialView("_MantenimientoModelPartial", mantenimiento);
         }
 
 
         [HttpPost]
-        public IActionResult Mantenimiento(InvHisPlantillaMantenimiento mantenimiento,DateTime initialDate, DateTime finalDate,int idEquipo)
+        public async Task<IActionResult> Mantenimiento(InvHisPlantillaMantenimiento mantenimiento)
         {
-            // Se crea primero la acción
-            return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
+            if (mantenimiento.initialDate == DateTime.Parse("01/01/0001 12:00:00 a. m.") || mantenimiento.finalDate == DateTime.Parse("01/01/0001 12:00:00 a. m."))
+            {
+                return RedirectToAction("Details", "InvTabEquipoes", new { id = mantenimiento.IdEquipo });
+            }
+            InventarioContext context = new InventarioContext();
+            #region ObtenerUsuarioLogueado
+            //
+            string coockie;
+
+            //Request.Cookies.TryGetValue("us3r4ct1v3",out coockie); // Descomentar para produccion
+            coockie = "vyfCYlDsOzEPAN0kf2vtAQ=="; //Comentar para producción
+
+            Encrypt encrypt = new Encrypt();
+            string key = "N0v4Pr1Nt3nCR1pT";
+            string id = encrypt.Decrypt(coockie, key);
+            //
+            #endregion
+            #region Llenado Y Guardado De Accion
+
+            InvHisAccionEquipo accionEquipo = new InvHisAccionEquipo();
+            accionEquipo.FechaInicio = mantenimiento.initialDate;
+            accionEquipo.FechaFin = mantenimiento.finalDate;
+            accionEquipo.TipoProceso = "Mantenimiento";
+            accionEquipo.IdAsignacion = await context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == mantenimiento.IdEquipo && a.Activo == true).Select(a => a.Id).FirstOrDefaultAsync();
+            accionEquipo.IdEquipo = mantenimiento.IdEquipo;
+            accionEquipo.IdUsuarioRegistro = Convert.ToInt32(id);
+            //Guardamos la acción
+            accionEquipo = await SaveAccion(accionEquipo);
+            //Guardamos la acción
+            #endregion
+
+            #region Llenado y Guardado de la plantilla de Mantenimiento
+            mantenimiento.FechaCreacion = DateTime.Now;
+            mantenimiento.IdAccionEquipo = accionEquipo.Id;
+            #endregion
+            //Guardamos la plantilla de mantenimiento
+            mantenimiento = await SaveMantenimiento(mantenimiento);
+            //Guardamos la plantilla de mantenimiento
+
+
+            return RedirectToAction("Details", "InvHisAccionEquipoes", new { id = accionEquipo.Id });
         }
 
         [HttpPost]
@@ -64,7 +105,7 @@ namespace InventarioTI.Controllers
             {
                 InventarioContext context = new InventarioContext();
                 InvTabEquipo equipo = new InvTabEquipo();
-                equipo = context.InvTabEquipos.Where(e=>e.Id == idEquipo).FirstOrDefault();
+                equipo = context.InvTabEquipos.Where(e => e.Id == idEquipo).FirstOrDefault();
 
                 #region ActualizarEstatusEquipo
                 equipo.IdEstatus = 2; //Estatus disponible
@@ -82,7 +123,7 @@ namespace InventarioTI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ArchivarEquipo(string del,int idEquipo)
+        public async Task<IActionResult> ArchivarEquipo(string del, int idEquipo)
         {
 
             try
@@ -178,7 +219,7 @@ namespace InventarioTI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.InvTabEquipos.Where(e=>e.IdEstatus!=6).ToListAsync());
+            return View(await _context.InvTabEquipos.Where(e => e.IdEstatus != 6).ToListAsync());
         }
 
 
@@ -236,7 +277,7 @@ namespace InventarioTI.Controllers
                 invTabEquipo.UltimaActualizacion = DateTime.Now;
                 invTabEquipo.FechaCreacion = DateTime.Now;
                 invTabEquipo.IdEstatus = 2; //Estatus Disponible
-                
+
                 //
                 string coockie;
 
@@ -348,5 +389,46 @@ namespace InventarioTI.Controllers
         {
             return _context.InvTabEquipos.Any(e => e.Id == id);
         }
+
+        #region Private Methods
+        private async Task<InvHisAccionEquipo> SaveAccion(InvHisAccionEquipo accionEquipo)
+        {
+            bool aux = false;
+            InventarioContext context = new InventarioContext();
+            if (aux == false)
+            {
+                aux = true;
+                context.InvHisAccionEquipos.Add(accionEquipo);
+            }
+            await context.SaveChangesAsync();
+            return accionEquipo;
+        }
+
+        private async Task<InvHisPlantillaMantenimiento> SaveMantenimiento(InvHisPlantillaMantenimiento mantenimiento)
+        {
+            bool aux = false;
+            InventarioContext context = new InventarioContext();
+            if (aux == false)
+            {
+                aux = true;
+                context.InvHisPlantillaMantenimientos.Add(mantenimiento);
+            }
+            await context.SaveChangesAsync();
+            return mantenimiento;
+        }
+
+        private async Task<InvHisPlantillaInstalacion> SaveInstalacion(InvHisPlantillaInstalacion instalacion)
+        {
+            bool aux = false;
+            InventarioContext context = new InventarioContext();
+            if (aux == false)
+            {
+                aux = true;
+                context.InvHisPlantillaInstalacions.Add(instalacion);
+            }
+            await context.SaveChangesAsync();
+            return instalacion;
+        }
+        #endregion
     }
 }

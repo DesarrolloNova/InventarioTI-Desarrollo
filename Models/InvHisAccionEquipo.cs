@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,11 +15,17 @@ namespace InventarioTI.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage ="Debes ingresar la fecha de inicio")]
+        [Display(Name ="Fecha de inicio")]
         public DateTime FechaInicio { get; set; }
+        [Required(ErrorMessage = "Debes ingresar la fecha de fin")]
+        [Display(Name = "Fecha de fin")]
         public DateTime FechaFin { get; set; }
+        [Display(Name ="Tipo de Proceso")]
         public string TipoProceso { get; set; }
         public int? IdAsignacion { get; set; }
         public int? IdEquipo { get; set; }
+        [Display(Name ="Usuario que Registró")]
         public int? IdUsuarioRegistro { get; set; }
 
         public virtual InvHisAsignacionEquipo IdAsignacionNavigation { get; set; }
