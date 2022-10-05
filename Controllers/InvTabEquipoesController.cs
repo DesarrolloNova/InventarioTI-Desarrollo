@@ -15,6 +15,11 @@ using InventarioTI.Models.EXT_WEB;
 using Newtonsoft.Json;
 using InventarioTI.Tools;
 using Microsoft.AspNetCore.Hosting.Server;
+using InventarioTI.Models.Tools_Models;
+using QRCoder;
+using System.Drawing.Imaging;
+using System.Drawing;
+using System.IO;
 
 namespace InventarioTI.Controllers
 {
@@ -29,17 +34,101 @@ namespace InventarioTI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Instalacion()
+        public IActionResult VerQR(int idEquipo)
+        {
+            _qr _Qr = new _qr();
+            try
+            {
+                _Qr.IdEquipo = idEquipo;
+                Encrypt encrypt = new Encrypt();
+                var value = encrypt.Encrypting(idEquipo.ToString(), "¡d3qu¡p0");
+                _Qr.EncryptedValue = value;
+                InventarioContext context = new InventarioContext();
+                QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
+                QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode("http://nova1razure.cloudapp.net//InventarioTI" + "/InvTabEquipoes/Details/" + _Qr.IdEquipo, QRCodeGenerator.ECCLevel.Q);
+                QRCode qRCode = new QRCode(qRCodeData);
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (Bitmap bitmap = new Bitmap(qRCode.GetGraphic(20)))
+                    {
+                        bitmap.Save(ms, ImageFormat.Png);
+                        _Qr.QRCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+                _Qr.DeviceName = context.InvTabEquipos.Where(e => e.Id == idEquipo).FirstOrDefault().NombreEquipo;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //return View();
+            return PartialView("_QRModelPartial", _Qr);
+        }
+
+        [HttpGet]
+        public IActionResult Instalacion(int idEquipo)
         {
             InvHisPlantillaInstalacion instalacion = new InvHisPlantillaInstalacion();
+            instalacion.IdEquipo = idEquipo;
             return PartialView("_InstalacionModelPartial", instalacion);
         }
 
         [HttpPost]
-        public IActionResult Instalacion(InvHisPlantillaInstalacion instalacion, DateTime initialDate, DateTime finalDate, int idEquipo)
+        public IActionResult Instalacion(InvHisPlantillaInstalacion instalacion)
         {
-            //Se crea primero la accion
-            return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
+            InvHisAccionEquipo accionEquipo = new InvHisAccionEquipo();
+            try
+            {
+                if (instalacion.initialDate == DateTime.Parse("01/01/0001 12:00:00 a. m.") || instalacion.finalDate == DateTime.Parse("01/01/0001 12:00:00 a. m."))
+                {
+                    return RedirectToAction("Details", "InvTabEquipoes", new { id = instalacion.IdEquipo });
+                }
+                if (instalacion.AntivirusInstalado == true && instalacion.Antivirus == null)
+                {
+                    return RedirectToAction("Details", "InvTabEquipoes", new { id = instalacion.IdEquipo });
+                }
+                if (instalacion.PaqueteriaOfficeInstalado == true && instalacion.PaqueteriaOffice == null)
+                {
+                    return RedirectToAction("Details", "InvTabEquipoes", new { id = instalacion.IdEquipo });
+                }
+                InventarioContext context = new InventarioContext();
+                #region ObtenerUsuarioLogueado
+                //
+                ValidateCoockie validate = new ValidateCoockie();
+                int id = validate.GetCoockieValue();
+                //
+                #endregion
+                #region Llenado Y Guardado De Accion
+                accionEquipo.FechaInicio = instalacion.initialDate;
+                accionEquipo.FechaFin = instalacion.finalDate;
+                accionEquipo.TipoProceso = "Instalacion";
+                var idAs = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == instalacion.IdEquipo && a.Activo == true).Select(a => a.Id).FirstOrDefault();
+                accionEquipo.IdAsignacion = idAs;
+                accionEquipo.IdEquipo = instalacion.IdEquipo;
+                accionEquipo.IdUsuarioRegistro = id;
+                InvHisAccionEquipo acc = new InvHisAccionEquipo();
+                //Guardamos la acción
+                acc = accionEquipo;
+                accionEquipo = SaveAccion(acc);
+                //Guardamos la acción
+                #endregion
+
+                #region Llenado y Guardado de la plantilla de Mantenimiento
+                instalacion.FechaCreacion = DateTime.Now;
+                instalacion.IdAccionEquipo = accionEquipo.Id;
+                #endregion
+                //Guardamos la plantilla de mantenimiento
+                instalacion = SaveInstalacion(instalacion);
+                //Guardamos la plantilla de mantenimiento
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            return RedirectToAction("Details", "InvHisAccionEquipoes", new { id = accionEquipo.Id });
         }
 
 
@@ -51,8 +140,7 @@ namespace InventarioTI.Controllers
             return PartialView("_MantenimientoModelPartial", mantenimiento);
         }
 
-
-        //[HttpPost]
+        [HttpPost]
         public IActionResult Mantenimiento(InvHisPlantillaMantenimiento mantenimiento)
         {
             InvHisAccionEquipo accionEquipo = new InvHisAccionEquipo();
@@ -136,7 +224,7 @@ namespace InventarioTI.Controllers
                 {
                     #region GetAsignacionEquipo
                     InvHisAsignacionEquipo asignacionEquipo = new InvHisAsignacionEquipo();
-                    asignacionEquipo = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == idEquipo).FirstOrDefault();
+                    asignacionEquipo = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == idEquipo && a.Activo == true).FirstOrDefault();
                     #endregion
                     #region FinalizarAsignación
                     if (asignacionEquipo != null && asignacionEquipo.Id != 0)
@@ -401,27 +489,17 @@ namespace InventarioTI.Controllers
 
         private InvHisPlantillaMantenimiento SaveMantenimiento(InvHisPlantillaMantenimiento mantenimiento)
         {
-            bool aux = false;
             InventarioContext context = new InventarioContext();
-            if (aux == false)
-            {
-                aux = true;
-                context.InvHisPlantillaMantenimientos.Add(mantenimiento);
-            }
+            context.InvHisPlantillaMantenimientos.Add(mantenimiento);
             context.SaveChanges();
             return mantenimiento;
         }
 
-        private async Task<InvHisPlantillaInstalacion> SaveInstalacion(InvHisPlantillaInstalacion instalacion)
+        private InvHisPlantillaInstalacion SaveInstalacion(InvHisPlantillaInstalacion instalacion)
         {
-            bool aux = false;
             InventarioContext context = new InventarioContext();
-            if (aux == false)
-            {
-                aux = true;
-                context.InvHisPlantillaInstalacions.Add(instalacion);
-            }
-            await context.SaveChangesAsync();
+            context.InvHisPlantillaInstalacions.Add(instalacion);
+            context.SaveChanges();
             return instalacion;
         }
         #endregion

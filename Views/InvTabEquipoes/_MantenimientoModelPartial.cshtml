@@ -4,14 +4,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addMantenimientoLabel">Registra Mantenimiento</h4>
+                <h4 class="modal-title">Registra Mantenimiento</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>x</span>
 
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="InvTabEquipoes" asp-action="Mantenimiento">
+                <form method="post" asp-action="Mantenimiento">
                     <input hidden asp-for="IdEquipo" value="@Model.IdEquipo" />
                     <b><i class="emphasized">Periodo de Acción</i></b>
                     <br />
@@ -75,7 +75,7 @@
                         <span asp-validation-for="Observaciones" class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-save="modal">Guardar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>

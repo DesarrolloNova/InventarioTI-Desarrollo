@@ -211,28 +211,28 @@ namespace InventarioTI.Context
                     .HasConstraintName("FK_InvHisGrupoUsuarios_TabUsuario");
             });
 
-            modelBuilder.Entity<InvHisPlantillaInstalacion>(entity =>
-            {
-                entity.ToTable("InvHisPlantillaInstalacion");
+            //modelBuilder.Entity<InvHisPlantillaInstalacion>(entity =>
+            //{
+            //    entity.ToTable("InvHisPlantillaInstalacion");
 
-                entity.Property(e => e.Antivirus)
-                    .IsRequired()
-                    .HasMaxLength(100);
+            //    entity.Property(e => e.Antivirus)
+            //        .IsRequired()
+            //        .HasMaxLength(100);
 
-                entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
+            //    entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
 
-                entity.Property(e => e.Observaciones).HasMaxLength(250);
+            //    entity.Property(e => e.Observaciones).HasMaxLength(250);
 
-                entity.Property(e => e.PaqueteriaOffice)
-                    .IsRequired()
-                    .HasMaxLength(100);
+            //    entity.Property(e => e.PaqueteriaOffice)
+            //        .IsRequired()
+            //        .HasMaxLength(100);
 
-                //entity.HasOne(d => d.IdAccionEquipoNavigation)
-                //    .WithMany(p => p.InvHisPlantillaInstalacions)
-                //    .HasForeignKey(d => d.IdAccionEquipo)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK_InvHisPlantillaInstalacion_InvHisAccionEquipo");
-            });
+            //    //entity.HasOne(d => d.IdAccionEquipoNavigation)
+            //    //    .WithMany(p => p.InvHisPlantillaInstalacions)
+            //    //    .HasForeignKey(d => d.IdAccionEquipo)
+            //    //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    //    .HasConstraintName("FK_InvHisPlantillaInstalacion_InvHisAccionEquipo");
+            //});
 
             modelBuilder.Entity<InvHisPlantillaMantenimiento>(entity =>
             {

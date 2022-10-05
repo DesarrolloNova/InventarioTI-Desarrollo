@@ -173,3 +173,29 @@ ALTER TABLE InvHisAccionEquipo
 ADD CONSTRAINT FK_InvHisAccionEquipo_InvTabEquipo FOREIGN KEY (IdEquipo)
 REFERENCES InvTabEquipo (Id)
 GO
+
+DROP TABLE 
+GO InvHisPlantillaInstalacion
+
+CREATE TABLE [dbo].[InvHisPlantillaInstalacion](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AntivirusInstalado] [bit] NOT NULL,
+	[Antivirus] [nvarchar](100) NULL,
+	[PaqueteriaOfficeInstalado] [bit] NOT NULL,
+	[PaqueteriaOffice] [nvarchar](100) NULL,
+	[OtrasAplicaciones] [bit] NOT NULL,
+	[UsoPortales] [bit] NOT NULL,
+	[SeEliminaronAplicaciones] [bit] NOT NULL,
+	[HddDisponible] [float] NOT NULL,
+	[Observaciones] [nvarchar](250) NULL,
+	[FechaCreacion] [datetime] NOT NULL,
+	[IdAccionEquipo] [int] NOT NULL,
+ CONSTRAINT [PK__InvHisPl__3214EC0706CD2A2F] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+

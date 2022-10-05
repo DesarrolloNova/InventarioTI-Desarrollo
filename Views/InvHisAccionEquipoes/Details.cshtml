@@ -1,36 +1,260 @@
-﻿@model InventarioTI.Models.InvHisAccionEquipo
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.InvHisAccionEquipo
 
 @{
     ViewData["Title"] = "Details";
+    InventarioContext context = new InventarioContext();
 }
 
-<h1>Details</h1>
+<h1>Detalles de la acción</h1>
+<hr />
+<div>
+    <a asp-action="Details" asp-controller="InvTabEquipoes" asp-route-id="@Model.IdEquipo">Regresar al equipo</a>
+</div>
+<div>
+    <hr />
+    <a asp-action="Index" asp-route-idEquipo="@Model.IdEquipo">Regresar a la lista de acciones</a>
+</div>
+<hr />
 
 <div>
-    <h4>InvHisAccionEquipo</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaInicio)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaInicio)
+        <dd class="col-sm-10">
+            <a>@Model.FechaInicio.ToString("dddd dd/MMMM/yyyy")</a>
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaFin)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaFin)
+        <dd class="col-sm-10">
+            <a>@Model.FechaFin.ToString("dddd dd/MMMM/yyyy")</a>
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TipoProceso)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TipoProceso)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@{
+    if (Model.TipoProceso == "Mantenimiento")
+    {
+        InvHisPlantillaMantenimiento mantenimiento = new InvHisPlantillaMantenimiento();
+        mantenimiento = context.InvHisPlantillaMantenimientos.Where(m => m.IdAccionEquipo == Model.Id).FirstOrDefault();
+        <div class="row">
+            <dl>
+                <dt class="col-sm-12">
+                    <a>¿Se realizó depuración de programas?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.DepuracionProgramas == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿El equipo funciona?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.Funciona == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se limpiaron archivos temporales?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.LimpiezaTemporales == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se desfragmento el disco duro?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.DesfragmentacionHdd == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se realizó el escaneo del antivirus?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.EscaneoAntivirus == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se ralizó revisión de archivos?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.RevisionArchivos == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se encontraron softwares sin licencia?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.SoftwareSinLicencia == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Las licencias del equipo están activadas?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.LicenciasActivas == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Los perifericos están en buen estado?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (mantenimiento.Perifericos == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>Observaciones</a>
+                </dt>
+                <dd class="col-sm-10">
+                    <label>@mantenimiento.Observaciones</label>
+                </dd>
+
+            </dl>
+        </div>
+    }
+    if (Model.TipoProceso == "Instalacion")
+    {
+        InvHisPlantillaInstalacion instalacion = new InvHisPlantillaInstalacion();
+        instalacion = context.InvHisPlantillaInstalacions.Where(i => i.IdAccionEquipo == Model.Id).FirstOrDefault();
+        <div class="row">
+            <dl>
+                <dt class="col-sm-12">
+                    <a>¿Se instaló antivirus?</a>
+                </dt>
+                <dd class="col-sm-10">
+                    @if (instalacion.AntivirusInstalado == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                        <br />
+                        <a>Antivirus: @instalacion.Antivirus</a>
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se instaló paqueteria de office?</a>
+                </dt>
+                <dd class="col-sm-10">
+                    @if (instalacion.PaqueteriaOfficeInstalado == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                        <br />
+                        <a>Version: @instalacion.PaqueteriaOffice</a>
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se encontraron otras aplicaciones?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (instalacion.OtrasAplicaciones == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Uso de portales?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (instalacion.UsoPortales == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>¿Se eliminaron aplicaciones?</a>
+                </dt>
+                <dd class="col-sm-6">
+                    @if (instalacion.SeEliminaronAplicaciones == true)
+                    {
+                        <img src="~/resources/paloma.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                    else
+                    {
+                        <img src="~/resources/tache.png" Width="36px" Visible="true" ImageAlign="Right" />
+                    }
+                </dd>
+                <dt class="col-sm-12">
+                    <a>Disco duro disponible</a>
+                </dt>
+                <dd class="col-sm-6">
+                    <a>@instalacion.HddDisponible GB</a>
+                </dd>
+            </dl>
+        </div>
+    }
+}

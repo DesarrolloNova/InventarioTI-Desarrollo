@@ -48,7 +48,7 @@ namespace InventarioTI.Models
         public double Ram { get; set; }
         [Display(Name = "Fecha Compra")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        //[Required(ErrorMessage = "Ingresa la fecha de compra del dispositivo")]
+        //[Range(typeof(DateTime), "1/2/2004", "3/4/2004", ErrorMessage = "Value for {0} must be between {1} and {2}")]
         public DateTime? FechaCompra { get; set; }
         [Display(Name = "Fecha Inicio Garantía")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]

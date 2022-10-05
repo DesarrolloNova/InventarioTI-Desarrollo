@@ -1,0 +1,59 @@
+﻿@using InventarioTI.Models.Tools_Models
+@model _qr
+<div class="modal fade" id="viewQr">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addMantenimientoLabel">Ver QR</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>x</span>
+
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @if (Model.QRCode != null)
+                    {
+
+                        <div class="alert alert-info">El QR se ha generado correctamente</div>
+                        <div id="qr" class="center">
+                            <div style="text-align:center;">
+                                <img src="@Model.QRCode" alt="QR" style="height:300px; width:300px;" />
+                            </div>
+                            <div style="text-align:center;">
+                                <label>@Model.DeviceName</label>
+                            </div>
+                        </div>
+                        <hr />
+                        <span onclick="Imprime('qr', 'Imprimir');" class="btn btn-outline-primary"><img src="~/resources/print.png" id="Imprimir" runat="server" Width="36px" Visible="true" ImageAlign="Right" /> Imprime</span>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">El QR no se pudo generar</div>
+                    }
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Imprime(nombre, boton) {
+        var ficha = document.getElementById(nombre);
+        var ventimp = window.open(' ', 'popimpr');
+        ventimp.document.write(ficha.innerHTML);
+        ventimp.document.close();
+        ventimp.print();
+        ventimp.close();
+    }
+</script>
+
+<style>
+    .center {
+        border: 2px solid;
+        text-align: center;
+    }
+</style>

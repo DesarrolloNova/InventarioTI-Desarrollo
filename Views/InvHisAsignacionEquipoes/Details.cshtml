@@ -13,7 +13,8 @@
 }
 @section Styles
     {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />*@
+    <link href="~/css/styleselect.css" rel="stylesheet" />
 }
     <h1>Asignación de equipo "@equipo.NombreEquipo"</h1>
     <div>
@@ -22,7 +23,7 @@
         asignacionesIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == equipo.Id && a.Activo == false).Select(a => a.Id).ToList();
         if (asignacionesIds != null && asignacionesIds.Count > 0)
         {
-            <a asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.IdEquipo">Ir a las asignaciones</a>
+            <a asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.IdEquipo">Ir a las asignaciones del equipo</a>
         }
     }
     <hr />

@@ -41,22 +41,20 @@
                 {
                     <a asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
                 }
-
+                <hr />
+                <b><i class="emphasized">Acciones</i></b>
+                <br />
                 if (asignacion != null)
                 {
-                    <hr />
-                    <b><i class="emphasized">Acciones</i></b>
-                    <br />
-                    //Modal
+                //Modal
                     <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addMantenimiento" data-url="@Url.Action("Mantenimiento",new { idEquipo = Model.Id })">Mantenimiento</button>
                     <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addInstalacion" data-url="@Url.Action("Instalacion",new { idEquipo = Model.Id })">Instalación</button>
+                    //Modal
                 }
-
                 if (context.InvHisAccionEquipos.Where(a => a.IdEquipo == Model.Id).Select(a => a.Id).ToList().Count > 0)
                 {
                     <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
                 }
-                //Modal
                 <hr />
                 <a asp-action="Index">Regresar a los equipos</a>
             }
@@ -68,24 +66,23 @@
                 {
                     <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
                 }
-                <hr />
                 if (context.InvHisAccionEquipos.Where(a => a.IdEquipo == Model.Id).Select(a => a.Id).ToList().Count > 0)
                 {
+                    <hr />
+                    <b><i class="emphasized">Acciones</i></b>
+                    <br />
                     <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
                 }
                 <a asp-action="VerArchivados">Regresar a los equipos</a>
-                <hr />
             }
         }
-        @{
-            
-        }
-        <form method="post" asp-action="Index" asp-controller="QR">
-            <input hidden value="@Model.Id" name="IdEquipo" />
-            <input hidden value="@Model.Id" name="UrlEquipo" /> 
-            @*Queda pendiente enviar el url al metodo para guardarlo en el qr*@
-            <button class="btn btn-outline-info">VER QR</button>
-        </form>
+        <hr />
+        <button type="button" class="btn btn-outline-info" data-toggle="ajax_modal" data-target="#viewQr" data-url="@Url.Action("VerQR",new { idEquipo = Model.Id })">Ver QR</button>
+        @*<form method="post" asp-action="Index" asp-controller="QR">
+        <input hidden value="@Model.Id" name="IdEquipo" />
+        <input hidden value="@Model.Id" name="UrlEquipo" />
+        <button class="btn btn-outline-info">VER QR</button>
+        </form>*@
     </div>
     <hr />
     <dl class="row">
