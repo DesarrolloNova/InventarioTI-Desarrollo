@@ -26,15 +26,15 @@ namespace InventarioTI.Controllers
         }
 
         // GET: UsuarioAsignacions/Details/5
-        public async Task<IActionResult> Details(int? id, int idAsignacion)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var usuarioAsignacion = await _context.UsuarioAsignacion
-                .FirstOrDefaultAsync(m => m.IdEmpleado == id && m.IdAsignacion == idAsignacion);
+            //var usuarioAsignacion = await _context.UsuarioAsignacion.FirstOrDefaultAsync(m => m.IdEmpleado == id && m.IdAsignacion == idAsignacion);
+            var usuarioAsignacion = await _context.UsuarioAsignacion.Where(ua=>ua.IdUsuarioAsignacion == id).FirstOrDefaultAsync();
             if (usuarioAsignacion == null)
             {
                 return NotFound();

@@ -10,7 +10,7 @@
     CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 
     RH00_Usuarios usuario = new RH00_Usuarios();
-    string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = "+Model.IdEmpleado);
+    string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = " + Model.IdEmpleado.ToString());
 
     try
     {
@@ -36,11 +36,11 @@
             ususariosIds = context.UsuarioAsignacion.Where(ua => ua.IdAsignacion == Model.IdAsignacion && ua.Asignado == true).Select(ua => ua.IdEmpleado).ToList();
             if (ususariosIds != null && ususariosIds.Count > 1)
             {
-                    <form method="post" asp-controller="InvHisAsignacionEquipoes" asp-action="FinalizarAsignacionIndividual">
-                        <input hidden name="idUsuario" value="@usuario.IdEmpleado" />
-                        <input hidden name="idAsignacion" value="@Model.IdAsignacion" />
-                        <button class="btn btn-danger" type="submit">Descartar Usuario</button>
-                    </form>
+                <form method="post" asp-controller="InvHisAsignacionEquipoes" asp-action="FinalizarAsignacionIndividual">
+                    <input hidden name="idUsuario" value="@usuario.IdEmpleado" />
+                    <input hidden name="idAsignacion" value="@Model.IdAsignacion" />
+                    <button class="btn btn-danger" type="submit">Descartar Usuario</button>
+                </form>
             }
         }
     }

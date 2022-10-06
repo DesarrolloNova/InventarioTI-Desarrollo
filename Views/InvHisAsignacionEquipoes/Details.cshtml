@@ -263,7 +263,10 @@
                                     }
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.IdEmpleado" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                                    @{
+                                        int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.IdUsuarioAsignacion).FirstOrDefault();
+                                    }
+                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@idUsuarioAsignacion">Ver Detalle</a>
                                     @if (Model.Activo == true)
                                     {
                                         if (usuarios.Count > 1)
@@ -282,7 +285,8 @@
                 </table>
             </div>
         }
-        else{
+        else
+        {
             <hr />
             <a>No hay usuarios registrados</a>
         }
@@ -335,7 +339,10 @@
                                     }
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.IdEmpleado" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                                    @{
+                                        int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.IdUsuarioAsignacion).FirstOrDefault();
+                                    }
+                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@idUsuarioAsignacion">Ver Detalle</a>
                                 </td>
                             </tr>
                         }
@@ -364,7 +371,7 @@
         }
         <div>
             @{
-                if(usuarios != null && usuarios.Count > 0)
+                if (usuarios != null && usuarios.Count > 0)
                 {
                     <h4>Usuarios Asignados</h4>
                     <br />
@@ -409,7 +416,10 @@
                                         }
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.IdEmpleado" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
+                                        @{
+                                            int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.IdUsuarioAsignacion).FirstOrDefault();
+                                        }
+                                        <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@idUsuarioAsignacion">Ver Detalle</a>
                                     </td>
                                 </tr>
                             }
