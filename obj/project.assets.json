@@ -8381,11 +8381,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\desarrollo\\Desktop\\Novaprint\\PROYECTOS_DESARROLLO\\InventarioTI-Desarrollo\\InventarioTI.csproj",
+      "projectUniqueName": "C:\\Users\\desarrollo\\Documents\\NOVA\\INVENTARIO_TI\\InventarioTI-Desarrollo\\InventarioTI.csproj",
       "projectName": "InventarioTI",
-      "projectPath": "C:\\Users\\desarrollo\\Desktop\\Novaprint\\PROYECTOS_DESARROLLO\\InventarioTI-Desarrollo\\InventarioTI.csproj",
+      "projectPath": "C:\\Users\\desarrollo\\Documents\\NOVA\\INVENTARIO_TI\\InventarioTI-Desarrollo\\InventarioTI.csproj",
       "packagesPath": "C:\\Users\\desarrollo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\desarrollo\\Desktop\\Novaprint\\PROYECTOS_DESARROLLO\\InventarioTI-Desarrollo\\obj\\",
+      "outputPath": "C:\\Users\\desarrollo\\Documents\\NOVA\\INVENTARIO_TI\\InventarioTI-Desarrollo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

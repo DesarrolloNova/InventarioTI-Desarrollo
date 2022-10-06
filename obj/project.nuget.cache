@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PyyjiDiHylzoseSXgYwn1GdD5LGHANaIA6+KfAJxH+UP5OsvfJgWe7nfImT4KorwXCAz8YCU13u6do0r5YTJoQ==",
+  "dgSpecHash": "I7kHhfzoIemIyOBPjhvfIyL/eDQLDHZ3R2dBsGcN/GUWg9dd026OQqiHIxh+BIlGaD6WvwtKvlK7D9EgAncwtA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\desarrollo\\Desktop\\Novaprint\\PROYECTOS_DESARROLLO\\InventarioTI-Desarrollo\\InventarioTI.csproj",
+  "projectFilePath": "C:\\Users\\desarrollo\\Documents\\NOVA\\INVENTARIO_TI\\InventarioTI-Desarrollo\\InventarioTI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\desarrollo\\.nuget\\packages\\dataannotationsextensions\\5.0.1.27\\dataannotationsextensions.5.0.1.27.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

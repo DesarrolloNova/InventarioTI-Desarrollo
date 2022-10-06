@@ -4,14 +4,10 @@ namespace InventarioTI.Tools
 {
     public class ValidateCoockie
     {
-        public int GetCoockieValue()
+        public int GetCoockieValue(string coockie)
         {
             int id = 0;
-
-            string coockie;
-
-            //Request.Cookies.TryGetValue("us3r4ct1v3",out coockie); // Descomentar para produccion
-            coockie = "vyfCYlDsOzEPAN0kf2vtAQ=="; //Comentar para producción
+            //coockie = "vyfCYlDsOzEPAN0kf2vtAQ=="; //Comentar para producción
 
             Encrypt encrypt = new Encrypt();
             string key = "N0v4Pr1Nt3nCR1pT";

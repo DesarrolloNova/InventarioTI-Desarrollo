@@ -20,6 +20,7 @@ using QRCoder;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
+using System.Net;
 
 namespace InventarioTI.Controllers
 {
@@ -41,11 +42,11 @@ namespace InventarioTI.Controllers
             {
                 _Qr.IdEquipo = idEquipo;
                 Encrypt encrypt = new Encrypt();
-                var value = encrypt.Encrypting(idEquipo.ToString(), "¡d3qu¡p0");
+                var value = encrypt.Encrypting(idEquipo.ToString(), "¡d3qu¡p0");//Se deja funcion de encriptar para futuros proyectos
                 _Qr.EncryptedValue = value;
                 InventarioContext context = new InventarioContext();
                 QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
-                QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode("http://nova1razure.cloudapp.net//InventarioTI" + "/InvTabEquipoes/Details/" + _Qr.IdEquipo, QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode("https://rh.novaprint.mx/Aplicaciones/InventarioTi/InvTabEquipoes/Details/" + _Qr.IdEquipo, QRCodeGenerator.ECCLevel.Q);
                 QRCode qRCode = new QRCode(qRCodeData);
 
                 using (MemoryStream ms = new MemoryStream())
@@ -96,7 +97,9 @@ namespace InventarioTI.Controllers
                 #region ObtenerUsuarioLogueado
                 //
                 ValidateCoockie validate = new ValidateCoockie();
-                int id = validate.GetCoockieValue();
+                string coockie;
+                Request.Cookies.TryGetValue("us3r4ct1v3", out coockie); 
+                int id = validate.GetCoockieValue(coockie);
                 //
                 #endregion
                 #region Llenado Y Guardado De Accion
@@ -154,7 +157,9 @@ namespace InventarioTI.Controllers
                 #region ObtenerUsuarioLogueado
                 //
                 ValidateCoockie validate = new ValidateCoockie();
-                int id = validate.GetCoockieValue();
+                string coockie;
+                Request.Cookies.TryGetValue("us3r4ct1v3", out coockie);
+                int id = validate.GetCoockieValue(coockie);
                 //
                 #endregion
                 #region Llenado Y Guardado De Accion
@@ -371,7 +376,9 @@ namespace InventarioTI.Controllers
 
                 //
                 ValidateCoockie validate = new ValidateCoockie();
-                int id = validate.GetCoockieValue();
+                string coockie;
+                Request.Cookies.TryGetValue("us3r4ct1v3", out coockie);
+                int id = validate.GetCoockieValue(coockie);
                 //
                 invTabEquipo.IdUsuarioRegistro = Convert.ToInt32(id);
                 _context.Add(invTabEquipo);
