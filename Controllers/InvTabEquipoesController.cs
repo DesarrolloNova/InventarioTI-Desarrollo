@@ -103,7 +103,7 @@ namespace InventarioTI.Controllers
                 InvHisAccionEquipo accionEquipo = new InvHisAccionEquipo();
                 try
                 {
-                    if (instalacion.initialDate == DateTime.Parse("01/01/0001 12:00:00 a. m.") || instalacion.finalDate == DateTime.Parse("01/01/0001 12:00:00 a. m."))
+                    if (instalacion.initialDate == DateTime.Parse("0001-01-01") || instalacion.finalDate == DateTime.Parse("0001-01-01"))
                     {
                         return RedirectToAction("Details", "InvTabEquipoes", new { id = instalacion.IdEquipo });
                     }
@@ -187,7 +187,7 @@ namespace InventarioTI.Controllers
                 InvHisAccionEquipo accionEquipo = new InvHisAccionEquipo();
                 try
                 {
-                    if (mantenimiento.initialDate == DateTime.Parse("01/01/0001 12:00:00 a. m.") || mantenimiento.finalDate == DateTime.Parse("01/01/0001 12:00:00 a. m."))
+                    if (mantenimiento.initialDate == DateTime.Parse("0001-01-01") || mantenimiento.finalDate == DateTime.Parse("0001-01-01"))
                     {
                         return RedirectToAction("Details", "InvTabEquipoes", new { id = mantenimiento.IdEquipo });
                     }
