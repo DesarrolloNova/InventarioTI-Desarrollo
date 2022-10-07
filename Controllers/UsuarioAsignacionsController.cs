@@ -7,147 +7,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventarioTI.Context;
 using InventarioTI.Models;
+using InventarioTI.Tools;
 
 namespace InventarioTI.Controllers
 {
     public class UsuarioAsignacionsController : Controller
     {
         private readonly InventarioContext _context;
-
+        ValidateCoockie validateCoockie = new ValidateCoockie();
         public UsuarioAsignacionsController(InventarioContext context)
         {
             _context = context;
         }
 
-        // GET: UsuarioAsignacions
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult VerAsignacionIndividual(int idUsuarioAsignacion)
         {
-            return View(await _context.UsuarioAsignacion.ToListAsync());
-        }
-
-        // GET: UsuarioAsignacions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
-
-            //var usuarioAsignacion = await _context.UsuarioAsignacion.FirstOrDefaultAsync(m => m.IdEmpleado == id && m.IdAsignacion == idAsignacion);
-            var usuarioAsignacion = await _context.UsuarioAsignacion.Where(ua=>ua.IdUsuarioAsignacion == id).FirstOrDefaultAsync();
-            if (usuarioAsignacion == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuarioAsignacion);
-        }
-
-        // GET: UsuarioAsignacions/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UsuarioAsignacions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdUsuario,IdAsignacion,FechaInicioAsignacion,FechaFinAsignacion,Asignado")] UsuarioAsignacion usuarioAsignacion)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(usuarioAsignacion);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(usuarioAsignacion);
-        }
-
-        // GET: UsuarioAsignacions/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var usuarioAsignacion = await _context.UsuarioAsignacion.FindAsync(id);
-            if (usuarioAsignacion == null)
-            {
-                return NotFound();
-            }
-            return View(usuarioAsignacion);
-        }
-
-        // POST: UsuarioAsignacions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,IdAsignacion,FechaInicioAsignacion,FechaFinAsignacion,Asignado")] UsuarioAsignacion usuarioAsignacion)
-        {
-            if (id != usuarioAsignacion.IdEmpleado)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                InventarioContext context = new InventarioContext();
+                UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+                usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.idUsuarioAsignacion == idUsuarioAsignacion).FirstOrDefault();
+                if (usuarioAsignacion == null)
                 {
-                    _context.Update(usuarioAsignacion);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioAsignacionExists(usuarioAsignacion.IdEmpleado))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(usuarioAsignacion);
-        }
 
-        // GET: UsuarioAsignacions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+                return View(usuarioAsignacion);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("UserNotFound", "Home");
             }
-
-            var usuarioAsignacion = await _context.UsuarioAsignacion
-                .FirstOrDefaultAsync(m => m.IdEmpleado == id);
-            if (usuarioAsignacion == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuarioAsignacion);
-        }
-
-        // POST: UsuarioAsignacions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var usuarioAsignacion = await _context.UsuarioAsignacion.FindAsync(id);
-            _context.UsuarioAsignacion.Remove(usuarioAsignacion);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UsuarioAsignacionExists(int id)
-        {
-            return _context.UsuarioAsignacion.Any(e => e.IdEmpleado == id);
         }
     }
 }

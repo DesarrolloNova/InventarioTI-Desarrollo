@@ -1,0 +1,105 @@
+﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
+@model InventarioTI.Models.UsuarioAsignacion
+
+@{
+    ViewData["Title"] = "VerAsignacionIndividual";
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+    RH00_Usuarios usuarios = new RH00_Usuarios();
+
+    string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = " + Model.idEmpleado);
+
+    try
+    {
+        usuarios = JsonConvert.DeserializeObject<List<RH00_Usuarios>>(json).FirstOrDefault();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+
+<h1>Ver Asignación de @usuarios.Nombres @usuarios.Apellidos</h1>
+<a asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@Model.idAsignacion">Regresar a la asignación</a>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.fechaInicioAsignacion)
+        </dt>
+        <dd class="col-sm-10">
+            @*@Html.DisplayFor(model => model.fechaInicioAsignacion)*@
+            <a>@Model.fechaInicioAsignacion.ToString("dd/MM/yyyy")</a>
+        </dd>
+        @{
+            if (Model.fechaFinAsignacion == DateTime.Parse("1/1/0001 12:00:00 AM"))
+            {
+
+            }
+            else
+            {
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.fechaFinAsignacion)
+                </dt>
+                <dd class="col-sm-10">
+                    <a>@Model.fechaFinAsignacion.ToString("dd/MM/yyyy")</a>
+                </dd>
+            }
+        }
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.asignado)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                if (Model.asignado == true)
+                {
+                    <a style="color:darkcyan">Aún no finaliza la asignación</a>
+                }
+                else
+                {
+                    <a style="color:darkred">La asignación ha finalizado</a>
+                }
+            }
+        </dd>
+        <dt class="col-sm-6">
+            @Html.DisplayNameFor(model => model.idEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.idEmpleado)
+        </dd>
+    </dl>
+</div>
+
+<h4>Datos de Contacto</h4>
+<dl class="row">
+    <dt class="col-sm-4">
+        <a>Correo empresa</a>
+    </dt>
+    <dd class="col-sm-10">
+        @{
+            if (usuarios.CorreoEmpresa == null || usuarios.CorreoEmpresa == "")
+            {
+                <a>Sin correo empresarial registrado</a>
+            }
+            else
+            {
+                <a href="mailto:@usuarios.CorreoEmpresa?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@usuarios.CorreoEmpresa</a>
+            }
+        }
+    </dd>
+    <dt class="col-sm-4">
+        <a>Número Telefónico</a>
+    </dt>
+    <dd class="col-sm-10">
+        @if (usuarios.TelefonoPersonal != null)
+        {
+            <a>@usuarios.TelefonoPersonal</a>
+        }
+        else
+        {
+            <a>Sin número telefonico registrado</a>
+        }
+    </dd>
+</dl>

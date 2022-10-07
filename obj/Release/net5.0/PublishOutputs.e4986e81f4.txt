@@ -44,6 +44,7 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Rel
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\jquery\LICENSE.txt
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\login\styles_login.css
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\suffixes\JavaScript.js
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\resources\fondo.jpg
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\resources\logo.png
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\resources\paloma.png
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\wwwroot\resources\print.png

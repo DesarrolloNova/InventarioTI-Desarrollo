@@ -47,7 +47,7 @@
     List<int> idUsuariosInactivos = new List<int>();
     List<TabUsuario> usuarios = new List<TabUsuario>();
     List<TabUsuario> usuariosInactivos = new List<TabUsuario>();
-    idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdEmpleado).ToList();
+    idUsuarios = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id && u.asignado == true).Select(u => u.idEmpleado).ToList();
     foreach (var idusuario in idUsuarios)
     {
         TabUsuario usuario = new TabUsuario();
@@ -55,7 +55,7 @@
         usuarios.Add(usuario);
     }
 
-    idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdEmpleado).ToList();
+    idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id && u.asignado == false).Select(u => u.idEmpleado).ToList();
     foreach (var idusuario in idUsuariosInactivos)
     {
         TabUsuario usuario = new TabUsuario();

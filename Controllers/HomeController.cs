@@ -4,6 +4,7 @@ using InventarioTI.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,6 +22,7 @@ namespace InventarioTI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        ValidateCoockie validateCoockie = new ValidateCoockie();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -29,7 +31,17 @@ namespace InventarioTI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound","Home");
+            }
         }
 
         public IActionResult Privacy()
@@ -44,9 +56,9 @@ namespace InventarioTI.Controllers
         }
 
 
-        public ActionResult CerrarSesion()
+        public ActionResult UserNotFound()
         {
-            return RedirectToAction("Index","Acceso");
+            return View();
         }
     }
 }

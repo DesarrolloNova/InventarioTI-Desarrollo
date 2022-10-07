@@ -5,18 +5,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InventarioTI.Models
 {
+    [Table("UsuarioAsignacion")]
     public class UsuarioAsignacion
     {
         [Key]
-        public int IdUsuarioAsignacion { get; set; }
-        public int IdEmpleado { get; set; }
-        [ForeignKey("IdAsignacion")]
-        public int IdAsignacion { get; set; }
+        public int idUsuarioAsignacion { get; set; }
+        public int idAsignacion { get; set; }
         [Display(Name ="Fecha de Inicio de Asignación")]
-        public DateTime FechaInicioAsignacion { get; set; }
+        public DateTime fechaInicioAsignacion { get; set; }
         [Display(Name = "Fecha de Fin de Asignación")]
-        public DateTime FechaFinAsignacion { get; set; }
+        public DateTime fechaFinAsignacion { get; set; }
         [Display(Name ="Usuario Asignado")]
-        public bool Asignado { get; set; }
+        public bool asignado { get; set; }
+        [Display(Name ="Id del Empleado")]
+        public int idEmpleado { get; set; }
     }
 }

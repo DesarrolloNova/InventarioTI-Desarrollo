@@ -7,161 +7,222 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventarioTI.Context;
 using InventarioTI.Models;
+using InventarioTI.Tools;
 
 namespace InventarioTI.Controllers
 {
     public class TabUsuariosController : Controller
     {
         private readonly InventarioContext _context;
-
+        ValidateCoockie validateCoockie = new ValidateCoockie();
         public TabUsuariosController(InventarioContext context)
         {
             _context = context;
         }
 
-        // GET: TabUsuarios
         public async Task<IActionResult> Index()
         {
-            var inventarioContext = _context.TabUsuarios.Include(t => t.IdDepartamentoNavigation).Include(t => t.IdPlantaNavigation).Include(t => t.IdPuestoNavigation);
-            return View(await inventarioContext.ToListAsync());
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                var inventarioContext = _context.TabUsuarios.Include(t => t.IdDepartamentoNavigation).Include(t => t.IdPlantaNavigation).Include(t => t.IdPuestoNavigation);
+                return View(await inventarioContext.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // GET: TabUsuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var tabUsuario = await _context.TabUsuarios
-                .Include(t => t.IdDepartamentoNavigation)
-                .Include(t => t.IdPlantaNavigation)
-                .Include(t => t.IdPuestoNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tabUsuario == null)
+                var tabUsuario = await _context.TabUsuarios
+                    .Include(t => t.IdDepartamentoNavigation)
+                    .Include(t => t.IdPlantaNavigation)
+                    .Include(t => t.IdPuestoNavigation)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (tabUsuario == null)
+                {
+                    return NotFound();
+                }
+
+                return View(tabUsuario);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("UserNotFound", "Home");
             }
-
-            return View(tabUsuario);
         }
 
-        // GET: TabUsuarios/Create
         public IActionResult Create()
         {
-            ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion");
-            ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio");
-            ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id");
-            return View();
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion");
+                ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio");
+                ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // POST: TabUsuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NombreUsuario,Nombre,ApellidoPaterno,ApellidoMaterno,Correo,NumeroTelefonico,NumeroExtension,PstCorreo,UsuarioWindows,EsUsuarioSap,EsCorporativo,Password,IdPuesto,IdDepartamento,IDSitio,Activo,FechaCreacion")] TabUsuario tabUsuario)
         {
-            if (ModelState.IsValid)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                _context.Add(tabUsuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(tabUsuario);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion", tabUsuario.IdDepartamento);
+                ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio", tabUsuario.IDSitio);
+                ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id", tabUsuario.IdPuesto);
+                return View(tabUsuario);
             }
-            ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion", tabUsuario.IdDepartamento);
-            ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio", tabUsuario.IDSitio);
-            ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id", tabUsuario.IdPuesto);
-            return View(tabUsuario);
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // GET: TabUsuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var tabUsuario = await _context.TabUsuarios.FindAsync(id);
-            if (tabUsuario == null)
-            {
-                return NotFound();
+                var tabUsuario = await _context.TabUsuarios.FindAsync(id);
+                if (tabUsuario == null)
+                {
+                    return NotFound();
+                }
+                ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion", tabUsuario.IdDepartamento);
+                ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio", tabUsuario.IDSitio);
+                ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id", tabUsuario.IdPuesto);
+                return View(tabUsuario);
             }
-            ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion", tabUsuario.IdDepartamento);
-            ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio", tabUsuario.IDSitio);
-            ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id", tabUsuario.IdPuesto);
-            return View(tabUsuario);
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // POST: TabUsuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NombreUsuario,Nombre,ApellidoPaterno,ApellidoMaterno,Correo,NumeroTelefonico,NumeroExtension,PstCorreo,UsuarioWindows,EsUsuarioSap,EsCorporativo,Password,IdPuesto,IdDepartamento,IDSitio,Activo,FechaCreacion")] TabUsuario tabUsuario)
         {
-            if (id != tabUsuario.Id)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id != tabUsuario.Id)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(tabUsuario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TabUsuarioExists(tabUsuario.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(tabUsuario);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!TabUsuarioExists(tabUsuario.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion", tabUsuario.IdDepartamento);
+                ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio", tabUsuario.IDSitio);
+                ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id", tabUsuario.IdPuesto);
+                return View(tabUsuario);
             }
-            ViewData["IdDepartamento"] = new SelectList(_context.CatDepartamentos, "Id", "Abreviacion", tabUsuario.IdDepartamento);
-            ViewData["IDSitio"] = new SelectList(_context.CatPlanta, "IDSitio", "IDSitio", tabUsuario.IDSitio);
-            ViewData["IdPuesto"] = new SelectList(_context.CatPuestos, "Id", "Id", tabUsuario.IdPuesto);
-            return View(tabUsuario);
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // GET: TabUsuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var tabUsuario = await _context.TabUsuarios
-                .Include(t => t.IdDepartamentoNavigation)
-                .Include(t => t.IdPlantaNavigation)
-                .Include(t => t.IdPuestoNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tabUsuario == null)
+                var tabUsuario = await _context.TabUsuarios
+                    .Include(t => t.IdDepartamentoNavigation)
+                    .Include(t => t.IdPlantaNavigation)
+                    .Include(t => t.IdPuestoNavigation)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (tabUsuario == null)
+                {
+                    return NotFound();
+                }
+
+                return View(tabUsuario);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("UserNotFound", "Home");
             }
-
-            return View(tabUsuario);
         }
 
-        // POST: TabUsuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tabUsuario = await _context.TabUsuarios.FindAsync(id);
-            _context.TabUsuarios.Remove(tabUsuario);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                var tabUsuario = await _context.TabUsuarios.FindAsync(id);
+                _context.TabUsuarios.Remove(tabUsuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
         private bool TabUsuarioExists(int id)

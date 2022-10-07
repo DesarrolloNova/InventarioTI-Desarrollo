@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Eventing.Reader;
 
 namespace InventarioTI.Tools
 {
@@ -14,6 +15,12 @@ namespace InventarioTI.Tools
             id = Convert.ToInt32(encrypt.Decrypt(coockie, key));
 
             return id;
+        }
+
+        public bool GetCoockieExist(bool isActive)
+        {
+            //isActive = true; //Comentar para producción
+            return isActive;
         }
     }
 }

@@ -139,7 +139,7 @@
 
     if (Model.Activo == true)
     {
-        idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdEmpleado).ToList();
+        idUsuarios = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id && u.asignado == true).Select(u => u.idEmpleado).ToList();
         foreach (var idusuario in idUsuarios)
         {
             RH00_Usuarios usuario = new RH00_Usuarios();
@@ -158,7 +158,7 @@
             usuarios.Add(usuario);
         }
 
-        idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdEmpleado).ToList();
+        idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id && u.asignado == false).Select(u => u.idEmpleado).ToList();
         foreach (var idusuario in idUsuariosInactivos)
         {
             RH00_Usuarios usuario = new RH00_Usuarios();
@@ -264,9 +264,9 @@
                                 </td>
                                 <td>
                                     @{
-                                        int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.IdUsuarioAsignacion).FirstOrDefault();
+                                        int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.idEmpleado == item.IdEmpleado && ua.idAsignacion == Model.Id).Select(ua => ua.idUsuarioAsignacion).FirstOrDefault();
+                                        <a asp-controller="UsuarioAsignacions" asp-action="VerAsignacionIndividual" asp-route-idUsuarioAsignacion="@idUsuarioAsignacion" class="btn btn-primary">Ver Detalle</a>
                                     }
-                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@idUsuarioAsignacion">Ver Detalle</a>
                                     @if (Model.Activo == true)
                                     {
                                         if (usuarios.Count > 1)
@@ -340,9 +340,9 @@
                                 </td>
                                 <td>
                                     @{
-                                        int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.IdUsuarioAsignacion).FirstOrDefault();
+                                        int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.idEmpleado == item.IdEmpleado && ua.idAsignacion == Model.Id).Select(ua => ua.idUsuarioAsignacion).FirstOrDefault();
+                                        <a asp-controller="UsuarioAsignacions" asp-action="VerAsignacionIndividual" asp-route-idUsuarioAsignacion="@idUsuarioAsignacion" class="btn btn-primary">Ver Detalle</a>
                                     }
-                                    <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@idUsuarioAsignacion">Ver Detalle</a>
                                 </td>
                             </tr>
                         }
@@ -353,7 +353,7 @@
     }
     else
     {
-        idUsuarios = context.UsuarioAsignacion.Where(u => u.IdAsignacion == Model.Id).Select(u => u.IdEmpleado).ToList();
+        idUsuarios = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id).Select(u => u.idEmpleado).ToList();
         foreach (var idusuario in idUsuarios)
         {
             RH00_Usuarios usuario = new RH00_Usuarios();
@@ -417,9 +417,9 @@
                                     </td>
                                     <td>
                                         @{
-                                            int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.IdUsuarioAsignacion).FirstOrDefault();
+                                            int idUsuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.idEmpleado == item.IdEmpleado && ua.idAsignacion == Model.Id).Select(ua => ua.idUsuarioAsignacion).FirstOrDefault();
+                                            <a asp-controller="UsuarioAsignacions" asp-action="VerAsignacionIndividual" asp-route-idUsuarioAsignacion="@idUsuarioAsignacion" class="btn btn-primary">Ver Detalle</a>
                                         }
-                                        <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@idUsuarioAsignacion">Ver Detalle</a>
                                     </td>
                                 </tr>
                             }
