@@ -27,7 +27,7 @@ namespace InventarioTI.Controllers
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
             if (isCoockie != false)
             {
-                return View(await _context.InvCatSos.ToListAsync());
+                return View(await _context.InvCatSos.OrderBy(so=>so.SistemaOperativo).ToListAsync());
             }
             else
             {

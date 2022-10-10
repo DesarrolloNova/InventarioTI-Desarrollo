@@ -62,59 +62,50 @@ namespace InventarioTI.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalizarAsignacion(int idAsignacion, int idEquipo)
         {
-            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
-            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
-            if (isCoockie != false)
-            {
-                InvTabEquipo equipo = new InvTabEquipo();
-                InventarioContext context = new InventarioContext();
-                InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
-                //
-                List<int> idUsuarios = new List<int>();
-                List<TabUsuario> usuarios = new List<TabUsuario>();
+            InvTabEquipo equipo = new InvTabEquipo();
+            InventarioContext context = new InventarioContext();
+            InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
+            //
+            List<int> idUsuarios = new List<int>();
+            List<TabUsuario> usuarios = new List<TabUsuario>();
 
-                idUsuarios = context.UsuarioAsignacion.Where(u => u.idAsignacion == idAsignacion && u.asignado == true).Select(u => u.idEmpleado).ToList();
-                foreach (var idusuario in idUsuarios)
-                {
-                    UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
-                    usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.idEmpleado == idusuario && ua.idAsignacion == idAsignacion).FirstOrDefault();
-                    usuarioAsignacion.asignado = false;
-                    usuarioAsignacion.fechaFinAsignacion = DateTime.Now;
-                    #region ActualizarAsignacionIndividual
-                    context.UsuarioAsignacion.Update(usuarioAsignacion);
-                    await context.SaveChangesAsync();
-                    context.Database.CloseConnection();
-                    #endregion
-                }
-                //
-                #region ExtractInfo
-                asignacion = context.InvHisAsignacionEquipos.Where(a => a.Id == idAsignacion).FirstOrDefault();
-                equipo = context.InvTabEquipos.Where(e => e.Id == idEquipo).FirstOrDefault();
-                #endregion
-                //ACTUALIZACION DE ESTATUS
-                asignacion.Activo = false;
-                asignacion.FechaFin = DateTime.Now;
-                equipo.IdEstatus = 2; //ESTATUS DISPONIBLE
-                                      //ACTUALIZACION DE ESTATUS
-                /*ACTUALIZACIÓN*/
-                #region ActualizarEquipo
-                context.InvTabEquipos.Update(equipo);
-                await context.SaveChangesAsync();
-                context.Database.CloseConnection();
-                #endregion
-                /*ACTUALIZACIÓN*/
-                #region ActualizarAsignacion
-                context.InvHisAsignacionEquipos.Update(asignacion);
-                await context.SaveChangesAsync();
-                context.Database.CloseConnection();
-                #endregion
-                /*ACTUALIZACIÓN*/
-                return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
-            }
-            else
+            idUsuarios = context.UsuarioAsignacion.Where(u => u.idAsignacion == idAsignacion && u.asignado == true).Select(u => u.idEmpleado).ToList();
+            foreach (var idusuario in idUsuarios)
             {
-                return RedirectToAction("UserNotFound", "Home");
+                UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
+                usuarioAsignacion = context.UsuarioAsignacion.Where(ua => ua.idEmpleado == idusuario && ua.idAsignacion == idAsignacion).FirstOrDefault();
+                usuarioAsignacion.asignado = false;
+                usuarioAsignacion.fechaFinAsignacion = DateTime.Now;
+                #region ActualizarAsignacionIndividual
+                context.UsuarioAsignacion.Update(usuarioAsignacion);
+                await context.SaveChangesAsync();
+                context.Database.CloseConnection();
+                #endregion
             }
+            //
+            #region ExtractInfo
+            asignacion = context.InvHisAsignacionEquipos.Where(a => a.Id == idAsignacion).FirstOrDefault();
+            equipo = context.InvTabEquipos.Where(e => e.Id == idEquipo).FirstOrDefault();
+            #endregion
+            //ACTUALIZACION DE ESTATUS
+            asignacion.Activo = false;
+            asignacion.FechaFin = DateTime.Now;
+            equipo.IdEstatus = 2; //ESTATUS DISPONIBLE
+                                  //ACTUALIZACION DE ESTATUS
+            /*ACTUALIZACIÓN*/
+            #region ActualizarEquipo
+            context.InvTabEquipos.Update(equipo);
+            await context.SaveChangesAsync();
+            context.Database.CloseConnection();
+            #endregion
+            /*ACTUALIZACIÓN*/
+            #region ActualizarAsignacion
+            context.InvHisAsignacionEquipos.Update(asignacion);
+            await context.SaveChangesAsync();
+            context.Database.CloseConnection();
+            #endregion
+            /*ACTUALIZACIÓN*/
+            return RedirectToAction("Details", "InvTabEquipoes", new { id = idEquipo });
         }
 
         [HttpPost]
