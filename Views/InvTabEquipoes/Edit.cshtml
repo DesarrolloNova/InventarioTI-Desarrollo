@@ -31,7 +31,7 @@
                 <label asp-for="IdTipoEquipo" class="control-label"></label>
                 @{
                     List<InvCatTipoEquipo> tipos = new List<InvCatTipoEquipo>();
-                    tipos = context.InvCatTipoEquipos.ToList();
+                    tipos = context.InvCatTipoEquipos.OrderBy(t=>t.Tipo).ToList();
                     List<SelectListItem> tiposItems = tipos.ConvertAll(a =>
                     {
                         return new SelectListItem()
@@ -91,7 +91,7 @@
                 <label asp-for="IdSO" class="control-label"></label>
                 @{
                     List<InvCatSo> sos = new List<InvCatSo>();
-                    sos = context.InvCatSos.ToList();
+                    sos = context.InvCatSos.OrderBy(so=>so.SistemaOperativo).ToList();
 
                     List<SelectListItem> SoItems = sos.ConvertAll(a =>
                     {
