@@ -1,0 +1,49 @@
+﻿@using InventarioTI.Context
+@model IEnumerable<InventarioTI.Models.InvCatSo>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    InventarioContext context = new InventarioContext();
+}
+
+<h1>Sistemas Operativos</h1>
+
+<p>
+    <a class="btn btn-outline-primary" asp-action="Create">Crear Nuevo</a>
+</p>
+<p>
+    <a asp-controller="Home" asp-action="Catalogos">Regresar a los catálogos</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SistemaOperativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SistemaOperativo)
+            </td>
+            <td>
+                    @{
+                        if (context.InvTabEquipos.Where(e => e.IdSO == item.Id).Select(e => e.Id).ToList().Count > 0)
+                        {
+                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                        }
+                        else 
+                        {
+                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                        }
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

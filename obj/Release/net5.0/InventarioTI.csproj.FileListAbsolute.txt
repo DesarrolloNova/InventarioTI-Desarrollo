@@ -170,3 +170,12 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Rel
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\InventarioTI.genruntimeconfig.cache
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\ref\InventarioTI.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\UsuarioAsignacions\VerAsignacionIndividual.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\Home\Catalogos.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatSoes\Create.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatSoes\Delete.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatSoes\Edit.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatSoes\Index.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatTipoEquipoes\Create.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatTipoEquipoes\Delete.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatTipoEquipoes\Edit.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatTipoEquipoes\Index.cshtml.g.cs

@@ -198,4 +198,28 @@ CREATE TABLE [dbo].[InvHisPlantillaInstalacion](
 
 GO
 
+ALTER TABLE InvTabEquipo
+DROP COLUMN TipoEquipo
+GO
 
+ALTER TABLE InvTabEquipo
+DROP COLUMN SO
+GO
+
+ALTER TABLE InvTabEquipo
+ADD IdTipoEquipo INT NOT NULL
+GO
+
+ALTER TABLE InvTabEquipo
+ADD IdSO INT NOT NULL
+GO
+
+ALTER TABLE InvTabEquipo
+ADD CONSTRAINT FK_InvTabEquipo_TipoEquipo FOREIGN KEY (IdTipoEquipo)
+REFERENCES InvCatTipoEquipo (Id)
+GO
+
+ALTER TABLE InvTabEquipo
+ADD CONSTRAINT FK_InvTabEquipo_SO FOREIGN KEY (IdSO)
+REFERENCES InvCatSO (Id)
+GO

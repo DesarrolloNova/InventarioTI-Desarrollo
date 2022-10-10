@@ -28,7 +28,7 @@
             <input type="hidden" asp-for="IdEstatus" />
             @*<input type="hidden" class="form-check-input" value="true" asp-for="Activo" />*@
             <div class="form-group">
-                <label asp-for="TipoEquipo" class="control-label"></label>
+                <label asp-for="IdTipoEquipo" class="control-label"></label>
                 @{
                     List<InvCatTipoEquipo> tipos = new List<InvCatTipoEquipo>();
                     tipos = context.InvCatTipoEquipos.ToList();
@@ -37,14 +37,14 @@
                         return new SelectListItem()
                 {
                     Text = a.Tipo,
-                    Value = a.Tipo,
+                    Value = a.Id.ToString(),
                     Selected = false
                 };
                     });
                 }
-                <select asp-for="TipoEquipo" asp-items="tiposItems" class="custom-select">
+                <select asp-for="IdTipoEquipo" asp-items="tiposItems" class="custom-select">
                 </select>
-                <span asp-validation-for="TipoEquipo" class="text-danger"></span>
+                <span asp-validation-for="IdTipoEquipo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Marca" class="control-label"></label>
@@ -88,7 +88,7 @@
                 <span asp-validation-for="DireccionMac" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="So" class="control-label"></label>
+                <label asp-for="IdSO" class="control-label"></label>
                 @{
                     List<InvCatSo> sos = new List<InvCatSo>();
                     sos = context.InvCatSos.ToList();
@@ -98,14 +98,14 @@
                         return new SelectListItem()
                 {
                     Text = a.SistemaOperativo,
-                    Value = a.SistemaOperativo,
+                    Value = a.Id.ToString(),
                     Selected = false
                 };
                     });
                 }
-                <select asp-for="So" class="custom-select" asp-items="SoItems">
+                <select asp-for="IdSO" class="custom-select" asp-items="SoItems">
                 </select>
-                <span asp-validation-for="So" class="text-danger"></span>
+                <span asp-validation-for="IdSO" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DatosAdicionales" class="control-label"></label>

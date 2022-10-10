@@ -22,7 +22,7 @@ namespace InventarioTI.Models
         public string NombreEquipo { get; set; }
         [Display(Name = "Tipo")]
         [Required(ErrorMessage = "Debes seleccionar un tipo")]
-        public string TipoEquipo { get; set; }
+        public int IdTipoEquipo { get; set; }
         [Required(ErrorMessage = "Debes ingresar la marca del equipo")]
         public string Marca { get; set; }
         [Required(ErrorMessage = "Debes ingresar el modelo del equipo")]
@@ -35,7 +35,7 @@ namespace InventarioTI.Models
         public string DireccionMac { get; set; }
         [Display(Name = "Sistema Operativo")]
         [Required(ErrorMessage = "Debes seleccionar un sistema operativo")]
-        public string So { get; set; }
+        public int IdSO { get; set; }
         [Display(Name = "Datos Adicionales")]
         public string DatosAdicionales { get; set; }
         [Required(ErrorMessage = "Debes ingresar la información del procesador")]

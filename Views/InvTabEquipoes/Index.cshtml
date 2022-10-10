@@ -38,7 +38,7 @@
                 @Html.DisplayNameFor(model => model.IDSitio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoEquipo)
+                @Html.DisplayNameFor(model => model.IdTipoEquipo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Marca)
@@ -81,11 +81,12 @@
                         {
                             Console.WriteLine(ex.Message);
                         }
-                        <a>@ubicacion</a>
+                                <a>@ubicacion</a>
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TipoEquipo)
+                    @*@Html.DisplayFor(modelItem => item.IdTipoEquipo)*@
+                    <a>@context.InvCatTipoEquipos.Where(e=>e.Id== item.IdTipoEquipo).Select(e=>e.Tipo).FirstOrDefault()</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Marca)
@@ -100,7 +101,7 @@
                     @{
                         InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
                         estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == item.IdEstatus).FirstOrDefault();
-                        <a>@estatusEquipo.Estatus</a>
+                                <a>@estatusEquipo.Estatus</a>
                     }
                     @*@if (item.Estatus == 2)
                 {
