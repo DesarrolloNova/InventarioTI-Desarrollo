@@ -74,7 +74,7 @@ namespace InventarioTI.Context
 
             modelBuilder.Entity<CatPlanta>(entity =>
             {
-                
+
             });
 
             modelBuilder.Entity<CatPuesto>(entity =>

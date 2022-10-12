@@ -510,7 +510,7 @@ namespace InventarioTI.Controllers
                         _context.Database.CloseConnection();
                     }
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "InvTabEquipoes", new { id = lastId });
                 }
                 return View(invTabEquipo);
             }

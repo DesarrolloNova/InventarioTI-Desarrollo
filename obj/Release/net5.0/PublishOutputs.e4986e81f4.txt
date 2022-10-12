@@ -55,7 +55,10 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Rel
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\InventarioTI.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\InventarioTI.runtimeconfig.json
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\InventarioTI.pdb
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\ClosedXML.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\DataAnnotationsExtensions.dll
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\DocumentFormat.OpenXml.dll
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\ExcelNumberFormat.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\Humanizer.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -100,6 +103,7 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Rel
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\System.Diagnostics.DiagnosticSource.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\System.Drawing.Common.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\System.IO.Packaging.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\System.Runtime.Caching.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\PubTmp\Out\cs\Microsoft.CodeAnalysis.resources.dll

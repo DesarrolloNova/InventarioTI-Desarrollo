@@ -75,5 +75,20 @@ namespace InventarioTI.Controllers
                 return RedirectToAction("UserNotFound", "Home");
             }
         }
+
+        public ActionResult Reportes()
+        {
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
+        }
     }
 }

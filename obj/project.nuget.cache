@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "I7kHhfzoIemIyOBPjhvfIyL/eDQLDHZ3R2dBsGcN/GUWg9dd026OQqiHIxh+BIlGaD6WvwtKvlK7D9EgAncwtA==",
+  "dgSpecHash": "IqK+JG/k0Wczjd82vp+ArKbwDTTAvwFipLb2Wb8xIi6Ds5Pma5+wrcWXTsvOW3Wh5tY7DhxwIyGc5RIfFqYayA==",
   "success": true,
   "projectFilePath": "C:\\Users\\desarrollo\\Documents\\NOVA\\INVENTARIO_TI\\InventarioTI-Desarrollo\\InventarioTI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\desarrollo\\.nuget\\packages\\closedxml\\0.96.0\\closedxml.0.96.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\dataannotationsextensions\\5.0.1.27\\dataannotationsextensions.5.0.1.27.nupkg.sha512",
+    "C:\\Users\\desarrollo\\.nuget\\packages\\documentformat.openxml\\2.16.0\\documentformat.openxml.2.16.0.nupkg.sha512",
+    "C:\\Users\\desarrollo\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
@@ -108,6 +111,7 @@
     "C:\\Users\\desarrollo\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\desarrollo\\.nuget\\packages\\system.io.packaging\\4.7.0\\system.io.packaging.4.7.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
     "C:\\Users\\desarrollo\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
