@@ -22,7 +22,9 @@ namespace InventarioTI.Models
         [Key]
         public int Id { get; set; }
         [Display(Name ="Fecha de Inicio")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime FechaInicio { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         [Display(Name = "Fecha de Fin")]
         public DateTime? FechaFin { get; set; }
         [Display(Name ="En Dominio")]

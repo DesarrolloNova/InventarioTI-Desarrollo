@@ -47,19 +47,18 @@ namespace InventarioTI.Models
         [Required(ErrorMessage = "Debes ingresar la capacidad de la memoria RAM")]
         public double Ram { get; set; }
         [Display(Name = "Fecha Compra")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        //[Range(typeof(DateTime), "1/2/2004", "3/4/2004", ErrorMessage = "Value for {0} must be between {1} and {2}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime? FechaCompra { get; set; }
         [Display(Name = "Fecha Inicio Garantía")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime? FechaInicioGarantia { get; set; }
         [Display(Name = "Fecha Fín Garantía")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime? FechaFinGarantia { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         [Display(Name = "Creación")]
         public DateTime FechaCreacion { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         [Display(Name = "Ultima Actualización")]
         public DateTime? UltimaActualizacion { get; set; }
         //public bool Activo { get; set; } // Se controla el activo con el idEstatus

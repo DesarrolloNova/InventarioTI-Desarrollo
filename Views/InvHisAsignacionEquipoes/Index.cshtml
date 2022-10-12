@@ -43,12 +43,10 @@
         {
             <tr>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.FechaInicio)*@
-                    <a>@item.FechaInicio.ToString("dd/MMMM/yyyy")</a>
+                    @Html.DisplayFor(modelItem => item.FechaInicio)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.FechaFin)*@
-                    <a>@item.FechaFin.Value.ToString("dd/MMMM/yyyy")</a>
+                    @Html.DisplayFor(modelItem => item.FechaFin)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EnDominio)
