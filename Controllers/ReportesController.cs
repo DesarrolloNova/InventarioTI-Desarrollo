@@ -132,10 +132,10 @@ namespace InventarioTI.Controllers
 
                             #region BodyEmpleados
                             int empleadosIndex = 0;
+                            currentRow++;
                             foreach (var idEmpleado in empleadosIds)
                             {
                                 headerIndexEquipos = 1;
-                                currentRow++;
                                 RH00_Usuarios empleado = new RH00_Usuarios();
                                 string jsonEmpleado = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = " + idEmpleado.ToString());
                                 try

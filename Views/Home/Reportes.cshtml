@@ -1,16 +1,32 @@
-﻿@*
+﻿@using InventarioTI.Context
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    InventarioContext context = new InventarioContext();
 }
 <h1>Reportes</h1>
 <form method="post" asp-controller="Reportes" asp-action="GenerarReporteEquipos">
     <hr />
     <select name="slc_report">
-        <option value="1">Reporte de Equipos General</option>
-        <option value="2">Reporte de Equipos Asignados</option>
-        <option value="3">Reporte de Equipos No Asignados</option>
-        <option value="4">Reporte de Equipos Archivados</option>
+        @{
+            if (context.InvTabEquipos.ToList().Count > 0)
+            {
+                <option value="1">Reporte de Equipos General</option>
+            }
+            if (context.InvTabEquipos.Where(e => e.IdEstatus == 4).ToList().Count > 0)
+            {
+                <option value="2">Reporte de Equipos Asignados</option>
+            }
+            if (context.InvTabEquipos.Where(e => e.IdEstatus == 2).ToList().Count > 0)
+            { 
+                <option value="3">Reporte de Equipos Disponibles</option>   
+            }
+            if (context.InvTabEquipos.Where(e => e.IdEstatus == 6).ToList().Count > 0)
+            {
+                <option value="4">Reporte de Equipos Archivados</option>
+            }
+        }
     </select>
     <hr />
     <button class="btn btn-success">Generar Reporte</button>
