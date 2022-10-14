@@ -28,13 +28,20 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         @{
-            if (context.InvTabEquipos.Where(e => e.IdEstatus == Model.Id).Select(e => e.Id).ToList().Count > 0)
+            if (Model.Id != 4 && Model.Id != 2 && Model.Id != 6)
             {
-
+                if (context.InvTabEquipos.Where(e => e.IdEstatus == Model.Id).Select(e => e.Id).ToList().Count > 0)
+                {
+                    <a>Buen inento...!!! No puedes eliminar este registro</a>
+                }
+                else
+                {
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                }
             }
             else
-            {
-                <input type="submit" value="Eliminar" class="btn btn-danger" />
+            { 
+                <a>Buen inento...!!! No puedes eliminar este registro</a>
             }
         }
         |

@@ -32,22 +32,37 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Estatus)
+                    @{
+                        if (item.Id != 4 && item.Id != 2 && item.Id != 6)
+                        {
+                            @Html.DisplayFor(modelItem => item.Estatus)
+                        }
+                        else
+                        {
+                            <a style="color:cornflowerblue">@item.Estatus</a>
+                        }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Descripcion)
                 </td>
                 <td>
                     @{
-
-                        if (context.InvTabEquipos.Where(e => e.IdEstatus == item.Id).Select(e => e.Id).ToList().Count > 0)
+                        if (item.Id != 4 && item.Id != 2 && item.Id != 6)
                         {
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                            if (context.InvTabEquipos.Where(e => e.IdEstatus == item.Id).Select(e => e.Id).ToList().Count > 0)
+                            {
+                                <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                            }
                         }
                         else
                         {
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                            <a>No puedes editar ni eliminar este registro</a>
                         }
                     }
                 </td>

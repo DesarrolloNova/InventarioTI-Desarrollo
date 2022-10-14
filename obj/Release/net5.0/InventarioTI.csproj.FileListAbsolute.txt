@@ -184,3 +184,7 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\bin\Rel
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\bin\Release\net5.0\ExcelNumberFormat.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\bin\Release\net5.0\System.IO.Packaging.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\Home\Reportes.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatEstatusEquipoes\Create.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatEstatusEquipoes\Delete.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatEstatusEquipoes\Edit.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Release\net5.0\Razor\Views\InvCatEstatusEquipoes\Index.cshtml.g.cs

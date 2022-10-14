@@ -24,7 +24,7 @@
         @{
             if (context.InvTabEquipos.Where(e => e.IdTipoEquipo == Model.Id).Select(e => e.Id).ToList().Count > 0)
             {
-
+                <a>Buen inento...!!! No puedes eliminar este registro</a>
             }
             else
             {
