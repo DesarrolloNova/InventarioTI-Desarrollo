@@ -56,9 +56,9 @@ namespace InventarioTI.Controllers
         }
 
 
-        public ActionResult UserNotFound()
+        public void UserNotFound()
         {
-            return View();
+            Response.Redirect("https://rh.novaprint.mx/Aplicaciones/ti/Login");
         }
 
         public ActionResult Catalogos()

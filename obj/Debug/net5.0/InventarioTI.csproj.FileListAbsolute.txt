@@ -636,7 +636,6 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Deb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\InventarioTI.RazorCoreGenerate.cache
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Home\UserNotFound.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAccionEquipoes\Details.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAccionEquipoes\Index.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionEquipoes\Details.cshtml.g.cs
