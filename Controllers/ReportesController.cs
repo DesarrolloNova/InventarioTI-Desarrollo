@@ -112,7 +112,7 @@ namespace InventarioTI.Controllers
                     {
                         int idAsignacion = context.InvHisAsignacionEquipos.Where(a => a.Activo == true && a.IdEquipo == equipos[i].Id).Select(a => a.Id).FirstOrDefault();
                         int[] empleadosIds;
-                        empleadosIds = context.UsuarioAsignacion.Where(ua => ua.idAsignacion == idAsignacion).Select(ua => ua.idEmpleado).ToArray();
+                        empleadosIds = context.UsuarioAsignacion.Where(ua => ua.idAsignacion == idAsignacion && ua.asignado == true).Select(ua => ua.idEmpleado).ToArray();
                         if (empleadosIds.Length > 0)
                         {
                             #region Header de Empleados
