@@ -1,5 +1,9 @@
-﻿@using InventarioTI.Models.Tools_Models
+﻿@using InventarioTI.Context
+@using InventarioTI.Models.Tools_Models
 @model _qr
+@{
+    InventarioContext context = new InventarioContext();
+}
 <div class="modal fade" id="viewQr">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -16,22 +20,57 @@
                     {
 
                         <div class="alert alert-info">El QR se ha generado correctamente</div>
-                        <div id="qr" class="center">
-                            <div style="text-align:center;">
-                                <img src="@Model.QRCode" alt="QR" style="height:300px; width:300px;" />
+
+                        //Div a imprimir
+                        <div id="qr" hidden>
+                            <div style="width: 35%; float:left; text-align:left;">
+                                <img src="@Model.QRCode" alt="QR" style="height:240px; width:240px;" />
                             </div>
-                            <div style="text-align:center;">
-                                <label>@Model.DeviceName</label>
+                            <div style="width: 65%; float:right; text-align:left;">
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <strong><label style="font-size:larger">Nombre Equipo: </label></strong> <label style="font-size:larger">@Model.DeviceName</label>
+                                <br>
+                                <strong><label style="font-size:larger">Marca: </label></strong> <label style="font-size:larger">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Marca).FirstOrDefault()</label>
+                                <br>
+                                <strong><label style="font-size:larger">Modelo: </label></strong> <label style="font-size:larger">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Modelo).FirstOrDefault()</label>
+                                <br>
+                                <strong><label style="font-size:larger">No. Serie: </label></strong> <label style="font-size:larger">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.NoSerie).FirstOrDefault()</label>
                             </div>
                         </div>
-                        <hr />
-                        <span onclick="Imprime('qr', 'Imprimir');" class="btn btn-outline-primary"><img src="~/resources/print.png" id="Imprimir" runat="server" Width="36px" Visible="true" ImageAlign="Right" /> Imprime</span>
+                        //Div a imprimir
+
+                        //Div para mostrar
+                        <dl class="row">
+                            <dt class="col-sm-5">
+                                <div style="text-align:left;">
+                                    <img src="@Model.QRCode" alt="QR" style="height:200px; width:200px;" />
+                                </div>
+                            </dt>
+                            <dd class="col-sm-7">
+                                <div style="text-align:left;">
+                                    <br>
+                                    <br>
+                                    <strong><label style="font-size:small">Nombre Equipo: </label></strong> <label style="font-size:small">@Model.DeviceName</label>
+                                    <br>
+                                    <strong><label style="font-size:small">Marca: </label></strong> <label style="font-size:small">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Marca).FirstOrDefault()</label>
+                                    <br>
+                                    <strong><label style="font-size:small">Modelo: </label></strong> <label style="font-size:small">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Modelo).FirstOrDefault()</label>
+                                    <br>
+                                    <strong><label style="font-size:small">No. Serie: </label></strong> <label style="font-size:small">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.NoSerie).FirstOrDefault()</label>
+                                </div>
+                            </dd>
+                        </dl>
+                        //Div para mostrar
                     }
                     else
                     {
                         <div class="alert alert-danger">El QR no se pudo generar</div>
                     }
                     <div class="modal-footer">
+                        <span onclick="Imprime('qr', 'Imprimir');" class="btn btn-outline-primary"><img src="~/resources/print.png" id="Imprimir" runat="server" Width="36px" Visible="true" ImageAlign="Right" /> Imprime</span>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
                     </div>
                 </form>
