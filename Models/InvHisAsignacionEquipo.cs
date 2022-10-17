@@ -34,6 +34,7 @@ namespace InventarioTI.Models
         public string TipoConexion { get; set; }
         [Display(Name = "Dirección IP")]
         [Required(ErrorMessage ="Debes ingresar la dirección IP")]
+        [StringLength(15, MinimumLength = 15, ErrorMessage = "Debes ingresar la dirección IP completa")]
         public string Ip { get; set; }
         public int IdEquipo { get; set; }
         public bool Activo { get; set; }

@@ -32,6 +32,7 @@ namespace InventarioTI.Models
         public string NoSerie { get; set; }
         [Display(Name = "Dirección MAC")]
         [Required(ErrorMessage = "Debes ingresar la dirección MAC del equipo")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Debes ingresar la dirección MAC completa")]
         public string DireccionMac { get; set; }
         [Display(Name = "Sistema Operativo")]
         [Required(ErrorMessage = "Debes seleccionar un sistema operativo")]

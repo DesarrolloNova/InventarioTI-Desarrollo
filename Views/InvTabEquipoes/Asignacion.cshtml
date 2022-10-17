@@ -15,6 +15,7 @@
     {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
 }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <h1>Asignacion de equipo "@equipo.NombreEquipo"</h1>
     <div>
         <a asp-action="Details" asp-route-Id="@Model.IdEquipo">Ir al Equipo</a>
@@ -57,7 +58,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Ip" class="control-label"></label>
-                <input asp-for="Ip" class="form-control" />
+                <input id="input_ip" placeholder="255.255.255.255" maxlength="15" asp-for="Ip" class="form-control" />
                 <span asp-validation-for="Ip" class="text-danger"></span>
             </div>
 
@@ -169,3 +170,20 @@
         });
     </script>
 }
+
+    <script>
+        $(document).ready(Principal);
+        function Principal() {
+            $(document).on('keyup', '[id=input_ip]', function (e) {
+                if ($(this).val().length == 3) {
+                    $(this).val($(this).val() + ".");
+                }
+                if ($(this).val().length == 7) {
+                    $(this).val($(this).val() + ".");
+                }
+                if ($(this).val().length == 11) {
+                    $(this).val($(this).val() + ".");
+                }
+            });
+        }
+    </script>

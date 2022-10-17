@@ -11,6 +11,7 @@
 }
 
 <script src="~/lib/suffixes/javascript.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <h1>Crear Nuevo Equipo</h1>
 
@@ -23,12 +24,12 @@
         <h3>Equipo</h3>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input hidden value="2" asp-for="IdEstatus"/>
+            <input hidden value="2" asp-for="IdEstatus" />
             <div class="form-group">
                 <label asp-for="IdTipoEquipo" class="control-label"></label>
                 @{
                     List<InvCatTipoEquipo> tipos = new List<InvCatTipoEquipo>();
-                    tipos = context.InvCatTipoEquipos.OrderBy(t=>t.Tipo).ToList();
+                    tipos = context.InvCatTipoEquipos.OrderBy(t => t.Tipo).ToList();
                     List<SelectListItem> tiposItems = tipos.ConvertAll(a =>
                     {
                         return new SelectListItem()
@@ -47,7 +48,7 @@
                 <label class="control-label" asp-for="IdSO"></label>
                 @{
                     List<InvCatSo> sos = new List<InvCatSo>();
-                    sos = context.InvCatSos.OrderBy(so=>so.SistemaOperativo).ToList();
+                    sos = context.InvCatSos.OrderBy(so => so.SistemaOperativo).ToList();
 
                     List<SelectListItem> SoItems = sos.ConvertAll(a =>
                     {
@@ -110,7 +111,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DireccionMac" class="control-label"></label>
-                <input asp-for="DireccionMac" class="form-control" />
+                <input asp-for="DireccionMac" placeholder="XX:XX:XX:XX:XX:XX" style='text-transform:uppercase' maxlength="17" id="input_mac" class="form-control" />
                 <span asp-validation-for="DireccionMac" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -119,27 +120,27 @@
                 <span asp-validation-for="DatosAdicionales" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Estatus" class="control-label"></label>
-                @{
-                    List<InvCatEstatusEquipo> estatus = new List<InvCatEstatusEquipo>();
-                    estatus = context.InvCatEstatusEquipos.ToList();
+            <label asp-for="Estatus" class="control-label"></label>
+            @{
+            List<InvCatEstatusEquipo> estatus = new List<InvCatEstatusEquipo>();
+            estatus = context.InvCatEstatusEquipos.ToList();
 
-                    List<SelectListItem> estatusItems = estatus.ConvertAll(a =>
-                    {
-                        return new SelectListItem()
-                {
-                    Text = a.Estatus,
-                    Value = a.Estatus,
-                    Selected = false
-                };
-                    });
-                }
-                <select asp-for="Estatus" class="custom-select" asp-items="estatusItems"></select>
-                <span asp-validation-for="Estatus" class="text-danger"></span>
+            List<SelectListItem> estatusItems = estatus.ConvertAll(a =>
+            {
+            return new SelectListItem()
+            {
+            Text = a.Estatus,
+            Value = a.Estatus,
+            Selected = false
+            };
+            });
+            }
+            <select asp-for="Estatus" class="custom-select" asp-items="estatusItems"></select>
+            <span asp-validation-for="Estatus" class="text-danger"></span>
             </div>*@
             <div class="form-group">
                 <label asp-for="FechaCompra" class="control-label"></label>
-                <input asp-for="FechaCompra" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"/>
+                <input asp-for="FechaCompra" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
                 <span asp-validation-for="FechaCompra" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -153,9 +154,9 @@
                 <span asp-validation-for="FechaFinGarantia" class="text-danger"></span>
             </div>
             @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
-                </label>
+            <label class="form-check-label">
+            <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+            </label>
             </div>*@
 
             <h3>Caracteristicas del Equipo</h3>
@@ -168,17 +169,17 @@
                 <label asp-for="Hdd" class="control-label"></label>
                 <input asp-for="Hdd" type="number" class="form-control" />
                 @*<div id="my-input-container" class="form-group">
-                    <input asp-for="Hdd" type="number" id="my-input" class="form-group">
-                    <span id="my-suffix">GB.</span>
+                <input asp-for="Hdd" type="number" id="my-input" class="form-group">
+                <span id="my-suffix">GB.</span>
                 </div>*@
                 <span asp-validation-for="Hdd" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ram" class="control-label"></label>
-                <input asp-for="Ram" type="number" class="form-control"/>
+                <input asp-for="Ram" type="number" class="form-control" />
                 @*<div id="my-input-container">
-                    <input asp-for="Ram" type="number" id="my-input" class="form-group">
-                    <span id="my-suffix">GB.</span>
+                <input asp-for="Ram" type="number" id="my-input" class="form-group">
+                <span id="my-suffix">GB.</span>
                 </div>*@
                 <span asp-validation-for="Ram" class="text-danger"></span>
             </div>
@@ -195,3 +196,25 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     }
+    <script>
+        $(document).ready(Principal);
+        function Principal() {
+            $(document).on('keyup', '[id=input_mac]', function (e) {
+                if ($(this).val().length == 2) {
+                    $(this).val($(this).val() + ":");
+                }
+                if ($(this).val().length == 5) {
+                    $(this).val($(this).val() + ":");
+                }
+                if ($(this).val().length == 8) {
+                    $(this).val($(this).val() + ":");
+                }
+                if ($(this).val().length == 11) {
+                    $(this).val($(this).val() + ":");
+                }
+                if ($(this).val().length == 14) {
+                    $(this).val($(this).val() + ":");
+                }
+            });
+        }
+    </script>
