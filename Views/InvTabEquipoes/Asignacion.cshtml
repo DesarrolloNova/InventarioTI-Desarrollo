@@ -58,7 +58,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Ip" class="control-label"></label>
-                <input id="input_ip" placeholder="255.255.255.255" maxlength="15" asp-for="Ip" class="form-control" />
+                <input id="input_ip" placeholder="255.255.255.255" autocomplete="off" maxlength="15" asp-for="Ip" class="form-control" />
                 <span asp-validation-for="Ip" class="text-danger"></span>
             </div>
 
@@ -185,5 +185,23 @@
                     $(this).val($(this).val() + ".");
                 }
             });
+        }
+
+        window.onload = function () {
+            var myInput = document.getElementById('input_ip');
+            myInput.onpaste = function (e) {
+                e.preventDefault();
+                alert("Esta Acción Está Prohibida");
+            }
+
+            myInput.oncopy = function (e) {
+                e.preventDefault();
+                alert("Esta Acción Está Prohibida");
+            }
+
+            myInput.oncut = function (e) {
+                e.preventDefault();
+                alert("Esta Acción Está Prohibida");
+            }
         }
     </script>

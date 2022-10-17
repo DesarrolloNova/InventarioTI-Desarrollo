@@ -111,7 +111,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DireccionMac" class="control-label"></label>
-                <input asp-for="DireccionMac" placeholder="XX:XX:XX:XX:XX:XX" style='text-transform:uppercase' maxlength="17" id="input_mac" class="form-control" />
+                <input asp-for="DireccionMac" autocomplete="off" placeholder="XX:XX:XX:XX:XX:XX" style='text-transform:uppercase' maxlength="17" id="input_mac" class="form-control" />
                 <span asp-validation-for="DireccionMac" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -216,5 +216,23 @@
                     $(this).val($(this).val() + ":");
                 }
             });
+        }
+
+        window.onload = function () {
+            var myInput = document.getElementById('input_mac');
+            myInput.onpaste = function (e) {
+                e.preventDefault();
+                alert("Esta Acción Está Prohibida");
+            }
+
+            myInput.oncopy = function (e) {
+                e.preventDefault();
+                alert("Esta Acción Está Prohibida");
+            }
+
+            myInput.oncut = function (e) {
+                e.preventDefault();
+                alert("Esta Acción Está Prohibida");
+            }
         }
     </script>
