@@ -7,142 +7,204 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventarioTI.Context;
 using InventarioTI.Models;
+using InventarioTI.Tools;
 
 namespace InventarioTI.Controllers
 {
     public class UsuarioLicenciasController : Controller
     {
         private readonly InventarioContext _context;
+        ValidateCoockie validateCoockie = new ValidateCoockie();
 
         public UsuarioLicenciasController(InventarioContext context)
         {
             _context = context;
         }
 
-        // GET: UsuarioLicencias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UsuarioLicencias.ToListAsync());
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                return View(await _context.UsuarioLicencias.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // GET: UsuarioLicencias/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var usuarioLicencias = await _context.UsuarioLicencias
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarioLicencias == null)
+                var usuarioLicencias = await _context.UsuarioLicencias
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (usuarioLicencias == null)
+                {
+                    return NotFound();
+                }
+
+                return View(usuarioLicencias);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("UserNotFound", "Home");
             }
-
-            return View(usuarioLicencias);
         }
 
-        // GET: UsuarioLicencias/Create
         public IActionResult Create()
         {
-            return View();
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // POST: UsuarioLicencias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,IdEmpleado,IdAsignacion")] UsuarioLicencias usuarioLicencias)
         {
-            if (ModelState.IsValid)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                _context.Add(usuarioLicencias);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(usuarioLicencias);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(usuarioLicencias);
             }
-            return View(usuarioLicencias);
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // GET: UsuarioLicencias/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var usuarioLicencias = await _context.UsuarioLicencias.FindAsync(id);
-            if (usuarioLicencias == null)
-            {
-                return NotFound();
+                var usuarioLicencias = await _context.UsuarioLicencias.FindAsync(id);
+                if (usuarioLicencias == null)
+                {
+                    return NotFound();
+                }
+                return View(usuarioLicencias);
             }
-            return View(usuarioLicencias);
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // POST: UsuarioLicencias/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdEmpleado,IdAsignacion")] UsuarioLicencias usuarioLicencias)
         {
-            if (id != usuarioLicencias.Id)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id != usuarioLicencias.Id)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(usuarioLicencias);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioLicenciasExists(usuarioLicencias.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(usuarioLicencias);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!UsuarioLicenciasExists(usuarioLicencias.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(usuarioLicencias);
             }
-            return View(usuarioLicencias);
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
-        // GET: UsuarioLicencias/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var usuarioLicencias = await _context.UsuarioLicencias
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuarioLicencias == null)
+                var usuarioLicencias = await _context.UsuarioLicencias
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (usuarioLicencias == null)
+                {
+                    return NotFound();
+                }
+
+                return View(usuarioLicencias);
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("UserNotFound", "Home");
             }
-
-            return View(usuarioLicencias);
         }
 
-        // POST: UsuarioLicencias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuarioLicencias = await _context.UsuarioLicencias.FindAsync(id);
-            _context.UsuarioLicencias.Remove(usuarioLicencias);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                var usuarioLicencias = await _context.UsuarioLicencias.FindAsync(id);
+                _context.UsuarioLicencias.Remove(usuarioLicencias);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
         }
 
         private bool UsuarioLicenciasExists(int id)
