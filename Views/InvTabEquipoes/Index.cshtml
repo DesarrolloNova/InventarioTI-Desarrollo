@@ -15,16 +15,16 @@
     ViewData["Title"] = "Equipos";
     InventarioContext context = new InventarioContext();
     CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+
+    List<RHCF10_Plantas> plantas = new List<RHCF10_Plantas>();
+    plantas = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(await conn.GetQueryResult("SELECT * FROM RHCF10"));
+
 }
 
-<h1>Equipos</h1>
-<p>
-    <a class="btn btn-primary" asp-action="Create">Crear Nuevo</a>
-</p>
-
-<p>
-    <a asp-action="VerArchivados">Ver Equipos Archivados</a>
-</p>
+<a style="font-size:xx-large">Equipos</a> |
+<a class="btn btn-primary" asp-action="Create">Crear Nuevo</a> |
+<a asp-action="VerArchivados">Ver Equipos Archivados</a> |
+<hr />
 <table id="tbl_equipos">
     <thead>
         <tr>
@@ -68,20 +68,23 @@
                     @Html.DisplayFor(modelItem => item.NombreEquipo)
                 </td>
                 <td>
+                    @*@{
+                string ubicacion = "";
+                List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
+                string json = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio=" + item.IDSitio.ToString());
+                try
+                {
+                catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
+                ubicacion = catPlants.FirstOrDefault().Nombre;
+                }
+                catch (Exception ex)
+                {
+                Console.WriteLine(ex.Message);
+                }
+                <a>@ubicacion</a>
+                }*@
                     @{
-                        string ubicacion = "";
-                        List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
-                        string json = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio=" + item.IDSitio.ToString());
-                        try
-                        {
-                            catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
-                            ubicacion = catPlants.FirstOrDefault().Nombre;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                                <a>@ubicacion</a>
+                        <a>@plantas.Where(p=>p.IDSitio == item.IDSitio).Select(p=>p.Nombre).FirstOrDefault()</a>
                     }
                 </td>
                 <td>
@@ -99,24 +102,8 @@
                 </td>
                 <td>
                     @{
-                        InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
-                        estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == item.IdEstatus).FirstOrDefault();
-                                <a>@estatusEquipo.Estatus</a>
+                        <a>@context.InvCatEstatusEquipos.Where(e => e.Id == item.IdEstatus).Select(e=>e.Estatus).FirstOrDefault()</a>
                     }
-                    @*@if (item.Estatus == 2)
-                {
-                <div>
-                <a asp-controller="InvTabEquipoes" asp-action="Asignacion" asp-route-id="@item.Id">Asignar</a>
-                </div>
-                }
-                @if (item.Estatus == 4)
-                {
-                InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
-                asignacion = context.InvHisAsignacionEquipos.Where(ae => ae.IdEquipo == item.Id && ae.Activo == true).FirstOrDefault();
-                <div>
-                <a asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver</a>
-                </div>
-                }*@
                 </td>
                 <td>
                     <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Detalles</a>

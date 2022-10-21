@@ -223,3 +223,59 @@ ALTER TABLE InvTabEquipo
 ADD CONSTRAINT FK_InvTabEquipo_SO FOREIGN KEY (IdSO)
 REFERENCES InvCatSO (Id)
 GO
+
+-- TemporalDevices
+CREATE TABLE TemporalDevices(
+	Id INT IDENTITY(1,2) NOT NULL,
+	Marca VARCHAR(100) NOT NULL, 
+	Modelo VARCHAR(100) NOT NULL,
+	NoSerie VARCHAR(100) NOT NULL,
+	DireccionMac VARCHAR(100) NOT NULL,
+	Procesador VARCHAR NOT NULL,
+	Hdd FLOAT NOT NULL,
+	Ram FLOAT NOT NULL,
+	FechaCreacion DATE NOT NULL,
+	IdEstatus INT NOT NULL,
+	IDSitio INT NOT NULL,
+	IdTipoEquipo INT NOT NULL,
+	IdSO INT NOT NULL
+	PRIMARY KEY (Id)
+)
+
+CREATE TABLE InvHisAsignacionLicencia(
+	Id INT IDENTITY(1,2) NOT NULL,
+	FechaInicio DATE NOT NULL,
+	FechaFin DATE NULL,
+	Activo BIT NOT NULL,
+	IDSitio INT NULL,
+	ID_Area INT NULL,
+	PRIMARY KEY (Id)
+)
+
+CREATE TABLE Licencias
+(
+	Id INT IDENTITY(1,2) NOT NULL,
+	Marca VARCHAR(100) NOT NULL,
+	Tipo VARCHAR(100) NULL,
+	Descripcion VARCHAR(200) NOT NULL,
+	Usuario VARCHAR(100) NULL,
+	Clave VARCHAR (100) NULL,
+	CodigoProducto VARCHAR (200) NULL,
+	InicioVigencia DATE NULL,
+	FinVigencia DATE NULL,
+	PRIMARY KEY (Id)
+)
+
+CREATE TABLE UsuarioLicencias
+(
+	Id INT IDENTITY(1,2) NOT NULL,
+	IdEmpleado INT NOT NULL,
+	IdAsignacion INT NOT NULL,
+	PRIMARY KEY (Id)
+)
+
+ALTER TABLE UsuarioLicencias
+ADD CONSTRAINT FK_UsuarioLicencias_InvHisAsignacionLicencia FOREIGN KEY (IdAsignacion)
+REFERENCES InvHisAsignacionLicencia (Id)
+
+

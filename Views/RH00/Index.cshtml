@@ -1,0 +1,106 @@
+﻿@using InventarioTI.Context
+@using InventarioTI.Tools
+@model IEnumerable<InventarioTI.Models.EXT_WEB.RH00_Usuarios>
+@{
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+    InventarioContext context = new InventarioContext();
+}
+@section Styles
+    {
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
+}
+    <a style="font-size:xx-large">Usuarios</a>
+    <hr />
+    <table id="tbl_usuarios">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdEmpleado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombres)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellidos)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumeroEmpleado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CorreoEmpresa)
+                </th>
+                <th>
+                    <a>Acciones</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdEmpleado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroEmpleado)
+                </td>
+                <td>
+                    @{
+                        if (item.CorreoEmpresa == null || item.CorreoEmpresa == "")
+                        {
+                            <a>Sin correo de empresa registrado</a>
+                        }
+                        else
+                        {
+                            <a href="mailto:@item.CorreoEmpresa?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@item.CorreoEmpresa</a>
+                        }
+                    }
+                </td>
+                <td>
+                    <form method="post" asp-action="VerEquiposPorEmpleado">
+                        <input name="idEmpleado" hidden value="@item.IdEmpleado">
+                        <button class="btn btn-outline-success">Ver Equipos</button>
+                    </form>
+
+                    <form method="post" asp-action="VerLicenciasPorEmpleado">
+                        <input name="idEmpleado" hidden value="@item.IdEmpleado">
+                        <button class="btn btn-outline-success">Ver Licencias</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/lib/datatables.net/jquery.datatables.js"></script>
+    <script src="~/lib/datatables.net/jquery.datatables.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.js"></script>
+
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script>
+        $('#tbl_usuarios').DataTable(
+            {
+                responsive: true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                }
+            }
+        );
+    </script>
+}

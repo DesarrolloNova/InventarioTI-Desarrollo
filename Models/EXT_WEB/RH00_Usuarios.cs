@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventarioTI.Models.EXT_WEB
 {
     public class RH00_Usuarios
     {
+        [Display(Name ="Id Empleado")]
         public int IdEmpleado { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
@@ -16,10 +18,12 @@ namespace InventarioTI.Models.EXT_WEB
         public string Direccion { get; set; }
         public string CodigoPostal { get; set; }
         public int? Hijos { get; set; }
+        [Display(Name ="Número de Empleado")]
         public int? NumeroEmpleado { get; set; }
         public string TelefonoPersonal { get; set; }
         public string TelefonoAsignado { get; set; }
         public string CorreoPersonal { get; set; }
+        [Display(Name ="Correo Empresa")]
         public string CorreoEmpresa { get; set; }
         public string Expatriado { get; set; }
         public int? TallaPlayera { get; set; }

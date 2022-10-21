@@ -22,41 +22,41 @@
         <b><i class="emphasized">Actualizar Equipo</i></b>
         <br />
         @{
-                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a>
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Actualizar</a>
             if (Model.IdEstatus != 6)
             {
                 InvHisAsignacionEquipo asignacion = new InvHisAsignacionEquipo();
                 asignacion = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == true).FirstOrDefault();
                 if (asignacion == null)
                 {
-                        <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
+                    <a class="btn btn-success" asp-action="Asignacion" asp-route-id="@Model.Id">Asignar</a>
                 }
                 else
                 {
-                        <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
+                    <a class="btn btn-success" asp-controller="InvHisAsignacionEquipoes" asp-action="Details" asp-route-id="@asignacion.Id">Ver Asignación</a>
                 }
                 List<int> asignacionesHistorialIds = new List<int>();
                 asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
                 if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
                 {
-                        <a asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
+                    <a asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
                 }
-                    <hr />
-                    <b><i class="emphasized">Acciones</i></b>
-                    <br />
+                <hr />
+                <b><i class="emphasized">Acciones</i></b>
+                <br />
                 if (asignacion != null)
                 {
                 //Modal
-                        <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addMantenimiento" data-url="@Url.Action("Mantenimiento",new { idEquipo = Model.Id })">Mantenimiento</button>
-                        <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addInstalacion" data-url="@Url.Action("Instalacion",new { idEquipo = Model.Id })">Instalación</button>
+                    <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addMantenimiento" data-url="@Url.Action("Mantenimiento",new { idEquipo = Model.Id })">Mantenimiento</button>
+                    <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addInstalacion" data-url="@Url.Action("Instalacion",new { idEquipo = Model.Id })">Instalación</button>
                     //Modal
                 }
                 if (context.InvHisAccionEquipos.Where(a => a.IdEquipo == Model.Id).Select(a => a.Id).ToList().Count > 0)
                 {
-                        <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
+                    <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
                 }
-                    <hr />
-                    <a asp-action="Index">Regresar a los equipos</a>
+                <hr />
+                <a asp-action="Index">Regresar a los equipos</a>
             }
             else
             {
@@ -64,25 +64,20 @@
                 asignacionesHistorialIds = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == Model.Id && a.Activo == false).Select(a => a.Id).ToList();
                 if (asignacionesHistorialIds != null && asignacionesHistorialIds.Count > 0)
                 {
-                        <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
+                    <a class="btn btn-info" asp-controller="InvHisAsignacionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de asignaciones</a>
                 }
                 if (context.InvHisAccionEquipos.Where(a => a.IdEquipo == Model.Id).Select(a => a.Id).ToList().Count > 0)
                 {
-                        <hr />
-                        <b><i class="emphasized">Acciones</i></b>
-                        <br />
-                        <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
+                    <hr />
+                    <b><i class="emphasized">Acciones</i></b>
+                    <br />
+                    <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>
                 }
-                    <a asp-action="VerArchivados">Regresar a los equipos</a>
+                <a asp-action="VerArchivados">Regresar a los equipos</a>
             }
         }
         <hr />
         <button type="button" class="btn btn-outline-info" data-toggle="ajax_modal" data-target="#viewQr" data-url="@Url.Action("VerQR",new { idEquipo = Model.Id })">Ver QR</button>
-        @*<form method="post" asp-action="Index" asp-controller="QR">
-        <input hidden value="@Model.Id" name="IdEquipo" />
-        <input hidden value="@Model.Id" name="UrlEquipo" />
-        <button class="btn btn-outline-info">VER QR</button>
-        </form>*@
     </div>
     <hr />
     <dl class="row">
@@ -122,7 +117,7 @@
                 {
                     Console.WriteLine(ex.Message);
                 }
-                    <a>@ubicacion</a>
+                <a>@ubicacion</a>
             }
         </dd>
         <dt class="col-sm-2">
@@ -147,7 +142,6 @@
             @Html.DisplayNameFor(model => model.IdSO)
         </dt>
         <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.IdSO)*@
             <a>@context.InvCatSos.Where(so=>so.Id == Model.IdSO).Select(so=>so.SistemaOperativo).FirstOrDefault()</a>
         </dd>
         <dt class="col-sm-2">
@@ -181,7 +175,7 @@
             @{
                 InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
                 estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == Model.IdEstatus).FirstOrDefault();
-                    <a>@estatusEquipo.Estatus</a>
+                <a>@estatusEquipo.Estatus</a>
             }
         </dd>
         <dt class="col-sm-2">
@@ -214,11 +208,5 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UltimaActualizacion)
         </dd>
-        @*<dt class = "col-sm-2">
-        @Html.DisplayNameFor(model => model.IdUsuarioRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-        @Html.DisplayFor(model => model.IdUsuarioRegistro)
-        </dd>*@
     </dl>
 </div>

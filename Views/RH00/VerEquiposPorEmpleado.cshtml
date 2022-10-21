@@ -1,0 +1,112 @@
+﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
+@model IEnumerable<InventarioTI.Models.InvTabEquipo>
+
+@{
+    ViewData["Title"] = "VerEquiposPorEmpleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+}
+
+<h1>Equipos Por Empleado</h1>
+
+<p>
+    <a asp-action="Index">Regresar a los empleados</a>
+</p>
+@{
+    if (Model.ToList().Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombreEquipo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDSitio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdTipoEquipo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Marca)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Modelo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NoSerie)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdEstatus)
+                    </th>
+                    <th>
+                        <a>Acciones</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreEquipo)
+                        </td>
+                        <td>
+                            @{
+                                string ubicacion = "";
+                                List<RHCF10_Plantas> catPlants = new List<RHCF10_Plantas>();
+                                string json = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio=" + item.IDSitio.ToString());
+                                try
+                                {
+                                    catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
+                                    ubicacion = catPlants.FirstOrDefault().Nombre;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                                <a>@ubicacion</a>
+                            }
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.IdTipoEquipo)*@
+                            <a>@context.InvCatTipoEquipos.Where(e=>e.Id== item.IdTipoEquipo).Select(e=>e.Tipo).FirstOrDefault()</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modelo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoSerie)
+                        </td>
+                        <td>
+                            @{
+                                InvCatEstatusEquipo estatusEquipo = new InvCatEstatusEquipo();
+                                estatusEquipo = context.InvCatEstatusEquipos.Where(e => e.Id == item.IdEstatus).FirstOrDefault();
+                                <a>@estatusEquipo.Estatus</a>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-success" asp-controller="InvTabEquipoes" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else { 
+    <a>No se encontraron registros</a>
+    }
+}
