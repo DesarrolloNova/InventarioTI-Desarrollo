@@ -1,0 +1,81 @@
+﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
+@model InventarioTI.Models.InvHisAsignacionLicencia
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+}
+
+<h1>Asignación de la licencia "@context.Licencias.Where(l=>l.Id==Model.IdLicencia).Select(l=>l.Tipo).FirstOrDefault()"</h1>
+<div>
+    <a asp-action="Details" asp-controller="Licencias" asp-route-id="@Model.IdLicencia">Ir a la licencia</a> ||
+    <a asp-action="Index" asp-controller="Licencias">Regresar a las licencias</a>
+</div>
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+        <dd class="col-sm-10">
+            <a>@Model.FechaInicio.ToString("dd/MM/yyyy")</a>
+        </dd>
+        @{
+            if (Model.FechaFin == Convert.ToDateTime("01/01/0001 12:00:00 a. m."))
+            {
+
+            }
+            else
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaFin)
+                </dt>
+                <dd class="col-sm-10">
+                    <a>@Model.FechaFin.ToString("dd/MM/yyyy")</a>                   
+                </dd>
+            }
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                if (Model.Activo == true)
+                {
+                    <a>Aun no finaliza la asignación</a>
+                }
+                else
+                {
+                    <a>La asignación ha finalizado</a>
+                }
+            }
+            @*@Html.DisplayFor(model => model.Activo)*@
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IDSitio)
+        </dt>
+        <dd class="col-sm-10">
+            @*@Html.DisplayFor(model => model.IDSitio)*@
+            @{
+                string p = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio = " + Model.IDSitio.ToString())).FirstOrDefault().Nombre;
+                <a>@p</a>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ID_Area)
+        </dt>
+        <dd class="col-sm-10">
+            @*@Html.DisplayFor(model => model.ID_Area)*@
+            @{
+                string a = JsonConvert.DeserializeObject<List<RHCF03_Areas>>(await conn.GetQueryResult("SELECT * FROM RHCF03 WHERE ID_Area = " + Model.ID_Area.ToString())).FirstOrDefault().Area;
+                <a>@a</a>
+            }
+        </dd>
+    </dl>
+</div>

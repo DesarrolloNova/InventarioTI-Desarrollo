@@ -10,10 +10,16 @@ namespace InventarioTI.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name="Fecha de Inicio")]
         public DateTime FechaInicio { get; set; }
+        [Display(Name = "Fecha de Fin")]
         public DateTime FechaFin { get; set; }
         public bool Activo { get; set; }
+        [Display(Name = "Sitio")]
         public int IDSitio { get; set; }
+        [Display(Name = "Área")]
         public int ID_Area { get; set; }
+        [ForeignKey("IdLicencia")]
+        public int IdLicencia { get; set; }
     }
 }

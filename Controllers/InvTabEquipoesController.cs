@@ -357,17 +357,7 @@ namespace InventarioTI.Controllers
                         contexto.InvHisAsignacionEquipos.Add(asignacionEquipo);
                         await contexto.SaveChangesAsync();
                         contexto.Database.CloseConnection();
-                        //foreach (var usuario in asignacionEquipo.SelectedIds)
-                        //{
-                        //    UsuarioAsignacion usuarioAsignacion = new UsuarioAsignacion();
-                        //    usuarioAsignacion.IdUsuario = usuario;
-                        //    usuarioAsignacion.IdAsignacion = asignacionEquipo.Id;
-                        //    usuarioAsignacion.FechaInicioAsignacion = DateTime.Now;
-                        //    usuarioAsignacion.Asignado = true;
-                        //    contexto.UsuarioAsignacion.Add(usuarioAsignacion);
-                        //    await contexto.SaveChangesAsync();
-                        //    contexto.Database.CloseConnection();
-                        //}
+
                         InvTabEquipo equipo = new InvTabEquipo();
                         equipo = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).FirstOrDefault();
                         equipo.IdEstatus = 4;// "ASIGNADO";
@@ -478,13 +468,31 @@ namespace InventarioTI.Controllers
                     try
                     {
                         catPlants = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(json);
-                        autoName = catPlants.FirstOrDefault().Nombre;
+                        autoName = catPlants.FirstOrDefault().Nombre.Substring(0, 2);
                     }
                     catch (Exception ex)
                     {
                         autoName = "";
                         Console.WriteLine(ex.Message);
                     }
+                    switch (invTabEquipo.IdTipoEquipo)
+                    {
+                        case 1:
+                            autoName = autoName + "PC";
+                            break;
+                        case 3:
+                            autoName = autoName + "LP";
+                            break;
+                        case 4:
+                            autoName = autoName + "MB";
+                            break;
+                        case 5:
+                            autoName = autoName + "TB";
+                            break;
+                        default:
+                            break;
+                    }
+                    invTabEquipo.DireccionMac = invTabEquipo.DireccionMac.ToUpper();
                     invTabEquipo.NombreEquipo = autoName;
                     invTabEquipo.UltimaActualizacion = DateTime.Now;
                     invTabEquipo.FechaCreacion = DateTime.Now;
@@ -503,8 +511,15 @@ namespace InventarioTI.Controllers
 
                     if (lastId > 0)
                     {
-                        autoName = autoName + "-" + lastId.ToString();
-                        invTabEquipo.NombreEquipo = Regex.Replace(autoName, @"\s", "");
+                        string last = lastId.ToString();
+
+                        for (int i = lastId.ToString().Length; i < 5; i++)
+                        {
+                            last = "0" + last;
+                        }
+                        int ceros = 5 - lastId.ToString().Length;
+                        autoName = autoName + "-" + last;
+                        invTabEquipo.NombreEquipo = Regex.Replace(autoName.ToUpper(), @"\s", "");
                         _context.Update(invTabEquipo);
                         _context.SaveChanges();
                         _context.Database.CloseConnection();

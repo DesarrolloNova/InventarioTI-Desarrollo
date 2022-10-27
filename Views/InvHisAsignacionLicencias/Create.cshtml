@@ -1,0 +1,82 @@
+﻿@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
+@model InventarioTI.Models.InvHisAsignacionLicencia
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
+}
+
+<h1>Crear Asignación</h1>
+<div>
+    <a asp-controller="Licencias" asp-action="Details" asp-route-id="@Model.IdLicencia">Regresar a la licencia</a>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input value="@Model.IdLicencia" asp-for="IdLicencia" hidden />
+            @*<div class="form-group">
+                <label asp-for="FechaInicio" class="control-label"></label>
+                <input asp-for="FechaInicio" type="date" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaFin" class="control-label"></label>
+                <input asp-for="FechaFin" type="date" class="form-control" />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+            <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+            </label>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="IDSitio" class="control-label"></label>
+                @*<input asp-for="IDSitio" class="form-control" />*@
+                @{
+                    List<RHCF10_Plantas> plantas = new List<RHCF10_Plantas>();
+                    plantas = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(await conn.GetQueryResult("SELECT * FROM RHCF10"));
+                    List<SelectListItem> plantasItems = plantas.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Nombre,
+                    Value = a.IDSitio.ToString(),
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="IDSitio" class="custom-select" asp-items="plantasItems"></select>
+                <span asp-validation-for="IDSitio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Area" class="control-label"></label>
+                @*<input asp-for="ID_Area" class="form-control" />*@
+                @{
+                    List<RHCF03_Areas> areas = new List<RHCF03_Areas>();
+                    areas = JsonConvert.DeserializeObject<List<RHCF03_Areas>>(await conn.GetQueryResult("SELECT * FROM RHCF03"));
+                    List<SelectListItem> areasItems = areas.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Area,
+                    Value = a.ID_Area.ToString(),
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="ID_Area" class="custom-select" asp-items="areasItems"></select>
+                <span asp-validation-for="ID_Area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Asignar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

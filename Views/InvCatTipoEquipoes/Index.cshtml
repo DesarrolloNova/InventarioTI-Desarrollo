@@ -8,9 +8,7 @@
 }
 
 <h1>Tipos de Equipos</h1>
-<p>
-    <a class="btn btn-outline-primary" asp-action="Create">Crear Nuevo</a>
-</p>
+
 <p>
     <a asp-controller="Home" asp-action="Catalogos">Regresar a los catálogos</a>
 </p>
@@ -29,19 +27,6 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Tipo)
-                </td>
-                <td>
-                    @{
-                        if (context.InvTabEquipos.Where(e => e.IdTipoEquipo == item.Id).Select(e => e.Id).ToList().Count > 0)
-                        {
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-                        }
-                    }
                 </td>
             </tr>
         }

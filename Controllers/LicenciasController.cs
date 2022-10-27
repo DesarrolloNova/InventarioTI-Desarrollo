@@ -79,7 +79,7 @@ namespace InventarioTI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Marca,Descripcion,Tipo,Usuario,Clave,CodigoProducto,InicioVigencia,FinVigencia")] Licencias licencias)
+        public async Task<IActionResult> Create([Bind("Id,Marca,Descripcion,Tipo,Usuario,Clave,CodigoProducto,InicioVigencia,FinVigencia,Cantidad")] Licencias licencias)
         {
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
@@ -125,7 +125,7 @@ namespace InventarioTI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Marca,Descripcion,Tipo,Usuario,Clave,CodigoProducto,InicioVigencia,FinVigencia")] Licencias licencias)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Marca,Descripcion,Tipo,Usuario,Clave,CodigoProducto,InicioVigencia,FinVigencia,Cantidad")] Licencias licencias)
         {
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);

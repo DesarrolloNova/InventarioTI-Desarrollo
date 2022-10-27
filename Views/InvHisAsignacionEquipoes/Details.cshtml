@@ -185,7 +185,7 @@
                     <input hidden name="idAsignacion" value="@Model.Id" />
                     @{
                         List<RH00_Usuarios> Nuevosusuarios = new List<RH00_Usuarios>();
-                        string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado IN (SELECT IdEmpleado FROM RH03 WHERE Activo = 1 AND Sitio = " + Model.IDSitio.ToString() + " AND Area = " + Model.ID_Area.ToString() + ")");
+                        string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE Estatus = 'A' AND IdEmpleado IN (SELECT IdEmpleado FROM RH03 WHERE Sitio = " + Model.IDSitio.ToString() + " AND Area = " + Model.ID_Area.ToString() + ")");
 
                         try
                         {

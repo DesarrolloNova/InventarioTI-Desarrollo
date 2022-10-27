@@ -1,68 +1,114 @@
-﻿@model InventarioTI.Models.Licencias
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.Licencias
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    InventarioContext context = new InventarioContext();
 }
 
+@{
+    int idAsignaciones = 0;
+    idAsignaciones = context.InvHisAsignacionLicencia.Where(ul => ul.IdLicencia == Model.Id && ul.Activo == true).Select(ul => ul.Id).FirstOrDefault();
+    int AsignacionesActivas = 0;
+    AsignacionesActivas = context.InvHisAsignacionLicencia.Where(al => al.IdLicencia == Model.Id).ToList().Count();
+    if (idAsignaciones != 0)
+    {
+        if (AsignacionesActivas > 0)
+        {
+            <div>
+                <a class="btn btn-primary" asp-route-id="@idAsignaciones" asp-controller="InvHisAsignacionLicencias" asp-action="Details">Ver Asignación</a> |
+                <a asp-controller="InvHisAsignacionLicencias" asp-action="Index" asp-route-idLicencia="@Model.Id">Ver Historial de Asignaciones</a> | 
+                <a asp-action="Index">Regresar a las licencias</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                <a class="btn btn-primary" asp-route-id="@idAsignaciones" asp-controller="InvHisAsignacionLicencias" asp-action="Details">Ver Asignación</a> |
+                <a asp-action="Index">Regresar a las licencias</a>
+            </div>
+        }
+    }
+    else
+    {
+        if (AsignacionesActivas > 0)
+        {
+            <div>
+                <a class="btn btn-primary" asp-route-idLicencia="@Model.Id" asp-controller="InvHisAsignacionLicencias" asp-action="Create">Asignar</a> |
+                <a asp-controller="InvHisAsignacionLicencias" asp-action="Index" asp-route-idLicencia="@Model.Id">Ver Historial de Asignaciones</a> |
+                <a asp-action="Index">Regresar a las licencias</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                <a class="btn btn-primary" asp-route-idLicencia="@Model.Id" asp-controller="InvHisAsignacionLicencias" asp-action="Create">Asignar</a> |
+                <a asp-action="Index">Regresar a las licencias</a>
+            </div>
+        }
+    }
+}
 <h4>Licencia @Model.Marca @Model.Tipo</h4>
 
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Marca)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Marca)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Tipo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Tipo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Usuario)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Usuario)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Clave)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Clave)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CodigoProducto)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CodigoProducto)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InicioVigencia)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @*@Html.DisplayFor(model => model.InicioVigencia)*@
             <a>@Model.InicioVigencia.ToString("dd/MM/yyyy")</a>
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FinVigencia)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @*@Html.DisplayFor(model => model.FinVigencia)*@
             <a>@Model.FinVigencia.ToString("dd/MM/yyyy")</a>
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
     </dl>
-</div>
-<div>
-    <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> | 
-    <a asp-action="Index">Regresar a las licencias</a>
 </div>

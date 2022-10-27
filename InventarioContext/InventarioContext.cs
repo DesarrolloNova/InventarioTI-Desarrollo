@@ -518,5 +518,7 @@ namespace InventarioTI.Context
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<InventarioTI.Models.InvHisAsignacionLicencia> InvHisAsignacionLicencia { get; set; }
     }
 }

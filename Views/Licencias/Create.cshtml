@@ -5,9 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Crear licencia</h1>
 
-<h4>Licencias</h4>
+<div>
+    <a asp-action="Index">Regresar a la lista</a>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,14 +21,14 @@
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
                 <input asp-for="Tipo" class="form-control" />
                 <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Usuario" class="control-label"></label>
@@ -45,22 +47,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="InicioVigencia" class="control-label"></label>
-                <input asp-for="InicioVigencia" class="form-control" />
+                <input asp-for="InicioVigencia" type="date" value="@DateTime.Now" class="form-control" />
                 <span asp-validation-for="InicioVigencia" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FinVigencia" class="control-label"></label>
-                <input asp-for="FinVigencia" class="form-control" />
+                <input asp-for="FinVigencia" type="date" value="@DateTime.Now.AddYears(1)" class="form-control" />
                 <span asp-validation-for="FinVigencia" class="text-danger"></span>
             </div>
+            <div>
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" type="number" min="1" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

@@ -666,9 +666,6 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Deb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\ref\InventarioTI.dll
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioAsignacions\VerAsignacionIndividual.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Home\Catalogos.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvCatTipoEquipoes\Create.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvCatTipoEquipoes\Delete.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvCatTipoEquipoes\Edit.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvCatTipoEquipoes\Index.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvCatSoes\Create.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvCatSoes\Delete.cshtml.g.cs
@@ -695,3 +692,8 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Deb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Details.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Edit.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Index.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Create.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Delete.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Details.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Edit.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Index.cshtml.g.cs
