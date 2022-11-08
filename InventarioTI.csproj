@@ -23,4 +23,16 @@
     <PackageReference Include="QRCoder" Version="1.4.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ClasesNovaprint">
+      <HintPath>..\..\..\..\Downloads\dll\ClasesNovaprint.dll</HintPath>
+    </Reference>
+    <Reference Include="CookiesNovaprintNetCore">
+      <HintPath>..\..\..\..\Downloads\dll\CookiesNovaprintNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="UtileriasNovaprint">
+      <HintPath>..\..\..\..\Downloads\dll\UtileriasNovaprint.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -10,23 +10,36 @@
     InventarioContext context = new InventarioContext();
     CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 }
+@section Styles
+    {
+    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />*@
+    <link href="~/css/styleselect.css" rel="stylesheet" />
+}
 
-<h1>Asignación de la licencia "@context.Licencias.Where(l=>l.Id==Model.IdLicencia).Select(l=>l.Tipo).FirstOrDefault()"</h1>
-<div>
-    <a asp-action="Details" asp-controller="Licencias" asp-route-id="@Model.IdLicencia">Ir a la licencia</a> ||
-    <a asp-action="Index" asp-controller="Licencias">Regresar a las licencias</a>
-</div>
-<div>
+    <h1>Asignación de la licencia "@context.Licencias.Where(l=>l.Id==Model.IdLicencia).Select(l=>l.Tipo).FirstOrDefault()"</h1>
+    @if (Model.Activo == true)
+{
+    <form method="post" asp-action="FinalizarAsignacion">
+        <input type="hidden" name="idAsignacion" value="@Model.Id" />
+        <input type="hidden" name="idLicencia" value="@Model.IdLicencia" />
+        <button class="btn btn-danger" type="submit">Liberar Licencia</button>
+    </form>
+}
+    <div>
+        <a asp-action="Details" asp-controller="Licencias" asp-route-id="@Model.IdLicencia">Ir a la licencia</a> ||
+        <a asp-action="Index" asp-controller="Licencias">Regresar a las licencias</a>
+    </div>
+    <div>
 
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaInicio)
-        </dt>
-        <dd class="col-sm-10">
-            <a>@Model.FechaInicio.ToString("dd/MM/yyyy")</a>
-        </dd>
-        @{
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </dt>
+            <dd class="col-sm-10">
+                <a>@Model.FechaInicio.ToString("dd/MM/yyyy")</a>
+            </dd>
+            @{
             if (Model.FechaFin == Convert.ToDateTime("01/01/0001 12:00:00 a. m."))
             {
 
@@ -37,7 +50,7 @@
                     @Html.DisplayNameFor(model => model.FechaFin)
                 </dt>
                 <dd class="col-sm-10">
-                    <a>@Model.FechaFin.ToString("dd/MM/yyyy")</a>                   
+                    <a>@Model.FechaFin.ToString("dd/MM/yyyy")</a>
                 </dd>
             }
         }
@@ -79,3 +92,332 @@
         </dd>
     </dl>
 </div>
+
+@{
+    List<int> idUsuarios = new List<int>();
+    List<int> idUsuariosInactivos = new List<int>();
+    List<RH00_Usuarios> usuarios = new List<RH00_Usuarios>();
+    List<RH00_Usuarios> usuariosInactivos = new List<RH00_Usuarios>();
+
+    if (Model.Activo == true)
+    {
+        idUsuarios = context.UsuarioLicencias.Where(u => u.IdAsignacion == Model.Id && u.Asignado == true).Select(u => u.IdEmpleado).ToList();
+        foreach (var idusuario in idUsuarios)
+        {
+            RH00_Usuarios usuario = new RH00_Usuarios();
+
+            string jsonActivos = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = " + idusuario.ToString());
+
+            try
+            {
+                usuario = JsonConvert.DeserializeObject<List<RH00_Usuarios>>(jsonActivos).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            usuarios.Add(usuario);
+        }
+
+        idUsuariosInactivos = context.UsuarioLicencias.Where(u => u.IdAsignacion == Model.Id && u.Asignado == false).Select(u => u.IdEmpleado).ToList();
+        foreach (var idusuario in idUsuariosInactivos)
+        {
+            RH00_Usuarios usuario = new RH00_Usuarios();
+
+            string jsonUsuariosInactivos = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = " + idusuario.ToString());
+
+            try
+            {
+                usuario = JsonConvert.DeserializeObject<List<RH00_Usuarios>>(jsonUsuariosInactivos).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            usuariosInactivos.Add(usuario);
+        }
+        <button class="btn btn-info" onclick="showhide()">Agregar Usuarios</button>
+
+        <div id="addUsers" style="display:none">
+            <div class="col-sm-6">
+                <b><i class="emphasized">Selecciona el/los usuario(s) para agregar</i></b>
+                <form method="post" asp-action="AgregarUsuarios">
+                    <input hidden name="idAsignacion" value="@Model.Id" />
+                    @{
+                        List<RH00_Usuarios> Nuevosusuarios = new List<RH00_Usuarios>();
+                        string json = await conn.GetQueryResult("SELECT * FROM RH00 WHERE Estatus = 'A' AND IdEmpleado IN (SELECT IdEmpleado FROM RH03 WHERE Sitio = " + Model.IDSitio.ToString() + " AND Area = " + Model.ID_Area.ToString() + ")");
+
+                        try
+                        {
+                            Nuevosusuarios = JsonConvert.DeserializeObject<List<RH00_Usuarios>>(json);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+
+                        foreach (var user in usuarios)
+                        {
+                            Nuevosusuarios.Remove(user);
+                        }
+                        List<SelectListItem> usuariosItems = Nuevosusuarios.ConvertAll(a =>
+                        {
+                            return new SelectListItem()
+                    {
+                        Text = a.Nombres + " " + a.Apellidos + "/(" + a.CorreoEmpresa + ")",
+                        Value = a.IdEmpleado.ToString(),
+                        Selected = false
+                    };
+                        });
+                    }
+                    <select style="width: 500px" placeholder="Seleccione los usuarios" asp-for="SelectedIds" name="SelectedIds" id="ddlCustomers" class="form-control" multiple="multiple" asp-items="usuariosItems"></select>
+                    <span asp-validation-for="SelectedIds" class="text-danger"></span>
+                    <button class="btn btn-success" type="submit">Agregar</button>
+                </form>
+            </div>
+        </div>
+
+        @if (usuarios != null && usuarios.Count > 0)
+        {
+            <div>
+                <h4>Usuarios Asignados Activos</h4>
+                <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a>Id</a>
+                            </th>
+                            <th>
+                                <a>Nombre</a>
+                            </th>
+                            <th>
+                                <a>Correo</a>
+                            </th>
+                            <th>
+                                <a>Acciones</a>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in usuarios)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdEmpleado)
+                                </td>
+                                <td>
+                                    <a>@item.Nombres @item.Apellidos</a>
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.CorreoEmpresa == null || item.CorreoEmpresa == "")
+                                        {
+                                            <a>Sin correo empresaríal registrado</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="mailto:@item.CorreoEmpresa?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@item.CorreoEmpresa</a>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        int idUsuarioAsignacion = context.UsuarioLicencias.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.Id).FirstOrDefault();
+                                        <a asp-controller="UsuarioLicencias" asp-action="VerAsignacionIndividual" asp-route-idUsuarioLicencia="@idUsuarioAsignacion" class="btn btn-primary">Ver Detalle</a>
+                                    }
+                                    @if (Model.Activo == true)
+                                    {
+                                        if (usuarios.Count > 1)
+                                        {
+                                            <form method="post" asp-action="FinalizarAsignacionIndividual">
+                                                <input name="idAsignacion" id="idAsignacion" hidden value="@Model.Id" />
+                                                <input name="idUsuario" id="idUsuario" hidden value="@item.IdEmpleado" />
+                                                <button class="btn btn-danger" type="submit">Descartar Usuario</button>
+                                            </form>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <hr />
+            <a>No hay usuarios registrados</a>
+        }
+
+
+
+        @if (usuariosInactivos != null && usuariosInactivos.Count > 0)
+        {
+            <div>
+                <h4>Usuarios Asignados Inactivos</h4>
+                <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a>Id</a>
+                            </th>
+                            <th>
+                                <a>Nombre</a>
+                            </th>
+                            <th>
+                                <a>Correo</a>
+                            </th>
+                            <th>
+                                <a>Acciones</a>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in usuariosInactivos)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdEmpleado)
+                                </td>
+                                <td>
+                                    <a>@item.Nombres @item.Apellidos</a>
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.CorreoEmpresa == null || item.CorreoEmpresa == "")
+                                        {
+                                            <a>Sin correo empresaríal registrado</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="mailto:@item.CorreoEmpresa?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@item.CorreoEmpresa</a>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        int idUsuarioAsignacion = context.UsuarioLicencias.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.Id).FirstOrDefault();
+                                        <a asp-controller="UsuarioLicencias" asp-action="VerAsignacionIndividual" asp-route-idUsuarioLicencia="@idUsuarioAsignacion" class="btn btn-primary">Ver Detalle</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        idUsuarios = context.UsuarioLicencias.Where(u => u.IdAsignacion == Model.Id).Select(u => u.IdEmpleado).ToList();
+        foreach (var idusuario in idUsuarios)
+        {
+            RH00_Usuarios usuario = new RH00_Usuarios();
+            string jsonLast = await conn.GetQueryResult("SELECT * FROM RH00 WHERE IdEmpleado = " + idusuario.ToString());
+
+            try
+            {
+                usuario = JsonConvert.DeserializeObject<List<RH00_Usuarios>>(jsonLast).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            usuarios.Add(usuario);
+        }
+        <div>
+            @{
+                if (usuarios != null && usuarios.Count > 0)
+                {
+                    <h4>Usuarios Asignados</h4>
+                    <br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a>Id</a>
+                                </th>
+                                <th>
+                                    <a>Nombre</a>
+                                </th>
+                                <th>
+                                    <a>Correo</a>
+                                </th>
+                                <th>
+                                    <a>Acciones</a>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in usuarios)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdEmpleado)
+                                    </td>
+                                    <td>
+                                        <a>@item.Nombres @item.Apellidos</a>
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (item.CorreoEmpresa == null || item.CorreoEmpresa == "")
+                                            {
+                                                <a>Sin correo empresaríal registrado</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="mailto:@item.CorreoEmpresa?Subject=Hola%20,quiero%20tratar%20el%20siguiente%20asunto">@item.CorreoEmpresa</a>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            int idUsuarioAsignacion = context.UsuarioLicencias.Where(ua => ua.IdEmpleado == item.IdEmpleado && ua.IdAsignacion == Model.Id).Select(ua => ua.Id).FirstOrDefault();
+                                            <a asp-controller="UsuarioLicencias" asp-action="VerAsignacionIndividual" asp-route-idUsuarioLicencia="@idUsuarioAsignacion" class="btn btn-primary">Ver Detalle</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <a>No se asignaron usuarios</a>
+                }
+            }
+        </div>
+    }
+}
+
+<script>
+    function showhide() {
+        var div = document.getElementById("addUsers");
+        if (div.style.display !== "none") {
+            div.style.display = "none";
+        }
+        else {
+            div.style.display = "block";
+        }
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#ddlCustomers").select2();
+        });
+    </script>
+}

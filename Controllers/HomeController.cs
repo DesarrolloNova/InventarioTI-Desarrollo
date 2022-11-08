@@ -31,8 +31,9 @@ namespace InventarioTI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            var user = validateCoockie.ReadCoockie();
 
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
             if (isCoockie != false)
             {
@@ -40,7 +41,7 @@ namespace InventarioTI.Controllers
             }
             else
             {
-                return RedirectToAction("UserNotFound","Home");
+                return RedirectToAction("UserNotFound", "Home");
             }
         }
 

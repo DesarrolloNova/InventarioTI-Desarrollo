@@ -1,15 +1,16 @@
-﻿@model IEnumerable<InventarioTI.Models.InvHisAsignacionLicencia>
+﻿@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
+@model IEnumerable<InventarioTI.Models.InvHisAsignacionLicencia>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();
 }
 
-<h1>Index</h1>
+<h1>Historial de Asignaciones</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -18,9 +19,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IDSitio)
@@ -32,29 +30,57 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Activo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IDSitio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID_Area)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.FechaInicio)*@
+                    <a>@item.FechaInicio.ToString("dd/MM/yyyy")</a>
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.FechaFin)*@
+                    <a>@item.FechaFin.ToString("dd/MM/yyyy")</a>
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.IDSitio)*@
+                    @{
+                        RHCF10_Plantas planta = new RHCF10_Plantas();
+                        string jsonPlanta = await conn.GetQueryResult("SELECT * FROM RHCF10 WHERE IDSitio = " + item.IDSitio.ToString());
+
+                        try
+                        {
+                            planta = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(jsonPlanta).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+
+                    }
+                    <a>@planta.Nombre</a>
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.ID_Area)*@
+                    @{
+                        RHCF03_Areas departamento = new RHCF03_Areas();
+                        string jsonArea = await conn.GetQueryResult("SELECT * FROM RHCF03 WHERE ID_Area = " + item.ID_Area.ToString());
+
+                        try
+                        {
+                            departamento = JsonConvert.DeserializeObject<List<RHCF03_Areas>>(jsonArea).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+
+                    }
+                    <a>@departamento.Area</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

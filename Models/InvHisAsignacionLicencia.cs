@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace InventarioTI.Models
 {
@@ -21,5 +22,8 @@ namespace InventarioTI.Models
         public int ID_Area { get; set; }
         [ForeignKey("IdLicencia")]
         public int IdLicencia { get; set; }
+        [NotMapped]
+        [AllowNull]
+        public int[] SelectedIds { get; set; }
     }
 }

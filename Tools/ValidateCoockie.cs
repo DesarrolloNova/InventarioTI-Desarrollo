@@ -1,10 +1,22 @@
-﻿using System;
+﻿using ClasesNovaprint.Clases;
+using CookiesNovaprintNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.JSInterop;
+using System;
 using System.Diagnostics.Eventing.Reader;
+using System.Threading.Tasks;
+using static ClosedXML.Excel.XLPredefinedFormat;
+
+
 
 namespace InventarioTI.Tools
 {
     public class ValidateCoockie
     {
+        NovUsuarioCookie usuario;
+        IJSRuntime JS;
+
         public int GetCoockieValue(string coockie)
         {
             int id = 0;
@@ -20,6 +32,12 @@ namespace InventarioTI.Tools
         {
             isActive = true; //Comentar para producción
             return isActive;
+        }
+
+        public async Task<NovUsuarioCookie> ReadCoockie()
+        {
+            usuario = await CookiesNetCore.ObtenerCookieSesion(JS);
+            return usuario;
         }
     }
 }

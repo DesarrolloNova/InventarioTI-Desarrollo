@@ -21,6 +21,29 @@ namespace InventarioTI.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult VerAsignacionIndividual(int idUsuarioLicencia)
+        {
+            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
+            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
+            if (isCoockie != false)
+            {
+                InventarioContext context = new InventarioContext();
+                UsuarioLicencias usuarioLicencia = new UsuarioLicencias();
+                usuarioLicencia = context.UsuarioLicencias.Where(ua => ua.Id == idUsuarioLicencia).FirstOrDefault();
+                if (usuarioLicencia == null)
+                {
+                    return NotFound();
+                }
+
+                return View(usuarioLicencia);
+            }
+            else
+            {
+                return RedirectToAction("UserNotFound", "Home");
+            }
+        }
+
         public async Task<IActionResult> Index()
         {
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
