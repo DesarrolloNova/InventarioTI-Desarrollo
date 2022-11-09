@@ -20,21 +20,6 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input value="@Model.IdLicencia" asp-for="IdLicencia" hidden />
-            @*<div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" type="date" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaFin" class="control-label"></label>
-                <input asp-for="FechaFin" type="date" class="form-control" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
-            </div>*@
-            @*<div class="form-group form-check">
-            <label class="form-check-label">
-            <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
-            </label>
-            </div>*@
             <div class="form-group">
                 <label asp-for="IDSitio" class="control-label"></label>
                 @*<input asp-for="IDSitio" class="form-control" />*@
@@ -72,6 +57,31 @@
                 }
                 <select asp-for="ID_Area" class="custom-select" asp-items="areasItems"></select>
                 <span asp-validation-for="ID_Area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InicioVigencia" class="control-label"></label>
+                <input asp-for="InicioVigencia" type="date" class="form-control" />
+                <span asp-validation-for="InicioVigencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinVigencia" class="control-label"></label>
+                <input asp-for="FinVigencia" type="date" class="form-control" />
+                <span asp-validation-for="FinVigencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usuario" class="control-label"></label>
+                <input asp-for="Usuario" class="form-control" />
+                <span asp-validation-for="Usuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Clave" class="control-label"></label>
+                <input asp-for="Clave" class="form-control" />
+                <span asp-validation-for="Clave" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoProducto" class="control-label"></label>
+                <input asp-for="CodigoProducto" class="form-control" />
+                <span asp-validation-for="CodigoProducto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Asignar" class="btn btn-primary" />

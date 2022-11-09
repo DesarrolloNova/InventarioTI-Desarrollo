@@ -1,8 +1,17 @@
-﻿@model IEnumerable<InventarioTI.Models.Licencias>
-
-@{
+﻿@using InventarioTI.Context
+@model IEnumerable<InventarioTI.Models.Licencias>
+@section Styles
+    {
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-bs/datatables.bootstrap.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet" />
+}
+    @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    InventarioContext context = new InventarioContext();
 }
 
 <h1>Licencias</h1>
@@ -10,7 +19,7 @@
 <p>
     <a class="btn btn-outline-primary" asp-action="Create">Crear Nuevo</a>
 </p>
-<table class="table">
+<table id="tbl_licencias">
     <thead>
         <tr>
             <th>
@@ -22,20 +31,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Tipo)
             </th>
-            @* <th>
-            @Html.DisplayNameFor(model => model.Usuario)
-            </th>
             <th>
-            @Html.DisplayNameFor(model => model.Clave)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoProducto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InicioVigencia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinVigencia)
+                <a>Disponibilidad</a>
             </th>
             <th>
                 <a>Acciones</a>
@@ -55,22 +52,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Tipo)
                 </td>
-                @*<td>
-            @Html.DisplayFor(modelItem => item.Usuario)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Clave)
-            </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.CodigoProducto)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.InicioVigencia)*@
-                    <a>@item.InicioVigencia.ToString("dd/MM/yyyy")</a>
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.FinVigencia)*@
-                    <a>@item.FinVigencia.ToString("dd/MM/yyyy")</a>
+                    @{
+                        var usadas = context.InvHisAsignacionLicencia.Where(al => al.IdLicencia == item.Id && al.Activo == true).ToList().Count;
+                        var disponibles = item.Cantidad - usadas;
+                        <a>@disponibles/@item.Cantidad</a>
+
+                    }
                 </td>
                 <td>
                     <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
@@ -81,3 +69,26 @@
         }
     </tbody>
 </table>
+@section Scripts
+    {
+    <script src="~/lib/datatables.net/jquery.datatables.js"></script>
+    <script src="~/lib/datatables.net/jquery.datatables.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.min.js"></script>
+    <script src="~/lib/datatables.net-bs/datatables.bootstrap.js"></script>
+
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script>
+        $('#tbl_licencias').DataTable(
+            {
+                responsive: true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                }
+            }
+        );
+    </script>
+    }

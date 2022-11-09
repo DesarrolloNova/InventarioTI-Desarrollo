@@ -31,8 +31,6 @@ namespace InventarioTI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = validateCoockie.ReadCoockie();
-
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
             if (isCoockie != false)

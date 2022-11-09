@@ -22,6 +22,14 @@ namespace InventarioTI.Models
         public int ID_Area { get; set; }
         [ForeignKey("IdLicencia")]
         public int IdLicencia { get; set; }
+        [Display(Name="Inicio Vigencia")]
+        public DateTime InicioVigencia { get; set; }
+        [Display(Name = "Fin Vigencia")]
+        public DateTime FinVigencia { get; set; }
+        public string Usuario { get; set; }
+        public string Clave { get; set; }
+        [Display(Name="Clave del Producto")]
+        public string CodigoProducto { get; set; }
         [NotMapped]
         [AllowNull]
         public int[] SelectedIds { get; set; }

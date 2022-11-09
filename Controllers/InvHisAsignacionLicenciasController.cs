@@ -137,7 +137,7 @@ namespace InventarioTI.Controllers
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
             if (isCoockie != false)
             {
-                return View(await _context.InvHisAsignacionLicencia.Where(al=>al.IdLicencia == idLicencia && al.Activo == false).ToListAsync());
+                return View(await _context.InvHisAsignacionLicencia.Where(al=>al.IdLicencia == idLicencia).ToListAsync());
             }
             else
             {
@@ -189,7 +189,7 @@ namespace InventarioTI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Activo,IDSitio,ID_Area,IdLicencia")] InvHisAsignacionLicencia invHisAsignacionLicencia)
+        public async Task<IActionResult> Create([Bind("Id,Activo,IDSitio,ID_Area,IdLicencia,InicioVigencia,FinVigencia,Usuario,Clave,CodigoProducto")] InvHisAsignacionLicencia invHisAsignacionLicencia)
         {
             if (ModelState.IsValid)
             {
@@ -200,85 +200,6 @@ namespace InventarioTI.Controllers
                 return RedirectToAction("Details", "InvHisAsignacionLicencias", new { id = invHisAsignacionLicencia.Id });
             }
             return View(invHisAsignacionLicencia);
-        }
-
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var invHisAsignacionLicencia = await _context.InvHisAsignacionLicencia.FindAsync(id);
-            if (invHisAsignacionLicencia == null)
-            {
-                return NotFound();
-            }
-            return View(invHisAsignacionLicencia);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FechaInicio,FechaFin,Activo,IDSitio,ID_Area")] InvHisAsignacionLicencia invHisAsignacionLicencia)
-        {
-            if (id != invHisAsignacionLicencia.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(invHisAsignacionLicencia);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InvHisAsignacionLicenciaExists(invHisAsignacionLicencia.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(invHisAsignacionLicencia);
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var invHisAsignacionLicencia = await _context.InvHisAsignacionLicencia
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (invHisAsignacionLicencia == null)
-            {
-                return NotFound();
-            }
-
-            return View(invHisAsignacionLicencia);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var invHisAsignacionLicencia = await _context.InvHisAsignacionLicencia.FindAsync(id);
-            _context.InvHisAsignacionLicencia.Remove(invHisAsignacionLicencia);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool InvHisAsignacionLicenciaExists(int id)
-        {
-            return _context.InvHisAsignacionLicencia.Any(e => e.Id == id);
         }
     }
 }

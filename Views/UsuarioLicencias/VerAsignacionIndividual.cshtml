@@ -1,49 +1,52 @@
-﻿@model InventarioTI.Models.UsuarioLicencias
+﻿@using InventarioTI.Context
+@model InventarioTI.Models.UsuarioLicencias
 
 @{
     ViewData["Title"] = "VerAsignacionIndividual";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    InventarioContext context = new InventarioContext();
 }
 
-<h1>VerAsignacionIndividual</h1>
+<h1>Asignacion Individual</h1>
 
 <div>
-    <h4>UsuarioLicencias</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IdEmpleado)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IdEmpleado)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdAsignacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdAsignacion)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Asignado)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Asignado)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaInicioAsignacion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaInicioAsignacion)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaFinAsignacion)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaFinAsignacion)
+        <dd class="col-sm-10">
+            @{
+                if (Model.Asignado == true)
+                {
+                    <a style="color:blue;">Aun no finaliza la asignación</a>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.FechaFinAsignacion)
+                }
+            }
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="InvHisAsignacionLicencias" asp-action="Details" asp-route-id="@Model.IdAsignacion">Regresar a la asignación</a>
 </div>

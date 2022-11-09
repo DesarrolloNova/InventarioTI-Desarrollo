@@ -8,46 +8,29 @@
 }
 
 @{
-    int idAsignaciones = 0;
-    idAsignaciones = context.InvHisAsignacionLicencia.Where(ul => ul.IdLicencia == Model.Id && ul.Activo == true).Select(ul => ul.Id).FirstOrDefault();
-    int AsignacionesActivas = 0;
-    AsignacionesActivas = context.InvHisAsignacionLicencia.Where(al => al.IdLicencia == Model.Id).ToList().Count();
-    if (idAsignaciones != 0)
-    {
-        if (AsignacionesActivas > 0)
-        {
-            <div>
-                <a class="btn btn-primary" asp-route-id="@idAsignaciones" asp-controller="InvHisAsignacionLicencias" asp-action="Details">Ver Asignación</a> |
-                <a asp-controller="InvHisAsignacionLicencias" asp-action="Index" asp-route-idLicencia="@Model.Id">Ver Historial de Asignaciones</a> | 
-                <a asp-action="Index">Regresar a las licencias</a>
-            </div>
+    int asignacionesActivas = 0;
+    asignacionesActivas = context.InvHisAsignacionLicencia.Where(ul => ul.IdLicencia == Model.Id && ul.Activo == true).ToList().Count;
+    int asignaciones = 0;
+    asignaciones = context.InvHisAsignacionLicencia.Where(al => al.IdLicencia == Model.Id).ToList().Count();
+
+    <div>
+        @{
+            if (asignacionesActivas < Model.Cantidad)
+            {
+                <a class="btn btn-primary" asp-route-idLicencia="@Model.Id" asp-controller="InvHisAsignacionLicencias" asp-action="Create">Asignar</a>
+            }
+            else { 
+                
+            }
         }
-        else
-        {
-            <div>
-                <a class="btn btn-primary" asp-route-id="@idAsignaciones" asp-controller="InvHisAsignacionLicencias" asp-action="Details">Ver Asignación</a> |
-                <a asp-action="Index">Regresar a las licencias</a>
-            </div>
+        @{
+            if (asignaciones > 0)
+            {
+                <a asp-controller="InvHisAsignacionLicencias" asp-action="Index" asp-route-idLicencia="@Model.Id">| Ver Historial de Asignaciones</a>
+            }
         }
-    }
-    else
-    {
-        if (AsignacionesActivas > 0)
-        {
-            <div>
-                <a class="btn btn-primary" asp-route-idLicencia="@Model.Id" asp-controller="InvHisAsignacionLicencias" asp-action="Create">Asignar</a> |
-                <a asp-controller="InvHisAsignacionLicencias" asp-action="Index" asp-route-idLicencia="@Model.Id">Ver Historial de Asignaciones</a> |
-                <a asp-action="Index">Regresar a las licencias</a>
-            </div>
-        }
-        else
-        {
-            <div>
-                <a class="btn btn-primary" asp-route-idLicencia="@Model.Id" asp-controller="InvHisAsignacionLicencias" asp-action="Create">Asignar</a> |
-                <a asp-action="Index">Regresar a las licencias</a>
-            </div>
-        }
-    }
+        <a asp-action="Index">| Regresar a las licencias</a>
+    </div>
 }
 <h4>Licencia @Model.Marca @Model.Tipo</h4>
 
@@ -71,38 +54,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Tipo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Usuario)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Clave)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Clave)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoProducto)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CodigoProducto)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InicioVigencia)
-        </dt>
-        <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.InicioVigencia)*@
-            <a>@Model.InicioVigencia.ToString("dd/MM/yyyy")</a>
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FinVigencia)
-        </dt>
-        <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.FinVigencia)*@
-            <a>@Model.FinVigencia.ToString("dd/MM/yyyy")</a>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Cantidad)
