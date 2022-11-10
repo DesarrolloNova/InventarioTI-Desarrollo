@@ -42,6 +42,9 @@
           "Microsoft.EntityFrameworkCore.Tools": "5.0.17",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
           "QRCoder": "1.4.3",
+          "ClasesNovaprint": "1.0.0.0",
+          "CookiesNovaprintNetCore": "1.0.0.0",
+          "UtileriasNovaprint": "1.0.0.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies.Reference": "5.0.0.0",
@@ -2102,6 +2105,39 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XmlDocument": "4.3.0"
+        }
+      },
+      "ClasesNovaprint/1.0.0.0": {
+        "runtime": {
+          "ClasesNovaprint.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "ClasesNovaprint.dll": {}
+        }
+      },
+      "CookiesNovaprintNetCore/1.0.0.0": {
+        "runtime": {
+          "CookiesNovaprintNetCore.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "CookiesNovaprintNetCore.dll": {}
+        }
+      },
+      "UtileriasNovaprint/1.0.0.0": {
+        "runtime": {
+          "UtileriasNovaprint.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "UtileriasNovaprint.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -4865,6 +4901,21 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    },
+    "ClasesNovaprint/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CookiesNovaprintNetCore/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UtileriasNovaprint/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",

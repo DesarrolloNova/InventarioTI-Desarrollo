@@ -1,0 +1,59 @@
+﻿@model IEnumerable<InventarioTI.Models.Licencias>
+
+@{
+    ViewData["Title"] = "VerLicenciasPorEmpleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Ver Licencias Por Empleado</h1>
+
+@{
+    if (Model.ToList().Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Marca)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tipo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cantidad)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tipo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cantidad)
+                        </td>
+                        <td>
+                            <a class="btn btn-success" asp-controller="Licencias" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    { 
+        <a>No se encontraron registros</a>
+    }
+}

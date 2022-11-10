@@ -23,17 +23,17 @@
 
                         //Div a imprimir
                         <div id="qr" hidden>
-                            <div style="float:left; text-align:center;">
+                            <div style="float:left; text-align:inherit;">
                                 <img src="@Model.QRCode" alt="QR" style="height:80px; width:80px;" />
                             </div>
-                            <div style="float:right; text-align:center;">
-                                <strong><label style="font-size:8.2px;">Nombre Equipo: </label></strong><br> <label style="font-size:8.2px;">@Model.DeviceName</label>
+                            <div style="float:right; text-align:inherit;">
+                                <b><label style="font-size:10px;">Nombre Eq: </label></b><b> <label style="font-size:10px;">@Model.DeviceName</label></b>
                                 <br>
-                                <strong><label style="font-size:8.2px;">Marca: </label></strong> <label style="font-size:8.2px;">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Marca).FirstOrDefault()</label>
+                                <b><label style="font-size:10px;">Marca: </label></b> <b><label style="font-size:10px;">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Marca).FirstOrDefault()</label></b>
                                 <br>
-                                <strong><label style="font-size:8.2px;">Modelo: </label></strong> <label style="font-size:8.2px;">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Modelo).FirstOrDefault()</label>
+                                <b><label style="font-size:10px;">Modelo: </label></b><b> <label style="font-size:10px;">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.Modelo).FirstOrDefault()</label></b>
                                 <br>
-                                <strong><label style="font-size:8.2px;">No. Serie: </label></strong> <label style="font-size:8.2px;">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.NoSerie).FirstOrDefault()</label>
+                                <b><label style="font-size:10px;">No. Serie: </label></b><br><b> <label style="font-size:10px;">@context.InvTabEquipos.Where(e=>e.Id == Model.IdEquipo).Select(e=>e.NoSerie).FirstOrDefault()</label></b>
                             </div>
                         </div>
                         //Div a imprimir
@@ -59,6 +59,17 @@
                                 </div>
                             </dd>
                         </dl>
+                        <div>
+                            
+                            <hr>
+                            <div style="text-align:center;">
+                                <em style="color:red;">Configure la impresora con las siguientes medidas</em>
+                                <br>
+                                <a>Ancho: <em>57 mm</em></a>
+                                <br>
+                                <a>Altura: <em>27 mm</em></a>
+                            </div>
+                        </div>
                         //Div para mostrar
                     }
                     else

@@ -361,6 +361,7 @@ namespace InventarioTI.Controllers
                         InvTabEquipo equipo = new InvTabEquipo();
                         equipo = contexto.InvTabEquipos.Where(e => e.Id == asignacionEquipo.IdEquipo).FirstOrDefault();
                         equipo.IdEstatus = 4;// "ASIGNADO";
+                        equipo.IDSitio = asignacionEquipo.IDSitio; // Se actualiza la ubicación del equipo
                         contexto.InvTabEquipos.Update(equipo);
                         await contexto.SaveChangesAsync();
                         contexto.Database.CloseConnection();

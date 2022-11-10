@@ -63,7 +63,11 @@ namespace InventarioTI.Controllers
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
             if (isCoockie != false)
             {
-                return View();
+                List<Licencias> licencias = new List<Licencias>();
+                licencias = context.Licencias.Where(e => e.Id == context.InvHisAsignacionLicencia.Where(a => a.Activo == true && a.Id == context.UsuarioLicencias.Where(ua => ua.IdEmpleado == idEmpleado).Select(ua => ua.IdAsignacion).FirstOrDefault()).Select(a => a.IdLicencia).FirstOrDefault()).ToList();
+
+
+                return View(licencias);
             }
             else
             {
