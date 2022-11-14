@@ -35,6 +35,15 @@ namespace InventarioTI.Controllers
         }
 
         [HttpGet]
+        public IActionResult VerDetallePorQr(string id)
+        {
+            InvTabEquipo equipo = new InvTabEquipo();
+            Encrypt encrypt = new Encrypt();
+            equipo = _context.InvTabEquipos.Where(e => e.Id == Convert.ToInt32(encrypt.Decrypt(id, "¡d3qu¡p0"))).FirstOrDefault();
+            return View(equipo);
+        }
+
+        [HttpGet]
         public IActionResult VerQR(int idEquipo)
         {
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
@@ -50,7 +59,7 @@ namespace InventarioTI.Controllers
                     _Qr.EncryptedValue = value;
                     InventarioContext context = new InventarioContext();
                     QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
-                    QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode("https://rh.novaprint.mx/Aplicaciones/InventarioTi/InvTabEquipoes/Details/" + _Qr.IdEquipo, QRCodeGenerator.ECCLevel.Q);
+                    QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode("https://rh.novaprint.mx/Aplicaciones/InventarioTi/InvTabEquipoes/VerDetallePorQr?Id=" + _Qr.EncryptedValue, QRCodeGenerator.ECCLevel.Q);
                     QRCode qRCode = new QRCode(qRCodeData);
 
                     using (MemoryStream ms = new MemoryStream())
@@ -128,8 +137,6 @@ namespace InventarioTI.Controllers
                     accionEquipo.FechaInicio = instalacion.initialDate;
                     accionEquipo.FechaFin = instalacion.finalDate;
                     accionEquipo.TipoProceso = "Instalacion";
-                    var idAs = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == instalacion.IdEquipo && a.Activo == true).Select(a => a.Id).FirstOrDefault();
-                    accionEquipo.IdAsignacion = idAs;
                     accionEquipo.IdEquipo = instalacion.IdEquipo;
                     accionEquipo.IdUsuarioRegistro = id;
                     InvHisAccionEquipo acc = new InvHisAccionEquipo();
@@ -204,8 +211,6 @@ namespace InventarioTI.Controllers
                     accionEquipo.FechaInicio = mantenimiento.initialDate;
                     accionEquipo.FechaFin = mantenimiento.finalDate;
                     accionEquipo.TipoProceso = "Mantenimiento";
-                    var idAs = context.InvHisAsignacionEquipos.Where(a => a.IdEquipo == mantenimiento.IdEquipo && a.Activo == true).Select(a => a.Id).FirstOrDefault();
-                    accionEquipo.IdAsignacion = idAs;
                     accionEquipo.IdEquipo = mantenimiento.IdEquipo;
                     accionEquipo.IdUsuarioRegistro = id;
                     InvHisAccionEquipo acc = new InvHisAccionEquipo();
@@ -214,6 +219,15 @@ namespace InventarioTI.Controllers
                     accionEquipo = SaveAccion(acc);
                     //Guardamos la acción
                     #endregion
+
+                    //Actualizamos estatus de equipo
+                    if (mantenimiento.finalDate > DateTime.Now)
+                    {
+                        InvTabEquipo equipo = new InvTabEquipo();
+                        equipo = context.InvTabEquipos.Where(e => e.Id == mantenimiento.IdEquipo).FirstOrDefault();
+                        equipo.IdEstatus = 7;//Estatus de mantenimiento
+                    }
+                    //Actualizamos estatus de equipo
 
                     #region Llenado y Guardado de la plantilla de Mantenimiento
                     mantenimiento.FechaCreacion = DateTime.Now;

@@ -14,22 +14,22 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Marca" class="control-label"></label>
-                <input asp-for="Marca" class="form-control" />
+                <input asp-for="Marca" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
+                <input asp-for="Tipo" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
+                <input asp-for="Descripcion" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Cantidad" class="control-label"></label>
-                <input asp-for="Cantidad" type="number" class="form-control" />
+                <input asp-for="Cantidad" autocomplete="off" onpaste="return false;" type="number" class="form-control" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group">

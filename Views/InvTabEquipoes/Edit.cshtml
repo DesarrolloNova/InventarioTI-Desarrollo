@@ -48,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Marca" class="control-label"></label>
-                <input asp-for="Marca" class="form-control" />
+                <input asp-for="Marca" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
             @*<div class="form-group">
@@ -74,17 +74,17 @@
             </div>*@
             <div class="form-group">
                 <label asp-for="Modelo" class="control-label"></label>
-                <input asp-for="Modelo" class="form-control" />
+                <input asp-for="Modelo" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="Modelo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NoSerie" class="control-label"></label>
-                <input asp-for="NoSerie" class="form-control" />
+                <input asp-for="NoSerie" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="NoSerie" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DireccionMac" class="control-label"></label>
-                <input asp-for="DireccionMac" class="form-control" />
+                <input asp-for="DireccionMac" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="DireccionMac" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -109,7 +109,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DatosAdicionales" class="control-label"></label>
-                <input asp-for="DatosAdicionales" class="form-control" />
+                <input asp-for="DatosAdicionales" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="DatosAdicionales" class="text-danger"></span>
             </div>
             @*<div class="form-group">
@@ -150,12 +150,12 @@
             <h3>Caracteristicas del equipo</h3>
             <div class="form-group">
                 <label asp-for="Procesador" class="control-label"></label>
-                <input asp-for="Procesador" class="form-control" />
+                <input asp-for="Procesador" autocomplete="off" onpaste="return false;" class="form-control" />
                 <span asp-validation-for="Procesador" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Hdd" class="control-label"></label>
-                <input asp-for="Hdd" type="number" class="form-control" />
+                <input asp-for="Hdd" autocomplete="off" onpaste="return false;" type="number" class="form-control" />
                 @*<div id="my-input-container">
                     <input asp-for="Hdd" type="number" id="my-input" class="form-group">
                     <span id="my-suffix">GB.</span>
@@ -164,7 +164,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Ram" class="control-label"></label>
-                <input asp-for="Ram" type="number" class="form-control"/>
+                <input asp-for="Ram" autocomplete="off" onpaste="return false;" type="number" class="form-control" />
                 @*<div id="my-input-container">
                     <input asp-for="Ram" type="number" id="my-input" class="form-group">
                     <span id="my-suffix">GB.</span>

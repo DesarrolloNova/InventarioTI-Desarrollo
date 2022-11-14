@@ -20,8 +20,6 @@ namespace InventarioTI.Models
         public DateTime FechaFin { get; set; }
         [Display(Name = "Tipo de Proceso")]
         public string TipoProceso { get; set; }
-        [ForeignKey("IdAsignacion")]
-        public int IdAsignacion { get; set; }
         [ForeignKey("IdEquipo")]
         public int IdEquipo { get; set; }
         [Display(Name = "Usuario que Registró")]

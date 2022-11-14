@@ -683,11 +683,6 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Deb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Licencias\Details.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Licencias\Edit.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\Licencias\Index.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Create.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Delete.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Details.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Edit.cshtml.g.cs
-C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\UsuarioLicencias\Index.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Create.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Details.cshtml.g.cs
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvHisAsignacionLicencias\Index.cshtml.g.cs
@@ -701,3 +696,4 @@ C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\bin\Deb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\bin\Debug\net5.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\RH00\VerLicenciasPorEmpleado.cshtml.g.cs
+C:\Users\desarrollo\Documents\NOVA\INVENTARIO_TI\InventarioTI-Desarrollo\obj\Debug\net5.0\Razor\Views\InvTabEquipoes\VerDetallePorQr.cshtml.g.cs

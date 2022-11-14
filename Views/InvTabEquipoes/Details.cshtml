@@ -44,13 +44,9 @@
                 <hr />
                 <b><i class="emphasized">Acciones</i></b>
                 <br />
-                if (asignacion != null)
-                {
-                //Modal
-                    <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addMantenimiento" data-url="@Url.Action("Mantenimiento",new { idEquipo = Model.Id })">Mantenimiento</button>
-                    <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addInstalacion" data-url="@Url.Action("Instalacion",new { idEquipo = Model.Id })">Instalación</button>
-                    //Modal
-                }
+
+                <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addMantenimiento" data-url="@Url.Action("Mantenimiento",new { idEquipo = Model.Id })">Mantenimiento</button>
+                <button type="button" class="btn btn-primary" data-toggle="ajax_modal" data-target="#addInstalacion" data-url="@Url.Action("Instalacion",new { idEquipo = Model.Id })">Instalación</button>
                 if (context.InvHisAccionEquipos.Where(a => a.IdEquipo == Model.Id).Select(a => a.Id).ToList().Count > 0)
                 {
                     <a asp-controller="InvHisAccionEquipoes" asp-action="Index" asp-route-idEquipo="@Model.Id">Historial de acciones</a>

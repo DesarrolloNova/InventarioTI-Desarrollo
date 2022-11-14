@@ -1,9 +1,13 @@
 ﻿@using InventarioTI.Context
+@using InventarioTI.Models.EXT_WEB
+@using InventarioTI.Tools
+@using Newtonsoft.Json
 @model InventarioTI.Models.InvHisAsignacionEquipo
 
 @{
     ViewData["Title"] = "Edit";
     InventarioContext context = new InventarioContext();
+    CONEXION_EXT_WEB conn = new CONEXION_EXT_WEB();    
 }
 
 <h4>Editar Asignación</h4>
@@ -18,22 +22,103 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="FechaInicio" />
             <input type="hidden" asp-for="IdEquipo" />
-            <input type="hidden" asp-for="ID_Area" />
             <input type="hidden" asp-for="Activo" />
             <input type="hidden" asp-for="FechaInicio" />
+            <input type="hidden" asp-for="FechaFin" />
+            
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnDominio" /> @Html.DisplayNameFor(model => model.EnDominio)
+                    <input autocomplete="off" onpaste="return false;" class="form-check-input" asp-for="EnDominio" /> @Html.DisplayNameFor(model => model.EnDominio)
                 </label>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="TipoConexion" class="control-label"></label>
-                <input asp-for="TipoConexion" class="form-control" />
+                <input autocomplete="off" onpaste="return false;" asp-for="TipoConexion" class="form-control" />
+                <span asp-validation-for="TipoConexion" class="text-danger"></span>
+            </div>*@
+             <div class="form-group">
+                    <label asp-for="TipoConexion" class="control-label"></label>
+                    @*<input asp-for="TipoConexion" class="form-control" />*@
+                    @{
+                    List<InvCatTipoConexion> tiposConexion = new List<InvCatTipoConexion>();
+                    tiposConexion = context.InvCatTiposConexion.ToList();
+                    List<SelectListItem> tiposItems = tiposConexion.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.TipoConexion,
+                    Value = a.TipoConexion,
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="TipoConexion" class="custom-select" asp-items="tiposItems">
+                </select>
                 <span asp-validation-for="TipoConexion" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IDSitio" class="control-label"></label>
+                @{
+                    List<RHCF10_Plantas> catPlantas = new List<RHCF10_Plantas>();
+
+                    string jsonPlantas = await conn.GetQueryResult("SELECT * FROM RHCF10");
+
+                    try
+                    {
+                        catPlantas = JsonConvert.DeserializeObject<List<RHCF10_Plantas>>(jsonPlantas);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    List<SelectListItem> plantasItems = catPlantas.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Nombre,
+                    Value = a.IDSitio.ToString(),
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="IDSitio" id="pck_planta" onselect="getUsuarios" class="form-control" asp-items="plantasItems"></select>
+                <span asp-validation-for="IDSitio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ID_Area" class="control-label"></label>
+                @{
+                    List<RHCF03_Areas> catDepartamentos = new List<RHCF03_Areas>();
+
+                    string jsonDepartamentos = await conn.GetQueryResult("SELECT * FROM RHCF03");
+
+                    try
+                    {
+                        catDepartamentos = JsonConvert.DeserializeObject<List<RHCF03_Areas>>(jsonDepartamentos);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    List<SelectListItem> departamentosItems = catDepartamentos.ConvertAll(a =>
+                    {
+                        return new SelectListItem()
+                {
+                    Text = a.Area,
+                    Value = a.ID_Area.ToString(),
+                    Selected = false
+                };
+                    });
+                }
+                <select asp-for="ID_Area" id="pck_area" onclick="getUsuarios" class="form-control" asp-items="departamentosItems"></select>
+                <span asp-validation-for="ID_Area" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Ip" class="control-label"></label>
-                <input asp-for="Ip" class="form-control" />
+                <input autocomplete="off" onpaste="return false;" asp-for="Ip" class="form-control" />
                 <span asp-validation-for="Ip" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -42,127 +127,6 @@
         </form>
     </div>
 </div>
-@{
-    List<int> idUsuarios = new List<int>();
-    List<int> idUsuariosInactivos = new List<int>();
-    List<TabUsuario> usuarios = new List<TabUsuario>();
-    List<TabUsuario> usuariosInactivos = new List<TabUsuario>();
-    idUsuarios = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id && u.asignado == true).Select(u => u.idEmpleado).ToList();
-    foreach (var idusuario in idUsuarios)
-    {
-        TabUsuario usuario = new TabUsuario();
-        usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
-        usuarios.Add(usuario);
-    }
-
-    idUsuariosInactivos = context.UsuarioAsignacion.Where(u => u.idAsignacion == Model.Id && u.asignado == false).Select(u => u.idEmpleado).ToList();
-    foreach (var idusuario in idUsuariosInactivos)
-    {
-        TabUsuario usuario = new TabUsuario();
-        usuario = context.TabUsuarios.Where(u => u.Id == idusuario).FirstOrDefault();
-        usuariosInactivos.Add(usuario);
-    }
-
-
-    <div>
-        <h4>Usuarios Asignados Activos</h4>
-        <br />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        <a>Id</a>
-                    </th>
-                    <th>
-                        <a>Nombre</a>
-                    </th>
-                    <th>
-                        <a>Correo</a>
-                    </th>
-                    <th>
-                        <a>Acciones</a>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in usuarios)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Correo)
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
-                            @if (Model.Activo == true)
-                            {
-                                if (usuarios.Count > 1)
-                                {
-                                    <form method="post" asp-action="FinalizarAsignacionIndividual">
-                                        <input name="idAsignacion" id="idAsignacion" hidden value="@Model.Id" />
-                                        <input name="idUsuario" id="idUsuario" hidden value="@item.Id" />
-                                        <button class="btn btn-danger" type="submit">Descartar Usuario</button>
-                                    </form>
-                                }
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    @if (usuariosInactivos != null && usuariosInactivos.Count > 0)
-    {
-        <div>
-            <h4>Usuarios Asignados Inactivos</h4>
-            <br />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            <a>Id</a>
-                        </th>
-                        <th>
-                            <a>Nombre</a>
-                        </th>
-                        <th>
-                            <a>Correo</a>
-                        </th>
-                        <th>
-                            <a>Acciones</a>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in usuariosInactivos)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                <a>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</a>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Correo)
-                            </td>
-                            <td>
-                                <a class="btn btn-primary" asp-controller="UsuarioAsignacions" asp-action="Details" asp-route-id="@item.Id" asp-route-idAsignacion="@Model.Id">Ver Detalle</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-}
 
 @section Scripts {
     @{

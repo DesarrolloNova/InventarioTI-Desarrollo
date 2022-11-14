@@ -146,13 +146,13 @@ namespace InventarioTI.Controllers
             }
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
             if (isCoockie != false)
             {
-                if (id == null)
+                if (id == 0)
                 {
                     return NotFound();
                 }
@@ -165,44 +165,6 @@ namespace InventarioTI.Controllers
                     return NotFound();
                 }
 
-                return View(invHisAsignacionEquipo);
-            }
-            else
-            {
-                return RedirectToAction("UserNotFound", "Home");
-            }
-        }
-
-        public IActionResult Create()
-        {
-            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
-            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
-            if (isCoockie != false)
-            {
-                ViewData["IdEquipo"] = new SelectList(_context.InvTabEquipos, "Id", "DireccionMac");
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("UserNotFound", "Home");
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FechaInicio,FechaFin,EnDominio,TipoConexion,Ip,IdEquipo,IdDepartamento,Activo")] InvHisAsignacionEquipo invHisAsignacionEquipo)
-        {
-            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
-            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
-            if (isCoockie != false)
-            {
-                if (ModelState.IsValid)
-                {
-                    _context.Add(invHisAsignacionEquipo);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                ViewData["IdEquipo"] = new SelectList(_context.InvTabEquipos, "Id", "DireccionMac", invHisAsignacionEquipo.IdEquipo);
                 return View(invHisAsignacionEquipo);
             }
             else
@@ -238,7 +200,7 @@ namespace InventarioTI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FechaInicio,FechaFin,EnDominio,TipoConexion,Ip,IdEquipo,IdDepartamento,Activo")] InvHisAsignacionEquipo invHisAsignacionEquipo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FechaInicio,FechaFin,EnDominio,TipoConexion,Ip,IdEquipo,Activo,IDSitio,ID_Area")] InvHisAsignacionEquipo invHisAsignacionEquipo)
         {
             bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
             isCoockie = validateCoockie.GetCoockieExist(isCoockie);
@@ -267,56 +229,9 @@ namespace InventarioTI.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "InvHisAsignacionEquipoes", new { id = invHisAsignacionEquipo.Id });
                 }
-                ViewData["IdEquipo"] = new SelectList(_context.InvTabEquipos, "Id", "DireccionMac", invHisAsignacionEquipo.IdEquipo);
-                return View(invHisAsignacionEquipo);
-            }
-            else
-            {
-                return RedirectToAction("UserNotFound", "Home");
-            }
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
-            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
-            if (isCoockie != false)
-            {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                var invHisAsignacionEquipo = await _context.InvHisAsignacionEquipos
-                    .Include(i => i.IdEquipoNavigation)
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (invHisAsignacionEquipo == null)
-                {
-                    return NotFound();
-                }
-
-                return View(invHisAsignacionEquipo);
-            }
-            else
-            {
-                return RedirectToAction("UserNotFound", "Home");
-            }
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            bool isCoockie = Request.Cookies.ContainsKey("us3r4ct1v3");
-            isCoockie = validateCoockie.GetCoockieExist(isCoockie);
-            if (isCoockie != false)
-            {
-                var invHisAsignacionEquipo = await _context.InvHisAsignacionEquipos.FindAsync(id);
-                _context.InvHisAsignacionEquipos.Remove(invHisAsignacionEquipo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(_context.InvHisAsignacionEquipos.Where(ae=>ae.Id == invHisAsignacionEquipo.Id).FirstOrDefault());
             }
             else
             {

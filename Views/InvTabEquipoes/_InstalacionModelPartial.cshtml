@@ -32,7 +32,7 @@
                         <label asp-for="AntivirusInstalado" class="control-label"></label>
                         <input asp-for="AntivirusInstalado" type="checkbox" id="antivirusCheck" onchange="HideAndShow(antivirusCheck,antivirusField)" />
                         <div id="antivirusField">
-                            <input asp-for="Antivirus" class="form-control" placeholder="Avast,Avira,Norton,Mcafee..." />
+                            <input asp-for="Antivirus" autocomplete="off" onpaste="return false;" class="form-control" placeholder="Avast,Avira,Norton,Mcafee..." />
                             <span class="text-danger">Debes ingresar el nombre del antivirus instalado</span>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <label asp-for="PaqueteriaOfficeInstalado" class="control-label"></label>
                         <input asp-for="PaqueteriaOfficeInstalado" onchange="HideAndShow(paqueteriaCheck,paqueteriaField)" type="checkbox" id="paqueteriaCheck" />
                         <div id="paqueteriaField">
-                            <input asp-for="PaqueteriaOffice" class="form-control" placeholder="Versión de Office..." />
+                            <input asp-for="PaqueteriaOffice" autocomplete="off" onpaste="return false;" class="form-control" placeholder="Versión de Office..." />
                             <span class="text-danger">Debes ingresar la version de la paquetería de office</span>
                         </div>
                     </div>
@@ -61,12 +61,12 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="HddDisponible" class="control-label"></label>
-                        <input asp-for="HddDisponible" value="500" min="@Convert.ToInt32("100")" class="form-control" type="number" />
+                        <input asp-for="HddDisponible" autocomplete="off" onpaste="return false;" value="500" min="@Convert.ToInt32("100")" class="form-control" type="number" />
                         <span asp-validation-for="HddDisponible" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Observaciones" class="control-label"></label>
-                        <input asp-for="Observaciones" class="form-control" />
+                        <input asp-for="Observaciones" autocomplete="off" onpaste="return false;" class="form-control" />
                         <span asp-validation-for="Observaciones" class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
